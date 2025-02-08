@@ -1,151 +1,160 @@
 ---
-import Hero from '../components/Hero.astro';
-import MusicCard from '../components/MusicCard.astro';
-import MusicControl from '../components/MusicControl.astro';
-import Layout from '../layouts/Layout.astro';
+import Hero from "../components/Hero.astro";
+import MusicCard from "../components/MusicCard.astro";
+import MusicControl from "../components/MusicControl.astro";
+import Layout from "../layouts/Layout.astro";
 
-
-const popularMusic= [
-	{
-		"title": "Sau Mabu",
-		"artist": "Artist 1",
-		"url": "https://storage.googleapis.com/kastau-muzic/01-saumabu-bahasa-tepra.mp3",
-		"cover_art_url": "https://upload.wikimedia.org/wikipedia/en/1/11/Dive_tycho_album.jpg"
-	},
-	{
-		"title": "Aiwaly Kmong Ta",
-		"artist": "Artist 2",
-		"url": "https://storage.googleapis.com/kastau-muzic/02-aiwaly-kmongta-bahasa-moy.mp3",
-		"cover_art_url": "https://upload.wikimedia.org/wikipedia/en/f/f1/Tycho_-_Epoch.jpg"
-	},
-	{
-		"title": "Wenjayo",
-		"artist": "Artist 3",
-		"url": "https://storage.googleapis.com/kastau-muzic/03-wenjayo-bahasa-moy.mp3",
-		"cover_art_url": "https://upload.wikimedia.org/wikipedia/en/c/ca/Tycho_-_Awake.png"
-	},
-	{
-		"title": "Insose Bearariso",
-		"artist": "Artist 4",
-		"url": "https://storage.googleapis.com/kastau-muzic/04-insoses-bearariso-bahasa-byak.mp3",
-		"cover_art_url": "https://upload.wikimedia.org/wikipedia/en/1/11/Dive_tycho_album.jpg"
-	},
-	{
-		"title": "Nja Krep Krep Nare",
-		"artist": "Artist 5",
-		"url": "https://storage.googleapis.com/kastau-muzic/05-nja-krep-krep-nare-bahasa-moy.mp3",
-		"cover_art_url": "https://upload.wikimedia.org/wikipedia/en/f/f1/Tycho_-_Epoch.jpg"
-	},
-	{
-		"title": "Osafa Ipsum",
-		"artist": "Artist 6",
-		"url": "https://storage.googleapis.com/kastau-muzic/06-osafa-ipsum-bahasa-byak.mp3",
-		"cover_art_url": "https://upload.wikimedia.org/wikipedia/en/c/ca/Tycho_-_Awake.png"
-	},
-	{
-		"title": "Aro Aie",
-		"artist": "Albert Fonataba",
-		"url": "https://storage.googleapis.com/kastau-muzic/07-aro-aie-bahasa-ansus.mp3",
-		"cover_art_url": "https://upload.wikimedia.org/wikipedia/en/f/f1/Tycho_-_Epoch.jpg",
-	},
-	{
-		"title": "Bin Yedi",
-		"artist": "Edgar Aronggear ",
-		"url": "https://storage.googleapis.com/kastau-muzic/08-bin-yedi-bahasa-byak.mp3",
-		"cover_art_url": "https://upload.wikimedia.org/wikipedia/en/c/ca/Tycho_-_Awake.png",
-	},
-	{
-		"title": "Awino Sup Ine",
-		"artist": "Rio Grime",
-		"url": "https://storage.googleapis.com/kastau-muzic/09-awino-sup-ine-bahasa-byak.mp3",
-		"cover_art_url": "https://upload.wikimedia.org/wikipedia/en/1/11/Dive_tycho_album.jpg",
-	},
-	{
-		"title": "Seng Yesus Wiru Wane",
-		"artist": "Nakon Gandeguai",
-		"url": "https://storage.googleapis.com/kastau-muzic/10-seng-yesus-wiru-wane-bahasa-ansus.mp3",
-		"cover_art_url": "https://upload.wikimedia.org/wikipedia/en/f/f1/Tycho_-_Epoch.jpg",
-	},
-	// Tambahkan lagu lain sesuai kebutuhan
-]
-
+const popularMusic = [
+  {
+    title: "Sau Mabu",
+    artist: "Artist 1",
+    url: "https://dash.kastauterjemahan.web.id/media/music/01-saumabu-bahasa-tepra.mp3",
+    cover_art_url:
+      "https://upload.wikimedia.org/wikipedia/en/1/11/Dive_tycho_album.jpg",
+  },
+  {
+    title: "Aiwaly Kmong Ta",
+    artist: "Artist 2",
+    url: "https://dash.kastauterjemahan.web.id/media/music/02-aiwaly-kmongta-bahasa-moy.mp3",
+    cover_art_url:
+      "https://upload.wikimedia.org/wikipedia/en/f/f1/Tycho_-_Epoch.jpg",
+  },
+  {
+    title: "Wenjayo",
+    artist: "Artist 3",
+    url: "https://dash.kastauterjemahan.web.id/media/music/03-wenjayo-bahasa-moy.mp3",
+    cover_art_url:
+      "https://upload.wikimedia.org/wikipedia/en/c/ca/Tycho_-_Awake.png",
+  },
+  {
+    title: "Insose Bearariso",
+    artist: "Artist 4",
+    url: "https://dash.kastauterjemahan.web.id/media/music/04-insoses-bearariso-bahasa-byak.mp3",
+    cover_art_url:
+      "https://upload.wikimedia.org/wikipedia/en/1/11/Dive_tycho_album.jpg",
+  },
+  {
+    title: "Nja Krep Krep Nare",
+    artist: "Artist 5",
+    url: "https://dash.kastauterjemahan.web.id/media/music/05-nja-krep-krep-nare-bahasa-moy.mp3",
+    cover_art_url:
+      "https://upload.wikimedia.org/wikipedia/en/f/f1/Tycho_-_Epoch.jpg",
+  },
+  {
+    title: "Osafa Ipsum",
+    artist: "Artist 6",
+    url: "https://dash.kastauterjemahan.web.id/media/music/06-osafa-ipsum-bahasa-byak.mp3",
+    cover_art_url:
+      "https://upload.wikimedia.org/wikipedia/en/c/ca/Tycho_-_Awake.png",
+  },
+  {
+    title: "Aro Aie",
+    artist: "Albert Fonataba",
+    url: "https://dash.kastauterjemahan.web.id/media/music/07-aro-aie-bahasa-ansus.mp3",
+    cover_art_url:
+      "https://upload.wikimedia.org/wikipedia/en/f/f1/Tycho_-_Epoch.jpg",
+  },
+  {
+    title: "Bin Yedi",
+    artist: "Edgar Aronggear ",
+    url: "https://dash.kastauterjemahan.web.id/media/music/08-bin-yedi-bahasa-byak.mp3",
+    cover_art_url:
+      "https://upload.wikimedia.org/wikipedia/en/c/ca/Tycho_-_Awake.png",
+  },
+  {
+    title: "Awino Sup Ine",
+    artist: "Rio Grime",
+    url: "https://dash.kastauterjemahan.web.id/media/music/09-awino-sup-ine-bahasa-byak.mp3",
+    cover_art_url:
+      "https://upload.wikimedia.org/wikipedia/en/1/11/Dive_tycho_album.jpg",
+  },
+  {
+    title: "Seng Yesus Wiru Wane",
+    artist: "Nakon Gandeguai",
+    url: "https://dash.kastauterjemahan.web.id/media/music/10-seng-yesus-wiru-wane-bahasa-ansus.mp3",
+    cover_art_url:
+      "https://upload.wikimedia.org/wikipedia/en/f/f1/Tycho_-_Epoch.jpg",
+  },
+  // Tambahkan lagu lain sesuai kebutuhan
+];
 ---
+
 <!-- https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png -->
-
 <Layout title="Welcome to Kastau Muzik">
-	<Hero/>
+  <Hero />
 
-	<!-- Popular Music -->
-	<div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-lg md:px-24 lg:px-8 lg:py-20">
-		<!-- Title -->
-		<div class="sm:w-1/2 xl:w-1/3 mb-4 md:mb-8">
-			<h2 class="text-xl font-semibold md:text-2xl md:leading-tight text-gray-800 dark:text-neutral-200">
-				Daftar Lagu Daerah
-			</h2>
-		</div>
-		<!-- End Title -->
+  <!-- Popular Music -->
+  <div
+    class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-lg md:px-24 lg:px-8 lg:py-20"
+  >
+    <!-- Title -->
+    <div class="sm:w-1/2 xl:w-1/3 mb-4 md:mb-6">
+      <h2
+        class="text-xl font-semibold md:text-2xl md:leading-tight text-gray-800 dark:text-neutral-200"
+      >
+        Lagu Populer
+      </h2>
+    </div>
+    <!-- End Title -->
 
-		<!-- Grid -->
-		<div class="swiper">
-			<div class="swiper-wrapper">
-				<MusicCard musics={popularMusic}/>
-			</div>
-			<div
-				class="swiper-pagination !relative !bottom-0 text-left my-4"
-			>
-			</div>
-		</div>
-		<!-- End Grid -->
-	</div>
-	<!-- End Populer Music -->  
+    <!-- Grid -->
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <MusicCard musics={popularMusic} />
+      </div>
+      <div class="swiper-pagination !relative !bottom-0 text-left my-4"></div>
+    </div>
+    <!-- End Grid -->
+  </div>
+  <!-- End Populer Music -->
 
-	<MusicControl/>
+  <MusicControl />
 </Layout>
 
 <!-- Swiper -->
 <script type="module">
-    import Swiper from "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs";
+  import Swiper from "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs";
 
-    document.addEventListener("DOMContentLoaded", function () {
-        new Swiper(".swiper", {
-            grabCursor: true,
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-			breakpoints: {
-                0: {
-                    slidesPerView: 1.5,
-                    spaceBetween: 16,
-					grid: {
-                        rows: 2,
-                        fill: "row",
-                    },
-                },
-                480: {
-                    slidesPerView: 2.5,
-                    spaceBetween: 20,
+  document.addEventListener("DOMContentLoaded", function () {
+    new Swiper(".swiper", {
+      grabCursor: true,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      breakpoints: {
+        0: {
+          slidesPerView: 1.5,
+          spaceBetween: 16,
+          grid: {
+            rows: 2,
+            fill: "row",
+          },
+        },
+        480: {
+          slidesPerView: 2.5,
+          spaceBetween: 20,
 
-                    grid: {
-                        rows: 2,
-                        fill: "row",
-                    },
-                },
-				768: {
-                    slidesPerView: 3.5,
-                    spaceBetween: 20,
+          grid: {
+            rows: 2,
+            fill: "row",
+          },
+        },
+        768: {
+          slidesPerView: 3.5,
+          spaceBetween: 20,
 
-                    grid: {
-                        rows: 2,
-                        fill: "row",
-                    },
-                },
-            },
-        });
+          grid: {
+            rows: 2,
+            fill: "row",
+          },
+        },
+      },
+    });
 
-        // Inject custom styles for pagination
-        const style = document.createElement('style');
-        style.textContent = `
+    // Inject custom styles for pagination
+    const style = document.createElement("style");
+    style.textContent = `
             .swiper-pagination-bullet {
                 width: 20px;
                 height: 4px;
@@ -158,12 +167,10 @@ const popularMusic= [
                 opacity: 1;
             }
         `;
-        document.head.appendChild(style);
-    });
-
+    document.head.appendChild(style);
+  });
 </script>
 <!-- End Swiper -->
-
 
 <!-- Howler -->
 <script src="../lib/musicPlayer.ts"></script>
