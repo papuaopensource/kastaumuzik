@@ -7,7 +7,6 @@ import Layout from "../layouts/Layout.astro";
 import popularMusic from "../data/musics.json";
 ---
 
-<!-- https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png -->
 <Layout
   title="Welcome to Kastau Muzik"
   description="Kastaumuzik.com adalah platform untuk mendengarkan dan melestarikan lagu-lagu daerah Papua. Jelajahi berbagai musik populer dari Papua yang mudah diakses melalui platform ini."
@@ -43,7 +42,7 @@ import popularMusic from "../data/musics.json";
 </Layout>
 
 <!-- Swiper -->
-<script type="module">
+<script is:inline type="module">
   import Swiper from "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs";
 
   document.addEventListener("DOMContentLoaded", function () {
