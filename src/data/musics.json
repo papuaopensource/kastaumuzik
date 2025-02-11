@@ -1,0 +1,62 @@
+[
+    {
+        "title": "Sau Mabu",
+        "artist": "Artist 1",
+        "url": "https://dash.kastauterjemahan.web.id/media/music/01-saumabu-bahasa-tepra.mp3",
+        "cover_art_url": "https://upload.wikimedia.org/wikipedia/en/1/11/Dive_tycho_album.jpg"
+    },
+    {
+        "title": "Aiwaly Kmong Ta",
+        "artist": "Artist 2",
+        "url": "https://dash.kastauterjemahan.web.id/media/music/02-aiwaly-kmongta-bahasa-moy.mp3",
+        "cover_art_url": "https://upload.wikimedia.org/wikipedia/en/f/f1/Tycho_-_Epoch.jpg"
+    },
+    {
+        "title": "Wenjayo",
+        "artist": "Artist 3",
+        "url": "https://dash.kastauterjemahan.web.id/media/music/03-wenjayo-bahasa-moy.mp3",
+        "cover_art_url": "https://upload.wikimedia.org/wikipedia/en/c/ca/Tycho_-_Awake.png"
+    },
+    {
+        "title": "Insose Bearariso",
+        "artist": "Artist 4",
+        "url": "https://dash.kastauterjemahan.web.id/media/music/04-insoses-bearariso-bahasa-byak.mp3",
+        "cover_art_url": "https://upload.wikimedia.org/wikipedia/en/1/11/Dive_tycho_album.jpg"
+    },
+    {
+        "title": "Nja Krep Krep Nare",
+        "artist": "Artist 5",
+        "url": "https://dash.kastauterjemahan.web.id/media/music/05-nja-krep-krep-nare-bahasa-moy.mp3",
+        "cover_art_url": "https://upload.wikimedia.org/wikipedia/en/f/f1/Tycho_-_Epoch.jpg"
+    },
+    {
+        "title": "Osafa Ipsum",
+        "artist": "Artist 6",
+        "url": "https://dash.kastauterjemahan.web.id/media/music/06-osafa-ipsum-bahasa-byak.mp3",
+        "cover_art_url": "https://upload.wikimedia.org/wikipedia/en/c/ca/Tycho_-_Awake.png"
+    },
+    {
+        "title": "Aro Aie",
+        "artist": "Albert Fonataba",
+        "url": "https://dash.kastauterjemahan.web.id/media/music/07-aro-aie-bahasa-ansus.mp3",
+        "cover_art_url": "https://upload.wikimedia.org/wikipedia/en/f/f1/Tycho_-_Epoch.jpg"
+    },
+    {
+        "title": "Bin Yedi",
+        "artist": "Edgar Aronggear",
+        "url": "https://dash.kastauterjemahan.web.id/media/music/08-bin-yedi-bahasa-byak.mp3",
+        "cover_art_url": "https://upload.wikimedia.org/wikipedia/en/c/ca/Tycho_-_Awake.png"
+    },
+    {
+        "title": "Awino Sup Ine",
+        "artist": "Rio Grime",
+        "url": "https://dash.kastauterjemahan.web.id/media/music/09-awino-sup-ine-bahasa-byak.mp3",
+        "cover_art_url": "https://upload.wikimedia.org/wikipedia/en/1/11/Dive_tycho_album.jpg"
+    },
+    {
+        "title": "Seng Yesus Wiru Wane",
+        "artist": "Nakon Gandeguai",
+        "url": "https://dash.kastauterjemahan.web.id/media/music/10-seng-yesus-wiru-wane-bahasa-ansus.mp3",
+        "cover_art_url": "https://upload.wikimedia.org/wikipedia/en/f/f1/Tycho_-_Epoch.jpg"
+    }
+]
