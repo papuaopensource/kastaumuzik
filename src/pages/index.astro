@@ -1,14 +1,14 @@
 ---
-import CollectionShelf from "../components/CollectionShelf.astro";
-import Hero from "../components/Hero.astro";
-import Layout from "../layouts/Layout.astro";
+import CollectionShelf from "@/components/CollectionShelf.astro";
+import Hero from "@/components/Hero.astro";
+import Layout from "@/layouts/Layout.astro";
 import {
   allVideos,
   collections,
   genreFacets,
   languageFacets,
   videoCount,
-} from "../lib/collections";
+} from "@/lib/collections";
 
 const featured = allVideos[0];
 

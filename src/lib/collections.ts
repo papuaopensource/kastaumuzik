@@ -1,5 +1,5 @@
-import collectionData from "../data/collections.json";
-import type { CuratedVideo, Facet, IndexedVideo, MusicCollection } from "../types/index";
+import collectionData from "@/data/collections.json";
+import type { CuratedVideo, Facet, IndexedVideo, MusicCollection } from "@/types/index";
 
 /** Shelves ordered from the broadest entry point to the most specific. */
 const shelfOrder = [

@@ -30,6 +30,8 @@ src/
     └── koleksi/[slug].astro  # one page per slug in collections.json
 ```
 
+Imports use the `@/` alias for anything under `src`, e.g. `import Layout from "@/layouts/Layout.astro"`. It is declared once in `tsconfig.json` under `paths`; Astro picks it up from there, so there is nothing to configure in `astro.config.mjs`.
+
 Pages read `src/lib/collections.ts`, never the JSON directly. Adding a recording updates counts, category tiles, filters, and routes on its own.
 
 Shelf order comes from `shelfOrder` in `src/lib/collections.ts`, not the order in the JSON.
