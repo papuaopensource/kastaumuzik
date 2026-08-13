@@ -11,25 +11,42 @@ const { title, description, image } = Astro.props;
 <meta charset="UTF-8" />
 <meta name="description" content={description} />
 <meta name="viewport" content="width=device-width" />
-<link rel="icon" type="image/svg+xml" href="/favicon.png" />
+<link
+  rel="icon"
+  type="image/png"
+  href="/favicon/favicon-96x96.png"
+  sizes="96x96"
+/>
+<link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+<link rel="shortcut icon" href="/favicon/favicon.ico" />
+<link
+  rel="apple-touch-icon"
+  sizes="180x180"
+  href="/favicon/apple-touch-icon.png"
+/>
+<meta name="apple-mobile-web-app-title" content="kastaumuzik" />
+<link rel="manifest" href="/favicon/site.webmanifest" />
 <meta name="generator" content={Astro.generator} />
 
 <!-- Primary Meta Tags -->
-<title>{title} — KastauMuzik</title>
-<meta name="title" content={`${title} — KastauMuzik`} />
+<title>{title} - kastaumuzik</title>
+<meta name="title" content={`${title} — kastaumuzik`} />
 <meta name="description" content={description} />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={Astro.url} />
-<meta property="og:title" content={`${title} — KastauMuzik`} />
+<meta property="og:title" content={`${title} — kastaumuzik`} />
 <meta property="og:description" content={description} />
 {image && <meta property="og:image" content={new URL(image, Astro.url)} />}
 
 <!-- Twitter -->
-<meta property="twitter:card" content={image ? "summary_large_image" : "summary"} />
+<meta
+  property="twitter:card"
+  content={image ? "summary_large_image" : "summary"}
+/>
 <meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={`${title} — KastauMuzik`} />
+<meta property="twitter:title" content={`${title} — kastaumuzik`} />
 <meta property="twitter:description" content={description} />
 {image && <meta property="twitter:image" content={new URL(image, Astro.url)} />}
 
@@ -41,22 +58,19 @@ const { title, description, image } = Astro.props;
   rel="stylesheet"
 />
 
-<!-- Dark Mode -->
+<!-- Tema -->
+<meta name="color-scheme" content="light dark" />
 <script is:inline>
-  const theme = (() => {
-    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
-      return localStorage.getItem("theme");
-    }
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      return "dark";
-    }
-    return "light";
-  })();
+  // Blocking dan sebelum <body> supaya tema tidak berkedip saat halaman dimuat.
+  (() => {
+    const stored = localStorage.getItem("theme");
+    const theme =
+      stored === "light" || stored === "dark"
+        ? stored
+        : window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
 
-  if (theme === "light") {
-    document.documentElement.classList.remove("dark");
-  } else {
-    document.documentElement.classList.add("dark");
-  }
-  window.localStorage.setItem("theme", theme);
+    document.documentElement.dataset.theme = theme;
+  })();
 </script>

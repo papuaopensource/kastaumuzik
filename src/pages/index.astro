@@ -227,24 +227,26 @@ const stats = [
     color: rgb(212 212 212);
   }
 
-  .dark .shelf-link {
+  /* Warna gelap mengikuti data-theme yang dipilih pembaca. */
+  [data-theme="dark"] .shelf-link {
     border-color: rgb(82 82 82);
     background: rgb(38 38 38);
     color: rgb(212 212 212);
   }
 
-  .dark .shelf-link:hover {
+  [data-theme="dark"] .shelf-link:hover {
     border-color: rgb(163 163 163);
     color: white;
   }
 
-  .dark .shelf-link[data-active="true"] {
+  [data-theme="dark"] .shelf-link[data-active="true"] {
     border-color: rgb(245 245 245);
     background: rgb(245 245 245);
     color: rgb(23 23 23);
   }
 
-  .dark .shelf-link[data-active="true"] span {
+  [data-theme="dark"] .shelf-link[data-active="true"] span {
     color: rgb(82 82 82);
   }
+
 </style>
