@@ -1,6 +1,6 @@
-# KastauMuzik
+# kastaumuzik
 
-KastauMuzik is an open archive of Papuan folk music (*lagu daerah Papua*), curated from YouTube. The collection is organised by story, customary region, language, and song type so that the works — and the people behind them — are easier to find with a clear source.
+kastaumuzik is an open archive of Papuan folk music (*lagu daerah Papua*), curated from YouTube. The collection is organised by story, customary region, language, and song type so that the works — and the people behind them — are easier to find with a clear source.
 
 The site stores no audio or video of its own. Every entry links back to the recording and the channel it came from, and every curation note states what we do not yet know rather than guessing at it.
 
