@@ -29,11 +29,15 @@ const linkClass = (active: boolean) =>
   >
     <div class="flex h-11 items-center gap-3">
       <a
-        class="shrink-0 rounded-md text-lg font-semibold text-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 md:text-xl dark:text-neutral-100"
+        class="flex shrink-0 items-center gap-2 rounded-md text-lg font-semibold text-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 md:text-xl dark:text-neutral-100"
         href="/"
-        aria-label="KastauMuzik — kembali ke teras"
+        aria-label="kastaumuzik — kembali ke teras"
       >
-        kastau<span class="text-orange-600">muzik</span>
+        <!-- The note in the mark is near-white, so it sits on a dark chip to stay visible in light mode -->
+        <span class="flex size-8 shrink-0 items-center justify-center rounded-md bg-neutral-900 p-1 dark:bg-neutral-800">
+          <img src="/logo-kastaumuzik.png" alt="" aria-hidden="true" width="32" height="32" class="size-full object-contain" />
+        </span>
+        <span>kastau<span class="text-orange-600">muzik</span></span>
       </a>
 
       {
@@ -48,7 +52,7 @@ const linkClass = (active: boolean) =>
               name="q"
               autocomplete="off"
               placeholder="Cari lagu, artis, atau bahasa..."
-              aria-label="Cari di koleksi KastauMuzik"
+              aria-label="Cari di koleksi kastaumuzik"
               class="h-10 w-full rounded-full border border-neutral-300 bg-neutral-100 py-2 pl-10 pr-4 text-sm text-neutral-800 outline-none transition placeholder:text-neutral-400 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/15 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 dark:focus:border-orange-500"
             />
           </form>
@@ -98,7 +102,7 @@ const linkClass = (active: boolean) =>
               name="q"
               autocomplete="off"
               placeholder="Cari lagu, artis, atau bahasa..."
-              aria-label="Cari di koleksi KastauMuzik"
+              aria-label="Cari di koleksi kastaumuzik"
               class="h-10 w-full rounded-full border border-neutral-300 bg-neutral-100 py-2 pl-10 pr-4 text-sm text-neutral-800 outline-none transition placeholder:text-neutral-400 focus:border-orange-500 focus:bg-white dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
             />
           </form>
