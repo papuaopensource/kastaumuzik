@@ -1,0 +1,679 @@
+[
+  {
+    "id": "pilihan-untuk-mulai",
+    "eyebrow": "Pilihan editor",
+    "title": "Mulai dari sini",
+    "description": "Tiga pintu masuk untuk mengenal arsip, musik populer, dan suara panggung Papua.",
+    "videos": [
+      {
+        "slug": "mambesak-album-volume-1-5",
+        "title": "Mambesak — Album Volume I–V",
+        "artist": "Mambesak",
+        "youtubeId": "Hzesbr7ofR4",
+        "channel": "Papua Traces Channel",
+        "region": "Tanah Papua",
+        "customaryRegion": "Lintas wilayah adat",
+        "language": "Beragam bahasa Papua",
+        "languageGroup": "Beragam bahasa Papua",
+        "genres": [
+          "Lagu daerah",
+          "Rekaman arsip"
+        ],
+        "year": "5 album • 73 lagu",
+        "duration": "Kompilasi",
+        "curationStatus": "Arsip pilihan",
+        "note": "Kompilasi 73 lagu Mambesak yang mengangkat musik, tari, puisi, dan cerita rakyat Papua.",
+        "description": "Kompilasi digital ini mempertemukan lima volume karya Mambesak dalam satu rekaman panjang. Pilihan yang baik untuk mulai mengenal keluasan bahasa, melodi, dan cerita yang pernah dihimpun oleh kelompok tersebut.",
+        "context": "Video ini ditempatkan sebagai pintu masuk menuju arsip Mambesak di YouTube. Informasi jumlah lagu dan susunan volume mengikuti keterangan yang dicantumkan oleh kanal sumber."
+      },
+      {
+        "slug": "hari-kiamat-black-brothers",
+        "title": "Hari Kiamat",
+        "artist": "The Black Brothers Papua",
+        "youtubeId": "wYtvXconU98",
+        "channel": "The Black Brothers Papua — Topic",
+        "region": "Jayapura",
+        "customaryRegion": "Mamta",
+        "language": "Indonesia",
+        "languageGroup": "Bahasa Indonesia",
+        "genres": [
+          "Rock Papua",
+          "Pop Papua"
+        ],
+        "year": "1979",
+        "duration": "Lagu",
+        "curationStatus": "Kanal artis",
+        "note": "Karya rock Papua dari album Derita Tiada Akhir, tersedia melalui kanal Topic artis di YouTube.",
+        "description": "Hari Kiamat merupakan salah satu karya The Black Brothers Papua yang memperlihatkan pertemuan rock, pop, dan suara sosial dalam perjalanan musik Papua modern.",
+        "context": "Rekaman ini tersedia melalui kanal Topic The Black Brothers Papua. Keterangan album dan tahun mengikuti metadata yang ditampilkan pada halaman sumber di YouTube."
+      }
+    ]
+  },
+  {
+    "id": "ingatan-bersama",
+    "eyebrow": "Lagu yang terus dinyanyikan",
+    "title": "Dalam ingatan bersama",
+    "description": "Lagu yang dikenal lintas generasi melalui nyanyian, tarian, sekolah, dan panggung komunitas.",
+    "videos": [
+      {
+        "slug": "sajojo-lagu-daerah-papua",
+        "title": "Sajojo — Lagu Daerah Papua",
+        "artist": "Lagu daerah Papua",
+        "youtubeId": "Xc_L_zMeqbQ",
+        "channel": "Lagu Daerah Indonesia",
+        "region": "Tanah Papua",
+        "customaryRegion": "Belum dipastikan",
+        "language": "Bahasa daerah Papua",
+        "languageGroup": "Bahasa daerah Papua",
+        "genres": [
+          "Lagu daerah",
+          "Lagu tarian"
+        ],
+        "year": "Video lirik",
+        "duration": "Lagu",
+        "curationStatus": "Catatan kredit",
+        "note": "Versi lirik yang membantu pendengar mengikuti lagu, dengan catatan sumber yang masih terbuka untuk dilengkapi.",
+        "description": "Sajojo dikenal luas melalui nyanyian dan tarian bersama. Video lirik ini dipilih sebagai bahan dengar awal untuk mengikuti bentuk lagu dan pengulangannya.",
+        "context": "Informasi mengenai pencipta dan asal bahasa Sajojo tidak selalu ditulis secara seragam pada berbagai sumber populer. Karena itu, halaman ini mempertahankan catatan terbuka agar kreditnya dapat terus diperbaiki bersama."
+      },
+      {
+        "slug": "yamko-rambe-yamko-bermazmur-choir",
+        "title": "Yamko Rambe Yamko — Penampilan Koor",
+        "artist": "Bermazmur Choir Lapas Sorong",
+        "youtubeId": "YPLuOqywMGM",
+        "channel": "Kanal pertunjukan koor",
+        "region": "Sorong",
+        "customaryRegion": "Domberai",
+        "language": "Asal bahasa diperdebatkan",
+        "languageGroup": "Catatan bahasa terbuka",
+        "genres": [
+          "Paduan suara",
+          "Lagu daerah",
+          "Rekaman panggung"
+        ],
+        "year": "Penampilan",
+        "duration": "Koor",
+        "curationStatus": "Konteks terbuka",
+        "note": "Penampilan koor dari Sorong yang disertai catatan terbuka mengenai asal bahasa dan sejarah lagunya.",
+        "description": "Penampilan Bermazmur Choir Lapas Sorong memberi ruang pada aransemen vokal kelompok dan menghadirkan lagu ini melalui suara para penyanyi dari Papua.",
+        "context": "Asal bahasa dan sejarah Yamko Rambe Yamko masih memiliki beberapa penjelasan yang berbeda. Koleksi ini menampilkan pertunjukannya sekaligus mempertahankan catatan tersebut sebagai bagian penting dari konteks."
+      }
+    ]
+  },
+  {
+    "id": "lima-belas-bahasa-mambesak",
+    "eyebrow": "Dari arsip Mambesak",
+    "title": "15 lagu dalam 15 bahasa",
+    "description": "Masuk langsung ke setiap lagu melalui penanda waktu pada kompilasi Mambesak Volume I–II.",
+    "videos": [
+      {
+        "slug": "akai-bipa-mare-mambesak",
+        "title": "Akai Bipa Mare",
+        "artist": "Mambesak",
+        "youtubeId": "Hzesbr7ofR4",
+        "startSeconds": 8,
+        "endSeconds": 171,
+        "channel": "Papua Traces Channel",
+        "region": "Tanah Papua",
+        "customaryRegion": "Mee Pago",
+        "language": "Mimika",
+        "languageGroup": "Mimika",
+        "genres": [
+          "Lagu daerah",
+          "Arsip Mambesak"
+        ],
+        "year": "Album Volume I",
+        "duration": "2:43",
+        "curationStatus": "Bahasa Mimika",
+        "note": "Bab berbahasa Mimika dari Album Volume I Mambesak.",
+        "description": "Akai Bipa Mare membuka Album Volume I Mambesak. Halaman ini membawa pendengar langsung ke bagian lagu berbahasa Mimika di dalam kompilasi.",
+        "context": "Judul, penanda bahasa, dan waktu putar mengikuti daftar bab yang dicantumkan Papua Traces Channel. Kredit atau arti lirik yang lebih rinci masih terbuka untuk dilengkapi bersama."
+      },
+      {
+        "slug": "maitwu-som-mambesak",
+        "title": "Maitwu Som",
+        "artist": "Mambesak",
+        "youtubeId": "Hzesbr7ofR4",
+        "startSeconds": 171,
+        "endSeconds": 337,
+        "channel": "Papua Traces Channel",
+        "region": "Tanah Papua",
+        "customaryRegion": "Mamta",
+        "language": "Auyi",
+        "languageGroup": "Auyi",
+        "genres": [
+          "Lagu daerah",
+          "Arsip Mambesak"
+        ],
+        "year": "Album Volume I",
+        "duration": "2:46",
+        "curationStatus": "Bahasa Auyi",
+        "note": "Bab berbahasa Auyi dari Album Volume I Mambesak.",
+        "description": "Maitwu Som adalah pilihan berbahasa Auyi dari Album Volume I. Penanda waktu membuat lagu ini dapat didengarkan tanpa mencari posisinya di dalam kompilasi panjang.",
+        "context": "Judul, penanda bahasa, dan waktu putar mengikuti daftar bab yang dicantumkan Papua Traces Channel. Kredit atau arti lirik yang lebih rinci masih terbuka untuk dilengkapi bersama."
+      },
+      {
+        "slug": "syowi-yena-mambesak",
+        "title": "Syowi Yena",
+        "artist": "Mambesak",
+        "youtubeId": "Hzesbr7ofR4",
+        "startSeconds": 337,
+        "endSeconds": 614,
+        "channel": "Papua Traces Channel",
+        "region": "Tanah Papua",
+        "customaryRegion": "Saireri",
+        "language": "Biak",
+        "languageGroup": "Biak",
+        "genres": [
+          "Lagu daerah",
+          "Arsip Mambesak"
+        ],
+        "year": "Album Volume I",
+        "duration": "4:37",
+        "curationStatus": "Bahasa Biak",
+        "note": "Bab berbahasa Biak dari Album Volume I Mambesak.",
+        "description": "Syowi Yena menghadirkan salah satu rekaman berbahasa Biak dalam Album Volume I Mambesak dan dapat diputar langsung dari awal babnya.",
+        "context": "Judul, penanda bahasa, dan waktu putar mengikuti daftar bab yang dicantumkan Papua Traces Channel. Kredit atau arti lirik yang lebih rinci masih terbuka untuk dilengkapi bersama."
+      },
+      {
+        "slug": "waniambei-mambesak",
+        "title": "Waniambei",
+        "artist": "Mambesak",
+        "youtubeId": "Hzesbr7ofR4",
+        "startSeconds": 614,
+        "endSeconds": 833,
+        "channel": "Papua Traces Channel",
+        "region": "Tanah Papua",
+        "customaryRegion": "Mamta",
+        "language": "Tobati–Enggros",
+        "languageGroup": "Tobati–Enggros",
+        "genres": [
+          "Lagu daerah",
+          "Arsip Mambesak"
+        ],
+        "year": "Album Volume I",
+        "duration": "3:39",
+        "curationStatus": "Bahasa Tobati–Enggros",
+        "note": "Bab berbahasa Tobati–Enggros dari Album Volume I Mambesak.",
+        "description": "Waniambei merupakan bagian berbahasa Tobati–Enggros dalam Album Volume I. Tautan waktunya membuka lagu tepat pada awal rekaman.",
+        "context": "Judul, penanda bahasa, dan waktu putar mengikuti daftar bab yang dicantumkan Papua Traces Channel. Kredit atau arti lirik yang lebih rinci masih terbuka untuk dilengkapi bersama."
+      },
+      {
+        "slug": "kenate-derane-mambesak",
+        "title": "Kenate Derane",
+        "artist": "Mambesak",
+        "youtubeId": "Hzesbr7ofR4",
+        "startSeconds": 833,
+        "endSeconds": 1029,
+        "channel": "Papua Traces Channel",
+        "region": "Tanah Papua",
+        "customaryRegion": "Belum dipastikan",
+        "language": "Kendate",
+        "languageGroup": "Kendate",
+        "genres": [
+          "Lagu daerah",
+          "Arsip Mambesak"
+        ],
+        "year": "Album Volume I",
+        "duration": "3:16",
+        "curationStatus": "Bahasa Kendate",
+        "note": "Bab berbahasa Kendate dari Album Volume I Mambesak.",
+        "description": "Kenate Derane memperluas perjalanan bahasa dalam Album Volume I melalui rekaman yang diberi penanda bahasa Kendate oleh kanal sumber.",
+        "context": "Judul, penanda bahasa, dan waktu putar mengikuti daftar bab yang dicantumkan Papua Traces Channel. Kredit atau arti lirik yang lebih rinci masih terbuka untuk dilengkapi bersama."
+      },
+      {
+        "slug": "nuto-murajo-mambesak",
+        "title": "Nuto Murajo",
+        "artist": "Mambesak",
+        "youtubeId": "Hzesbr7ofR4",
+        "startSeconds": 1029,
+        "endSeconds": 1322,
+        "channel": "Papua Traces Channel",
+        "region": "Tanah Papua",
+        "customaryRegion": "Saireri",
+        "language": "Moor–Mambor",
+        "languageGroup": "Moor–Mambor",
+        "genres": [
+          "Lagu daerah",
+          "Arsip Mambesak"
+        ],
+        "year": "Album Volume I",
+        "duration": "4:53",
+        "curationStatus": "Bahasa Moor–Mambor",
+        "note": "Bab berbahasa Moor–Mambor dari Album Volume I Mambesak.",
+        "description": "Nuto Murajo adalah rekaman berbahasa Moor–Mambor yang hadir pada sisi awal Album Volume I dan kini dapat ditemukan sebagai pilihan tersendiri.",
+        "context": "Judul, penanda bahasa, dan waktu putar mengikuti daftar bab yang dicantumkan Papua Traces Channel. Kredit atau arti lirik yang lebih rinci masih terbuka untuk dilengkapi bersama."
+      },
+      {
+        "slug": "yapo-mamacica-mambesak",
+        "title": "Yapo Mamacica",
+        "artist": "Mambesak",
+        "youtubeId": "Hzesbr7ofR4",
+        "startSeconds": 1322,
+        "endSeconds": 1561,
+        "channel": "Papua Traces Channel",
+        "region": "Tanah Papua",
+        "customaryRegion": "Ha Anim",
+        "language": "Asmat",
+        "languageGroup": "Asmat",
+        "genres": [
+          "Lagu daerah",
+          "Arsip Mambesak"
+        ],
+        "year": "Album Volume I",
+        "duration": "3:59",
+        "curationStatus": "Bahasa Asmat",
+        "note": "Bab berbahasa Asmat dari Album Volume I Mambesak.",
+        "description": "Yapo Mamacica menempatkan bahasa Asmat dalam rangkaian Album Volume I. Halaman detail membuka langsung bagian lagunya di rekaman sumber.",
+        "context": "Judul, penanda bahasa, dan waktu putar mengikuti daftar bab yang dicantumkan Papua Traces Channel. Kredit atau arti lirik yang lebih rinci masih terbuka untuk dilengkapi bersama."
+      },
+      {
+        "slug": "lenso-inoni-nifako-mambesak",
+        "title": "Lenso Inoni Nifako",
+        "artist": "Mambesak",
+        "youtubeId": "Hzesbr7ofR4",
+        "startSeconds": 1561,
+        "endSeconds": 1923,
+        "channel": "Papua Traces Channel",
+        "region": "Tanah Papua",
+        "customaryRegion": "Saireri",
+        "language": "Waropen",
+        "languageGroup": "Waropen",
+        "genres": [
+          "Lagu daerah",
+          "Arsip Mambesak"
+        ],
+        "year": "Album Volume I",
+        "duration": "6:02",
+        "curationStatus": "Bahasa Waropen",
+        "note": "Bab berbahasa Waropen dari Album Volume I Mambesak.",
+        "description": "Lenso Inoni Nifako adalah pilihan berbahasa Waropen yang menutup sisi awal Volume I dalam daftar bab kanal sumber.",
+        "context": "Judul, penanda bahasa, dan waktu putar mengikuti daftar bab yang dicantumkan Papua Traces Channel. Kredit atau arti lirik yang lebih rinci masih terbuka untuk dilengkapi bersama."
+      },
+      {
+        "slug": "matemani-mambesak",
+        "title": "Matemani",
+        "artist": "Mambesak",
+        "youtubeId": "Hzesbr7ofR4",
+        "startSeconds": 1923,
+        "endSeconds": 2147,
+        "channel": "Papua Traces Channel",
+        "region": "Tanah Papua",
+        "customaryRegion": "Domberai",
+        "language": "Inanwatan",
+        "languageGroup": "Inanwatan",
+        "genres": [
+          "Lagu daerah",
+          "Arsip Mambesak"
+        ],
+        "year": "Album Volume I",
+        "duration": "3:44",
+        "curationStatus": "Bahasa Inanwatan",
+        "note": "Bab berbahasa Inanwatan dari Album Volume I Mambesak.",
+        "description": "Matemani membuka sisi berikutnya dari Volume I melalui bahasa Inanwatan. Penanda waktu membuat rekaman ini mudah dijangkau sebagai satu lagu.",
+        "context": "Judul, penanda bahasa, dan waktu putar mengikuti daftar bab yang dicantumkan Papua Traces Channel. Kredit atau arti lirik yang lebih rinci masih terbuka untuk dilengkapi bersama."
+      },
+      {
+        "slug": "women-taise-mambesak",
+        "title": "Women Taise",
+        "artist": "Mambesak",
+        "youtubeId": "Hzesbr7ofR4",
+        "startSeconds": 2347,
+        "endSeconds": 2440,
+        "channel": "Papua Traces Channel",
+        "region": "Tanah Papua",
+        "customaryRegion": "Domberai",
+        "language": "Tehit",
+        "languageGroup": "Tehit",
+        "genres": [
+          "Lagu daerah",
+          "Arsip Mambesak"
+        ],
+        "year": "Album Volume I",
+        "duration": "1:33",
+        "curationStatus": "Bahasa Tehit",
+        "note": "Bab berbahasa Tehit dari Album Volume I Mambesak.",
+        "description": "Women Taise adalah bab singkat berbahasa Tehit dalam Album Volume I dan disajikan dengan tautan langsung ke posisi rekamannya.",
+        "context": "Judul, penanda bahasa, dan waktu putar mengikuti daftar bab yang dicantumkan Papua Traces Channel. Kredit atau arti lirik yang lebih rinci masih terbuka untuk dilengkapi bersama."
+      },
+      {
+        "slug": "tutum-dugu-mambesak",
+        "title": "Tutum Dugu",
+        "artist": "Mambesak",
+        "youtubeId": "Hzesbr7ofR4",
+        "startSeconds": 2931,
+        "endSeconds": 3097,
+        "channel": "Papua Traces Channel",
+        "region": "Tanah Papua",
+        "customaryRegion": "Mamta",
+        "language": "Demta",
+        "languageGroup": "Demta",
+        "genres": [
+          "Lagu daerah",
+          "Arsip Mambesak"
+        ],
+        "year": "Album Volume I",
+        "duration": "2:46",
+        "curationStatus": "Bahasa Demta",
+        "note": "Bab berbahasa Demta dari Album Volume I Mambesak.",
+        "description": "Tutum Dugu menjadi pintu masuk menuju salah satu rekaman berbahasa Demta yang dihimpun dalam Album Volume I Mambesak.",
+        "context": "Judul, penanda bahasa, dan waktu putar mengikuti daftar bab yang dicantumkan Papua Traces Channel. Kredit atau arti lirik yang lebih rinci masih terbuka untuk dilengkapi bersama."
+      },
+      {
+        "slug": "na-sisar-matiti-mambesak",
+        "title": "Na Sisar Matiti",
+        "artist": "Mambesak",
+        "youtubeId": "Hzesbr7ofR4",
+        "startSeconds": 3097,
+        "endSeconds": 3407,
+        "channel": "Papua Traces Channel",
+        "region": "Tanah Papua",
+        "customaryRegion": "Bomberai",
+        "language": "Bintuni",
+        "languageGroup": "Bintuni",
+        "genres": [
+          "Lagu daerah",
+          "Arsip Mambesak"
+        ],
+        "year": "Album Volume I",
+        "duration": "5:10",
+        "curationStatus": "Bahasa Bintuni",
+        "note": "Bab berbahasa Bintuni dari Album Volume I Mambesak.",
+        "description": "Na Sisar Matiti menghadirkan bahasa Bintuni dalam Album Volume I. Pemutar dimulai tepat dari bab yang dicatat oleh kanal sumber.",
+        "context": "Judul, penanda bahasa, dan waktu putar mengikuti daftar bab yang dicantumkan Papua Traces Channel. Kredit atau arti lirik yang lebih rinci masih terbuka untuk dilengkapi bersama."
+      },
+      {
+        "slug": "ngam-be-tab-mambesak",
+        "title": "Ngam Be Tab",
+        "artist": "Mambesak",
+        "youtubeId": "Hzesbr7ofR4",
+        "startSeconds": 3407,
+        "endSeconds": 3887,
+        "channel": "Papua Traces Channel",
+        "region": "Tanah Papua",
+        "customaryRegion": "Mamta",
+        "language": "Genyem",
+        "languageGroup": "Genyem",
+        "genres": [
+          "Lagu daerah",
+          "Arsip Mambesak"
+        ],
+        "year": "Album Volume I",
+        "duration": "8:00",
+        "curationStatus": "Bahasa Genyem",
+        "note": "Bab berbahasa Genyem dari Album Volume I Mambesak.",
+        "description": "Ngam Be Tab adalah pilihan berbahasa Genyem dari penghujung Volume I dan dapat diputar langsung melalui penanda waktunya.",
+        "context": "Judul, penanda bahasa, dan waktu putar mengikuti daftar bab yang dicantumkan Papua Traces Channel. Kredit atau arti lirik yang lebih rinci masih terbuka untuk dilengkapi bersama."
+      },
+      {
+        "slug": "sorga-base-wali-sip-mambesak",
+        "title": "Sorga Base Wali Sip",
+        "artist": "Mambesak",
+        "youtubeId": "Hzesbr7ofR4",
+        "startSeconds": 4087,
+        "endSeconds": 4318,
+        "channel": "Papua Traces Channel",
+        "region": "Tanah Papua",
+        "customaryRegion": "Mamta",
+        "language": "Kemtuk–Gresi",
+        "languageGroup": "Kemtuk–Gresi",
+        "genres": [
+          "Lagu daerah",
+          "Arsip Mambesak"
+        ],
+        "year": "Album Volume II",
+        "duration": "3:51",
+        "curationStatus": "Bahasa Kemtuk–Gresi",
+        "note": "Bab berbahasa Kemtuk–Gresi dari Album Volume II Mambesak.",
+        "description": "Sorga Base Wali Sip membawa perjalanan ke Album Volume II melalui salah satu rekaman yang ditandai berbahasa Kemtuk–Gresi.",
+        "context": "Judul, penanda bahasa, dan waktu putar mengikuti daftar bab yang dicantumkan Papua Traces Channel. Kredit atau arti lirik yang lebih rinci masih terbuka untuk dilengkapi bersama."
+      },
+      {
+        "slug": "hindang-makhendang-mambesak",
+        "title": "Hindang Makhendang",
+        "artist": "Mambesak",
+        "youtubeId": "Hzesbr7ofR4",
+        "startSeconds": 4547,
+        "endSeconds": 4801,
+        "channel": "Papua Traces Channel",
+        "region": "Tanah Papua",
+        "customaryRegion": "Mamta",
+        "language": "Sentani",
+        "languageGroup": "Sentani",
+        "genres": [
+          "Lagu daerah",
+          "Arsip Mambesak"
+        ],
+        "year": "Album Volume II",
+        "duration": "4:14",
+        "curationStatus": "Bahasa Sentani",
+        "note": "Bab berbahasa Sentani dari Album Volume II Mambesak.",
+        "description": "Hindang Makhendang merupakan pilihan berbahasa Sentani dari Album Volume II yang dapat langsung didengarkan dari awal babnya.",
+        "context": "Judul, penanda bahasa, dan waktu putar mengikuti daftar bab yang dicantumkan Papua Traces Channel. Kredit atau arti lirik yang lebih rinci masih terbuka untuk dilengkapi bersama."
+      }
+    ]
+  },
+  {
+    "id": "suara-dari-kanal-warga",
+    "eyebrow": "Unggahan warga",
+    "title": "Suara dari kanal warga",
+    "description": "Lagu daerah dan pop Papua yang beredar lewat kanal perorangan, lengkap dengan catatan kredit yang masih terbuka.",
+    "videos": [
+      {
+        "slug": "awak-param-melani-sawaki",
+        "title": "Awak Param",
+        "artist": "Melani Sawaki",
+        "youtubeId": "5Lr68uxQS0o",
+        "channel": "Geen Roger Ps",
+        "region": "Biak",
+        "customaryRegion": "Saireri",
+        "language": "Biak",
+        "languageGroup": "Biak",
+        "genres": [
+          "Lagu daerah",
+          "Pop Papua"
+        ],
+        "year": "2021",
+        "duration": "4:03",
+        "curationStatus": "Kanal warga",
+        "note": "Lagu daerah Papua yang dibawakan Melani Sawaki dan diunggah melalui kanal perorangan.",
+        "description": "Awak Param hadir sebagai rekaman lagu daerah yang beredar luas lewat kanal warga. Suara vokalnya menjadi jalan masuk untuk mendengar bagaimana repertoar Biak dinyanyikan hari ini.",
+        "context": "Kanal sumber menandai rekaman ini sebagai lagu daerah Papua tanpa mencantumkan pencipta. Penanda bahasa mengikuti repertoar Biak yang biasa dikaitkan dengan lagu ini dan tetap terbuka untuk diperbaiki bersama."
+      },
+      {
+        "slug": "fafisu-kayam-kubena-yance-bisim",
+        "title": "Fafisu Kayam Kubena",
+        "artist": "Yance Bisim Aninam",
+        "youtubeId": "Qoy1MXn3Mik",
+        "channel": "Yance Bisim",
+        "region": "Biak",
+        "customaryRegion": "Saireri",
+        "language": "Biak",
+        "languageGroup": "Biak",
+        "genres": [
+          "Lagu daerah",
+          "Versi cover"
+        ],
+        "year": "2021",
+        "duration": "5:39",
+        "curationStatus": "Rekaman cover",
+        "note": "Versi cover lagu berbahasa Biak yang direkam dan diunggah sendiri oleh penyanyinya.",
+        "description": "Fafisu Kayam Kubena dibawakan ulang oleh Yance Bisim Aninam dalam rekaman sederhana. Bentuk cover seperti ini memperlihatkan bagaimana lagu berbahasa Biak terus dipakai dan dinyanyikan kembali.",
+        "context": "Kanal sumber menyebut lagu ini sebagai lagu Biak Papua dan menandainya sebagai cover. Pencipta aslinya belum dicantumkan, sehingga kreditnya masih terbuka untuk dilengkapi."
+      },
+      {
+        "slug": "ade-mei-edgar-aronggear",
+        "title": "Ade Mei",
+        "artist": "Edgar Aronggear",
+        "youtubeId": "q8EPkPrQaNY",
+        "channel": "RKB FAMZ Official",
+        "region": "Tanah Papua",
+        "customaryRegion": "Belum dipastikan",
+        "language": "Belum dicantumkan sumber",
+        "languageGroup": "Catatan bahasa terbuka",
+        "genres": [
+          "Pop Papua"
+        ],
+        "year": "2020",
+        "duration": "6:22",
+        "curationStatus": "Konteks terbuka",
+        "note": "Pop Papua dari kanal warga yang diperkenalkan sumbernya sebagai hasil karya anak Papua.",
+        "description": "Ade Mei mewakili lapis musik pop Papua yang lahir dan beredar langsung melalui kanal warga, tanpa jalur rilis label. Rekamannya memperlihatkan cara lagu baru menemukan pendengarnya sendiri.",
+        "context": "Kanal sumber hanya menyebut lagu ini sebagai hasil karya anak Papua. Asal daerah dan bahasa lagunya belum dicantumkan, sehingga halaman ini mempertahankan catatan terbuka."
+      },
+      {
+        "slug": "suandei-siksa-bathin-tycko-nenepat",
+        "title": "Suandei Siksa Bathin",
+        "artist": "Tycko Nenepat",
+        "youtubeId": "rC3P5_rOxHI",
+        "channel": "Tycko Nenepat",
+        "region": "Tanah Papua",
+        "customaryRegion": "Belum dipastikan",
+        "language": "Belum dicantumkan sumber",
+        "languageGroup": "Catatan bahasa terbuka",
+        "genres": [
+          "Pop Papua"
+        ],
+        "year": "2014",
+        "duration": "5:43",
+        "curationStatus": "Konteks terbuka",
+        "note": "Unggahan lama dari kanal perorangan yang menyimpan satu lagu tanpa keterangan tambahan.",
+        "description": "Suandei Siksa Bathin adalah salah satu rekaman yang bertahan di YouTube sejak awal 2010-an. Unggahan sederhana seperti ini kerap menjadi satu-satunya jejak sebuah lagu di ruang daring.",
+        "context": "Halaman sumber tidak memuat keterangan selain judul lagu. Pencipta, bahasa, dan asal daerahnya masih terbuka untuk dilengkapi bersama."
+      }
+    ]
+  },
+  {
+    "id": "nyanyian-jemaat",
+    "eyebrow": "Nyanyian jemaat",
+    "title": "Rohani dan suara koor",
+    "description": "Lagu ibadah berbahasa daerah dan penampilan koor jemaat yang dibagikan lewat kanal komunitas.",
+    "videos": [
+      {
+        "slug": "nahele-tuhan-sentani",
+        "title": "Nahele Tuhan",
+        "artist": "Lagu rohani bahasa Sentani",
+        "youtubeId": "A56uQ0XOosI",
+        "channel": "LAGU BAHASA SENTANI",
+        "region": "Sentani",
+        "customaryRegion": "Mamta",
+        "language": "Sentani",
+        "languageGroup": "Sentani",
+        "genres": [
+          "Lagu rohani",
+          "Video lirik"
+        ],
+        "year": "2019",
+        "duration": "6:05",
+        "curationStatus": "Video lirik",
+        "note": "Lagu rohani berbahasa Sentani yang disertai teks lirik lengkap pada halaman sumbernya.",
+        "description": "Nahele Tuhan dinyanyikan dalam bahasa Sentani dan disajikan sebagai video lirik. Teks yang ditampilkan memudahkan pendengar mengikuti bunyi bahasa sekaligus ikut menyanyikannya.",
+        "context": "Lirik lengkap dicantumkan oleh kanal sumber pada keterangan video. Nama pencipta dan penyanyinya belum disebut, sehingga kreditnya masih terbuka untuk dilengkapi."
+      },
+      {
+        "slug": "allah-na-khena-buhea-khaban-sele",
+        "title": "Allah Na Khena Buhea Khaban Sele",
+        "artist": "Dyllon Vindlau",
+        "youtubeId": "IfVrGivLuho",
+        "channel": "LAGU BAHASA SENTANI",
+        "region": "Sentani",
+        "customaryRegion": "Mamta",
+        "language": "Sentani",
+        "languageGroup": "Sentani",
+        "genres": [
+          "Lagu rohani"
+        ],
+        "year": "2019",
+        "duration": "4:41",
+        "curationStatus": "Bahasa Sentani",
+        "note": "Lagu rohani berbahasa Sentani yang keterangannya menyertakan terjemahan bahasa Indonesia.",
+        "description": "Dyllon Vindlau membawakan lagu ini sepenuhnya dalam bahasa Sentani. Terjemahan yang disertakan sumber membantu pendengar di luar penutur bahasa itu mengikuti isinya.",
+        "context": "Kanal sumber mencantumkan lirik terjemahan bahasa Indonesia pada keterangan video. Kredit pencipta lagunya belum disebut dan masih terbuka untuk dilengkapi."
+      },
+      {
+        "slug": "sera-bawa-lada-papua",
+        "title": "Sera Bawa",
+        "artist": "LaDa — Lagu & Cerita dari Papua",
+        "youtubeId": "sGfJgA80V3g",
+        "channel": "LaDa | Lagu & Cerita dari Papua",
+        "region": "Tanah Papua",
+        "customaryRegion": "Belum dipastikan",
+        "language": "Bahasa daerah Papua",
+        "languageGroup": "Catatan bahasa terbuka",
+        "genres": [
+          "Lagu rohani",
+          "Video lirik"
+        ],
+        "year": "2024",
+        "duration": "6:17",
+        "curationStatus": "Video lirik",
+        "note": "Video lirik lagu rohani berbahasa daerah yang disiapkan sebagai bahan menyanyi bersama.",
+        "description": "Sera Bawa disajikan sebagai video lirik karaoke sehingga dapat dipakai langsung untuk latihan dan ibadah bersama. Bentuk ini memperlihatkan bagaimana lagu berbahasa daerah dirawat lewat praktik menyanyi.",
+        "context": "Teks lirik dicantumkan penuh oleh kanal sumber, tetapi nama bahasa dan daerah asalnya tidak disebutkan. Karena itu penanda bahasanya dibiarkan terbuka."
+      },
+      {
+        "slug": "ketahuilah-pkb-sinai-dobukurung",
+        "title": "Ketahuilah",
+        "artist": "PKB Sinai Dobukurung",
+        "youtubeId": "xVp9BSE8-mA",
+        "channel": "Daniel B Kreutha",
+        "region": "Tanah Papua",
+        "customaryRegion": "Belum dipastikan",
+        "language": "Indonesia",
+        "languageGroup": "Bahasa Indonesia",
+        "genres": [
+          "Paduan suara",
+          "Lagu rohani"
+        ],
+        "year": "2018",
+        "duration": "4:50",
+        "curationStatus": "Koor jemaat",
+        "note": "Penampilan koor kaum bapak jemaat Sinai Dobukurung yang direkam dan dibagikan warga.",
+        "description": "Ketahuilah dibawakan sebagai nyanyian kelompok oleh PKB Sinai Dobukurung. Rekaman jemaat seperti ini memperlihatkan tradisi koor yang hidup di ruang ibadah Papua.",
+        "context": "Video diunggah oleh perekam perorangan tanpa keterangan lokasi jemaat maupun aransemennya. Penanda bahasa mengikuti judul yang dipakai kanal sumber dan tetap terbuka untuk diperbaiki."
+      },
+      {
+        "slug": "doa-bapa-kami-pkb-sinai-dobukurung",
+        "title": "Doa Bapa Kami",
+        "artist": "PKB Sinai Dobukurung",
+        "youtubeId": "3Sd2lmyuz4Q",
+        "channel": "Daniel B Kreutha",
+        "region": "Tanah Papua",
+        "customaryRegion": "Belum dipastikan",
+        "language": "Indonesia",
+        "languageGroup": "Bahasa Indonesia",
+        "genres": [
+          "Paduan suara",
+          "Lagu rohani"
+        ],
+        "year": "2018",
+        "duration": "4:41",
+        "curationStatus": "Koor jemaat",
+        "note": "Doa Bapa Kami dalam bentuk koor jemaat, direkam pada kesempatan yang sama dengan Ketahuilah.",
+        "description": "Doa Bapa Kami dinyanyikan PKB Sinai Dobukurung sebagai satu kesatuan suara kelompok. Rekamannya melengkapi gambaran repertoar koor yang dibawakan jemaat ini.",
+        "context": "Video diunggah oleh perekam perorangan tanpa keterangan lokasi jemaat maupun aransemennya. Penanda bahasa mengikuti judul yang dipakai kanal sumber dan tetap terbuka untuk diperbaiki."
+      },
+      {
+        "slug": "hidup-ku-bersenang-kara-josua",
+        "title": "Hidup Ku Bersenang",
+        "artist": "Kara Josua",
+        "youtubeId": "jzUwW01ovIY",
+        "channel": "Kara Josua",
+        "region": "Tanah Papua",
+        "customaryRegion": "Belum dipastikan",
+        "language": "Indonesia",
+        "languageGroup": "Bahasa Indonesia",
+        "genres": [
+          "Paduan suara",
+          "Lagu rohani"
+        ],
+        "year": "2018",
+        "duration": "2:45",
+        "curationStatus": "Koor jemaat",
+        "note": "Nyanyian rohani kaum bapak yang direkam langsung dan diunggah tanpa keterangan tambahan.",
+        "description": "Hidup Ku Bersenang direkam sebagai nyanyian rohani kelompok kaum bapak. Durasinya singkat, tetapi cukup untuk menangkap warna suara dan cara jemaat membawakan lagu.",
+        "context": "Kanal sumber tidak mencantumkan nama jemaat, lokasi, maupun pencipta lagu. Penanda bahasa mengikuti judul yang tertera dan masih terbuka untuk diperbaiki."
+      }
+    ]
+  }
+]
