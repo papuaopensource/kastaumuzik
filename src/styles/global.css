@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+/*
+  Tema dipilih pembaca lewat switch di footer dan disimpan sebagai
+  data-theme pada <html>. Nilai awalnya disetel skrip blocking di BaseHead
+  — dari localStorage kalau pernah dipilih, kalau belum dari setelan sistem.
+*/
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+  --font-onest: "Onest", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Sembunyikan simpul Alpine sampai Alpine sempat memproses x-show. */
+[x-cloak] {
+  display: none !important;
+}
+
+/*
+  Keadaan aktif switch tema digambar CSS, bukan Alpine, supaya tidak
+  berkedip sebelum skripnya sempat jalan.
+*/
+:root[data-theme="light"] .theme-option[data-theme-value="light"],
+:root[data-theme="dark"] .theme-option[data-theme-value="dark"] {
+  background: var(--color-neutral-800);
+  color: white;
+}
+
+:root[data-theme="dark"] .theme-option[data-theme-value="dark"] {
+  background: var(--color-neutral-100);
+  color: var(--color-neutral-900);
+}
