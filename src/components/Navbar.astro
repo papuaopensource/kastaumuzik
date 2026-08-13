@@ -20,7 +20,13 @@ const linkClass = (active: boolean) =>
 
 <!-- ========== HEADER ========== -->
 <header class="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white/90 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-900/90">
-  <nav class="mx-auto w-full max-w-[1440px] px-4 py-3 sm:px-6 lg:px-10 xl:px-12" aria-label="Navigasi utama">
+  <nav
+    class="mx-auto w-full max-w-[1440px] px-4 py-3 sm:px-6 lg:px-10 xl:px-12"
+    aria-label="Navigasi utama"
+    x-data="{ open: false }"
+    @keydown.escape.window="open = false"
+    @resize.window="if (window.innerWidth >= 768) open = false"
+  >
     <div class="flex h-11 items-center gap-3">
       <a
         class="shrink-0 rounded-md text-lg font-semibold text-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 md:text-xl dark:text-neutral-100"
@@ -55,19 +61,31 @@ const linkClass = (active: boolean) =>
 
       <button
         type="button"
-        class="hs-collapse-toggle ml-auto flex size-9 items-center justify-center rounded-full border border-neutral-300 text-neutral-600 transition hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 md:hidden dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800"
-        id="hs-navbar-collapse-toggle"
-        aria-expanded="false"
-        aria-controls="hs-navbar-primary"
+        class="ml-auto flex size-9 items-center justify-center rounded-full border border-neutral-300 text-neutral-600 transition hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 md:hidden dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800"
+        id="navbar-menu-toggle"
+        aria-controls="navbar-menu"
         aria-label="Buka atau tutup menu"
-        data-hs-collapse="#hs-navbar-primary"
+        @click="open = !open"
+        :aria-expanded="open ? 'true' : 'false'"
       >
-        <svg class="hs-collapse-open:hidden size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" x2="21" y1="6" y2="6" /><line x1="3" x2="21" y1="12" y2="12" /><line x1="3" x2="21" y1="18" y2="18" /></svg>
-        <svg class="hs-collapse-open:block hidden size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" x-show="!open"><line x1="3" x2="21" y1="6" y2="6" /><line x1="3" x2="21" y1="12" y2="12" /><line x1="3" x2="21" y1="18" y2="18" /></svg>
+        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" x-show="open" x-cloak><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
       </button>
     </div>
 
-    <div id="hs-navbar-primary" class="hs-collapse hidden basis-full overflow-hidden transition-all duration-300 md:hidden" aria-labelledby="hs-navbar-collapse-toggle">
+    <div
+      id="navbar-menu"
+      class="basis-full overflow-hidden md:hidden"
+      aria-labelledby="navbar-menu-toggle"
+      x-show="open"
+      x-cloak
+      x-transition:enter="transition ease-out duration-200"
+      x-transition:enter-start="opacity-0 -translate-y-1"
+      x-transition:enter-end="opacity-100 translate-y-0"
+      x-transition:leave="transition ease-in duration-150"
+      x-transition:leave-start="opacity-100 translate-y-0"
+      x-transition:leave-end="opacity-0 -translate-y-1"
+    >
       {
         !isBrowsing && (
           <form action="/jelajah/" method="get" role="search" class="relative mt-3">
@@ -87,9 +105,16 @@ const linkClass = (active: boolean) =>
         )
       }
       <div class="mt-2 flex flex-col gap-1 pb-2">
-        {links.map((link) => <a href={link.href} class={linkClass(link.match)} aria-current={link.match ? "page" : undefined}>{link.label}</a>)}
+        {links.map((link) => <a href={link.href} class={linkClass(link.match)} aria-current={link.match ? "page" : undefined} @click="open = false">{link.label}</a>)}
       </div>
     </div>
   </nav>
 </header>
 <!-- ========== END HEADER ========== -->
+
+<style is:global>
+  /* Sembunyikan simpul Alpine sampai Alpine sempat memproses x-show. */
+  [x-cloak] {
+    display: none !important;
+  }
+</style>
