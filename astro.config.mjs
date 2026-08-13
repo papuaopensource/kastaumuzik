@@ -1,11 +1,13 @@
 import { defineConfig } from 'astro/config';
 
-import tailwind from "@astrojs/tailwind";
-
 import alpinejs from "@astrojs/alpinejs";
+import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://kastaumuzik.com",
-  integrations: [tailwind(), alpinejs()]
+  integrations: [alpinejs()],
+  vite: {
+    plugins: [tailwindcss()]
+  }
 });
