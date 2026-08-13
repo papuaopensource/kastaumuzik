@@ -1,7 +1,7 @@
 ---
 import CollectionShelf from "../../components/CollectionShelf.astro";
 import Layout from "../../layouts/Layout.astro";
-import { allVideos, collections } from "../../lib/collections";
+import { allVideos, collections, isSpecific } from "../../lib/collections";
 import type { IndexedVideo, MusicCollection } from "../../types/index";
 
 type DetailProps = {
@@ -16,10 +16,14 @@ export function getStaticPaths() {
       const indexed = allVideos.find((candidate) => candidate.slug === video.slug)!;
 
       /** Recommendations: same language first, then same shelf, never this video. */
+      const sameLanguage = isSpecific(indexed.languageGroup)
+        ? allVideos.filter(
+            (candidate) => candidate.slug !== video.slug && candidate.languageGroup === indexed.languageGroup,
+          )
+        : [];
+
       const related = [
-        ...allVideos.filter(
-          (candidate) => candidate.slug !== video.slug && candidate.languageGroup === indexed.languageGroup,
-        ),
+        ...sameLanguage,
         ...allVideos.filter(
           (candidate) => candidate.slug !== video.slug && candidate.collectionId === collection.id,
         ),
@@ -36,10 +40,12 @@ export function getStaticPaths() {
 }
 
 const { video, collection, related } = Astro.props as DetailProps;
+
+const hasLanguageFacet = isSpecific(video.languageGroup);
 const facetLinks = [
   { label: "Bahasa", value: video.languageGroup, href: `/jelajah/?bahasa=${encodeURIComponent(video.languageGroup)}` },
   { label: "Wilayah adat", value: video.customaryRegion, href: `/jelajah/?wilayah=${encodeURIComponent(video.customaryRegion)}` },
-];
+].filter((facet) => isSpecific(facet.value));
 const youtubeUrl = `https://www.youtube.com/watch?v=${video.youtubeId}${video.startSeconds !== undefined ? `&t=${video.startSeconds}s` : ""}`;
 const embedParameters = new URLSearchParams({ rel: "0" });
 if (video.startSeconds !== undefined) embedParameters.set("start", String(video.startSeconds));
@@ -173,7 +179,7 @@ const embedUrl = `https://www.youtube-nocookie.com/embed/${video.youtubeId}?${em
             </svg>
           </a>
 
-          <a href="/jelajah/" class="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full border border-neutral-300 px-5 py-3 text-sm font-medium text-neutral-700 transition hover:border-neutral-500 hover:text-neutral-900 dark:border-neutral-600 dark:text-neutral-200 dark:hover:border-neutral-400">
+          <a href="/jelajah/" class="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full border border-neutral-300 px-5 py-3 text-sm font-medium text-neutral-700 transition hover:border-neutral-500 hover:text-neutral-900 dark:border-neutral-600 dark:text-neutral-200 dark:hover:border-neutral-400 dark:hover:text-neutral-50">
             <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
             Cari pilihan lain
           </a>
@@ -188,10 +194,18 @@ const embedUrl = `https://www.youtube-nocookie.com/embed/${video.youtubeId}?${em
             id="pilihan-terkait"
             eyebrow="Lanjut dengar"
             title="Yang berdekatan dengan ini"
-            description={`Pilihan lain yang berbagi bahasa atau berada di rak ${collection.title}.`}
+            description={
+              hasLanguageFacet
+                ? `Pilihan lain yang berbagi bahasa atau berada di rak ${collection.title}.`
+                : `Pilihan lain dari rak ${collection.title}.`
+            }
             videos={related}
-            moreHref={`/jelajah/?bahasa=${encodeURIComponent(video.languageGroup)}`}
-            moreLabel="Lihat sebahasa"
+            moreHref={
+              hasLanguageFacet
+                ? `/jelajah/?bahasa=${encodeURIComponent(video.languageGroup)}`
+                : `/jelajah/?rak=${encodeURIComponent(collection.title)}`
+            }
+            moreLabel={hasLanguageFacet ? "Lihat sebahasa" : "Lihat serak"}
           />
         </div>
       )

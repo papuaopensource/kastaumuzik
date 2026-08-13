@@ -24,6 +24,14 @@ export const allVideos: IndexedVideo[] = collections.flatMap((collection) =>
 
 export const videoCount = allVideos.length;
 
+/**
+ * Placeholders that record missing information rather than name a real
+ * category. They belong in a curation note, not in a badge or a filter link.
+ */
+const openEnded = new Set(["Belum dipastikan", "Catatan bahasa terbuka", "Lintas wilayah adat"]);
+
+export const isSpecific = (value: string) => !openEnded.has(value);
+
 /** Listening modes: quick filters that cut across shelves on the browse page. */
 export const modesForVideo = (video: CuratedVideo) =>
   [
