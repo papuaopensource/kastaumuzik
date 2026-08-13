@@ -1,0 +1,58 @@
+---
+import { modesForVideo, searchTextFor } from "../lib/collections";
+import type { IndexedVideo } from "../types/index";
+
+interface Props {
+  video: IndexedVideo;
+  /** "shelf" untuk baris geser horizontal, "grid" untuk hasil pencarian. */
+  variant?: "shelf" | "grid";
+}
+
+const { video, variant = "shelf" } = Astro.props as Props;
+const href = `/koleksi/${video.slug}/`;
+---
+
+<article
+  class:list={[
+    "video-card group flex flex-col rounded-lg border border-neutral-200 bg-neutral-50 p-2.5 transition duration-200 hover:-translate-y-0.5 hover:border-neutral-300 hover:bg-white hover:shadow-md dark:border-neutral-700 dark:bg-neutral-800 dark:hover:border-neutral-600 dark:hover:bg-neutral-800/80",
+    variant === "shelf" && "w-44 shrink-0 snap-start sm:w-48 lg:w-52 xl:w-56",
+    variant === "grid" && "w-full",
+  ]}
+  data-video-card
+  data-language={video.languageGroup}
+  data-region={video.customaryRegion}
+  data-genres={video.genres.join("|")}
+  data-collection={video.collectionTitle}
+  data-modes={modesForVideo(video).join("|")}
+  data-search={searchTextFor(video)}
+>
+  <a
+    class="relative block aspect-video overflow-hidden rounded-md bg-neutral-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 focus-visible:ring-offset-2 dark:bg-neutral-700 dark:focus-visible:ring-offset-neutral-900"
+    href={href}
+    aria-label={`Lihat detail ${video.title}`}
+  >
+    <img
+      class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.035]"
+      src={`https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg`}
+      alt={`Cuplikan video ${video.title}`}
+      loading="lazy"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent"></div>
+    <span class="absolute left-2 top-2 max-w-[calc(100%-1rem)] truncate rounded-full bg-white/95 px-2 py-1 text-[10px] font-semibold text-neutral-800 shadow-sm">{video.curationStatus}</span>
+    <span class="absolute bottom-2 right-2 flex size-8 translate-y-1 items-center justify-center rounded-full bg-orange-600 text-white opacity-0 shadow-md transition duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100" aria-hidden="true">
+      <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="m13 6 6 6-6 6" /></svg>
+    </span>
+    <span class="absolute bottom-2 left-2 rounded bg-black/75 px-1.5 py-0.5 text-[10px] font-medium text-white">{video.duration}</span>
+  </a>
+
+  <div class="flex flex-1 flex-col px-1 pb-1 pt-3">
+    <a href={href} class="line-clamp-2 text-sm font-semibold leading-snug text-neutral-800 transition hover:text-orange-700 focus:outline-none focus-visible:text-orange-700 dark:text-neutral-100 dark:hover:text-orange-400 dark:focus-visible:text-orange-400">{video.title}</a>
+    <p class="mt-1 truncate text-xs text-neutral-500 dark:text-neutral-400">{video.artist}</p>
+
+    <div class="mt-auto flex items-center gap-1.5 pt-3 text-[10px] text-neutral-500 dark:text-neutral-400">
+      <span class="truncate">{video.languageGroup}</span>
+      <span aria-hidden="true">•</span>
+      <span class="truncate">{video.genres[0]}</span>
+    </div>
+  </div>
+</article>
