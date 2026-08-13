@@ -5,7 +5,7 @@ interface Props {
   image?: string;
 }
 
-const { title, description, image = "/preview.png" } = Astro.props;
+const { title, description, image } = Astro.props;
 ---
 
 <meta charset="UTF-8" />
@@ -15,23 +15,23 @@ const { title, description, image = "/preview.png" } = Astro.props;
 <meta name="generator" content={Astro.generator} />
 
 <!-- Primary Meta Tags -->
-<title>{title} — Kastau Muzik</title>
-<meta name="title" content={`${title} — Kastau Muzik`} />
+<title>{title} — KastauMuzik</title>
+<meta name="title" content={`${title} — KastauMuzik`} />
 <meta name="description" content={description} />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={Astro.url} />
-<meta property="og:title" content={`${title} — Kastau Muzik`} />
+<meta property="og:title" content={`${title} — KastauMuzik`} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image, Astro.url)} />
+{image && <meta property="og:image" content={new URL(image, Astro.url)} />}
 
 <!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:card" content={image ? "summary_large_image" : "summary"} />
 <meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={`${title} — Kastau Muzik`} />
+<meta property="twitter:title" content={`${title} — KastauMuzik`} />
 <meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url)} />
+{image && <meta property="twitter:image" content={new URL(image, Astro.url)} />}
 
 <!-- Onest Font from Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -39,12 +39,6 @@ const { title, description, image = "/preview.png" } = Astro.props;
 <link
   href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap"
   rel="stylesheet"
-/>
-
-<!-- CSS for Swiper -->
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
 />
 
 <!-- Dark Mode -->

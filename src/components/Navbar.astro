@@ -1,97 +1,93 @@
 ---
 const currentUrl = Astro.url.pathname;
 const firstPath = currentUrl.split("/")[1];
+const isBrowsing = firstPath === "jelajah";
+
+const links = [
+  { href: "/", label: "Teras", match: currentUrl === "/" },
+  { href: "/jelajah/", label: "Jelajah", match: isBrowsing || firstPath === "koleksi" },
+  { href: "/tentang/", label: "Tentang", match: firstPath === "tentang" },
+  { href: "/pernyataan/", label: "Hak & Koreksi", match: firstPath === "pernyataan" },
+];
+
+const linkClass = (active: boolean) =>
+  `whitespace-nowrap rounded-full px-3 py-2 text-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 md:py-1.5 ${
+    active
+      ? "bg-neutral-900 font-semibold text-white dark:bg-neutral-100 dark:text-neutral-900"
+      : "text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100"
+  }`;
 ---
 
 <!-- ========== HEADER ========== -->
-<header
-  class={`flex flex-wrap md:justify-start md:flex-nowrap ${currentUrl === "/" ? "bg-neutral-200" : "bg-white"} z-50 w-full text-sm dark:bg-neutral-800`}
->
-  <nav
-    class="my-4 relative max-w-screen-lg w-full bg-white border border-gray-200 rounded-[2rem] mx-2 py-2.5 md:flex md:items-center md:justify-between md:py-0 md:px-4 md:mx-auto dark:bg-neutral-900 dark:border-neutral-700"
-  >
-    <div class="px-4 md:px-0 flex justify-between items-center">
-      <!-- Logo -->
-      <div>
-        <a
-          class="flex-none rounded-md text-xl text-neutral-700 inline-block font-semibold focus:outline-none focus:opacity-80 dark:text-neutral-200"
-          href="/"
-          aria-label="Preline"
-        >
-          kastau.muzik
-        </a>
-      </div>
-      <!-- End Logo -->
+<header class="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white/90 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-900/90">
+  <nav class="mx-auto w-full max-w-[1440px] px-4 py-3 sm:px-6 lg:px-10 xl:px-12" aria-label="Navigasi utama">
+    <div class="flex h-11 items-center gap-3">
+      <a
+        class="shrink-0 rounded-md text-lg font-semibold text-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 md:text-xl dark:text-neutral-100"
+        href="/"
+        aria-label="KastauMuzik — kembali ke teras"
+      >
+        kastau<span class="text-orange-600">muzik</span>
+      </a>
 
-      <div class="md:hidden">
-        <!-- Toggle Button -->
-        <button
-          type="button"
-          class="hs-collapse-toggle flex justify-center items-center size-6 border border-gray-200 text-gray-500 rounded-full hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:border-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-          id="hs-navbar-header-floating-collapse"
-          aria-expanded="false"
-          aria-controls="hs-navbar-header-floating"
-          aria-label="Toggle navigation"
-          data-hs-collapse="#hs-navbar-header-floating"
-        >
-          <svg
-            class="hs-collapse-open:hidden shrink-0 size-3.5"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            ><line x1="3" x2="21" y1="6" y2="6"></line><line
-              x1="3"
-              x2="21"
-              y1="12"
-              y2="12"></line><line x1="3" x2="21" y1="18" y2="18"></line></svg
-          >
-          <svg
-            class="hs-collapse-open:block hidden shrink-0 size-4"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            ><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg
-          >
-        </button>
-        <!-- End Toggle Button -->
+      {
+        !isBrowsing && (
+          <form action="/jelajah/" method="get" role="search" class="relative ml-auto hidden min-w-0 max-w-md flex-1 md:block">
+            <svg class="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" />
+              <path d="m20 20-3.5-3.5" />
+            </svg>
+            <input
+              type="search"
+              name="q"
+              autocomplete="off"
+              placeholder="Cari lagu, artis, atau bahasa..."
+              aria-label="Cari di koleksi KastauMuzik"
+              class="h-10 w-full rounded-full border border-neutral-300 bg-neutral-100 py-2 pl-10 pr-4 text-sm text-neutral-800 outline-none transition placeholder:text-neutral-400 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/15 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 dark:focus:border-orange-500"
+            />
+          </form>
+        )
+      }
+
+      <div class={`hidden items-center gap-1 md:flex ${isBrowsing ? "ml-auto" : ""}`}>
+        {links.map((link) => <a href={link.href} class={linkClass(link.match)} aria-current={link.match ? "page" : undefined}>{link.label}</a>)}
       </div>
+
+      <button
+        type="button"
+        class="hs-collapse-toggle ml-auto flex size-9 items-center justify-center rounded-full border border-neutral-300 text-neutral-600 transition hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 md:hidden dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800"
+        id="hs-navbar-collapse-toggle"
+        aria-expanded="false"
+        aria-controls="hs-navbar-primary"
+        aria-label="Buka atau tutup menu"
+        data-hs-collapse="#hs-navbar-primary"
+      >
+        <svg class="hs-collapse-open:hidden size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" x2="21" y1="6" y2="6" /><line x1="3" x2="21" y1="12" y2="12" /><line x1="3" x2="21" y1="18" y2="18" /></svg>
+        <svg class="hs-collapse-open:block hidden size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+      </button>
     </div>
 
-    <div
-      id="hs-navbar-header-floating"
-      class="hidden hs-collapse overflow-hidden transition-all duration-300 basis-full grow md:block"
-      aria-labelledby="hs-navbar-header-floating-collapse"
-    >
-      <div
-        class="flex flex-col md:flex-row md:items-center md:justify-end gap-2 md:gap-3 mt-3 md:mt-0 py-2 md:py-0 md:ps-7"
-      >
-        <a
-          href="/"
-          class={`py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 focus:outline-none ${currentUrl === "/" ? "border-gray-800 font-medium text-gray-800 dark:border-neutral-200 dark:text-neutral-200" : "border-transparent text-gray-500 hover:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200"}`}
-          aria-current="page">Teras</a
-        >
-        <a
-          href="/tentang/"
-          class={`py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 focus:outline-none ${firstPath === "tentang" ? "border-gray-800 font-medium text-gray-800 dark:border-neutral-200 dark:text-neutral-200" : "border-transparent text-gray-500 hover:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200"}`}
-          >Tentang</a
-        >
-        <a
-          href="/pernyataan/"
-          class={`py-0.5 md:py-3 px-4 md:px-1 border-s-2 md:border-s-0 md:border-b-2 focus:outline-none ${firstPath === "pernyataan" ? "border-gray-800 font-medium text-gray-800 dark:border-neutral-200 dark:text-neutral-200" : "border-transparent text-gray-500 hover:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200"}`}
-          >Pernyataan</a
-        >
+    <div id="hs-navbar-primary" class="hs-collapse hidden basis-full overflow-hidden transition-all duration-300 md:hidden" aria-labelledby="hs-navbar-collapse-toggle">
+      {
+        !isBrowsing && (
+          <form action="/jelajah/" method="get" role="search" class="relative mt-3">
+            <svg class="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" />
+              <path d="m20 20-3.5-3.5" />
+            </svg>
+            <input
+              type="search"
+              name="q"
+              autocomplete="off"
+              placeholder="Cari lagu, artis, atau bahasa..."
+              aria-label="Cari di koleksi KastauMuzik"
+              class="h-10 w-full rounded-full border border-neutral-300 bg-neutral-100 py-2 pl-10 pr-4 text-sm text-neutral-800 outline-none transition placeholder:text-neutral-400 focus:border-orange-500 focus:bg-white dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
+            />
+          </form>
+        )
+      }
+      <div class="mt-2 flex flex-col gap-1 pb-2">
+        {links.map((link) => <a href={link.href} class={linkClass(link.match)} aria-current={link.match ? "page" : undefined}>{link.label}</a>)}
       </div>
     </div>
   </nav>
