@@ -1,153 +1,70 @@
-<div class="mx-auto bg-neutral-200 dark:bg-neutral-800">
-  <div
-    class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-lg md:px-24 lg:px-8 lg:py-16"
-  >
-    <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
+---
+import type { IndexedVideo } from "../types/index";
+
+interface Props {
+  featured: IndexedVideo;
+}
+
+const { featured } = Astro.props as Props;
+const href = `/koleksi/${featured.slug}/`;
+---
+
+<section class="border-b border-neutral-200 bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-800" aria-labelledby="hero-title">
+  <div class="mx-auto w-full max-w-[1440px] px-4 py-12 sm:px-6 lg:px-10 lg:py-16 xl:px-12">
+    <div class="grid items-center gap-8 lg:grid-cols-5">
       <div class="lg:col-span-3">
-        <div class="max-w-xl lg:-mt-16">
-          <div>
-            <span class="relative inline-block">
-              <svg
-                viewBox="0 0 52 24"
-                fill="currentColor"
-                class="absolute top-0 left-0 z-0 hidden w-32 text-neutral-700 -mt-8 -ml-20 lg:w-32 lg:-ml-28 lg:-mt-10 sm:block dark:text-neutral-200"
-              >
-                <defs>
-                  <pattern
-                    id="b039bae0-fdd5-4311-b198-8557b064fce0"
-                    x="0"
-                    y="0"
-                    width=".135"
-                    height=".30"
-                  >
-                    <circle cx="1" cy="1" r=".7"></circle>
-                  </pattern>
-                </defs>
-                <rect
-                  fill="url(#b039bae0-fdd5-4311-b198-8557b064fce0)"
-                  width="52"
-                  height="24"></rect>
-              </svg>
-            </span>
-            <p
-              class="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-white uppercase rounded-full bg-orange-600"
-            >
-              Lagu Daerah Papua
-            </p>
-          </div>
-          <h2
-            class="max-w-lg mb-6 text-3xl font-bold tracking-tight text-neutral-800 sm:text-4xl sm:leading-none dark:text-neutral-200"
-          >
-            Dengarkan Irama, <br />
-            Nikmati Alunan <span class="inline-block text-orange-600"
-              >Muzik</span
-            >
-          </h2>
-          <p
-            class="text-base text-neutral-700 md:text-lg dark:text-neutral-200"
-          >
-            Temukan kumpulan lagu-lagu daerah Papua, dari suku-suku di pesisir
-            pantai hingga yang bermukim di pegunungan tinggi. Tekan play dan
-            biarkan suaranya membawa kamu lebih dekat dengan alam dan tradisi.
-          </p>
+        <p class="inline-flex items-center gap-2 rounded-full bg-orange-600 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white">
+          <span class="size-1.5 rounded-full bg-white"></span>
+          Kurasi Lagu Daerah Papua
+        </p>
+        <h1 id="hero-title" class="mt-4 max-w-xl text-3xl font-bold leading-tight tracking-tight text-neutral-900 sm:text-4xl md:text-5xl dark:text-neutral-50">
+          Temukan suara Papua,<br />
+          <span class="text-orange-600 dark:text-orange-500">dari sumbernya.</span>
+        </h1>
+        <p class="mt-5 max-w-xl leading-relaxed text-neutral-700 md:text-lg dark:text-neutral-200">
+          Video lagu daerah Papua pilihan dari YouTube — disusun berdasarkan cerita, wilayah adat, bahasa, dan jenis lagu agar karya para musisi Papua lebih mudah ditemukan.
+        </p>
+        <div class="mt-7 flex flex-wrap items-center gap-3">
+          <a href="/jelajah/" class="inline-flex items-center gap-2 rounded-full bg-orange-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-orange-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 focus-visible:ring-offset-2">
+            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+            Cari &amp; jelajah
+          </a>
+          <a href="#pilihan-untuk-mulai" class="inline-flex items-center rounded-full border border-neutral-400 bg-white px-5 py-3 text-sm font-medium text-neutral-800 transition hover:border-neutral-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 dark:border-neutral-600 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:border-neutral-300">
+            Lihat semua rak
+          </a>
         </div>
       </div>
+
       <div class="lg:col-span-2">
-        <div
-          class="px-5 pt-6 pb-5 text-center border border-neutral-300 rounded dark:border-neutral-500"
+        <a
+          href={href}
+          class="group block overflow-hidden rounded-xl border border-neutral-300 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 focus-visible:ring-offset-2 dark:border-neutral-700 dark:bg-neutral-900"
+          aria-label={`Lihat detail pilihan kurator: ${featured.title}`}
         >
-          <img
-            id="hero-cover-art"
-            class="object-cover w-full h-72 rounded shadow-lg sm:h-80"
-            src="https://upload.wikimedia.org/wikipedia/en/f/f1/Tycho_-_Epoch.jpg"
-            alt="Album cover"
-          />
-        </div>
-      </div>
-      <div
-        id="music-info"
-        class="hidden lg:col-span-5 music-info items-center lg:-mt-40"
-      >
-        <button
-          id="hero-play-pause-button"
-          aria-label="Play Song"
-          class="flex items-center justify-center mr-3 w-10 h-10 text-white transition duration-300 transform rounded-full shadow-md bg-orange-600 hover:bg-orange-700 hover:scale-110"
-        >
-          <svg class="w-6" fill="currentColor" viewBox="0 0 24 24">
-            <path
-              d="M16.53,11.152l-8-5C8.221,5.958,7.833,5.949,7.515,6.125C7.197,6.302,7,6.636,7,7v10 c0,0.364,0.197,0.698,0.515,0.875C7.667,17.958,7.833,18,8,18c0.184,0,0.368-0.051,0.53-0.152l8-5C16.822,12.665,17,12.345,17,12 S16.822,11.335,16.53,11.152z"
-            ></path>
-          </svg>
-        </button>
-        <div class="flex flex-col gap-y-1">
-          <div
-            id="hero-playing-status"
-            class="hidden items-center gap-2 text-xs text-neutral-700 dark:text-neutral-300"
-          >
-            <span>Sedang diputar</span>
-            <span class="loader mb-1"></span>
+          <div class="relative aspect-video overflow-hidden bg-neutral-300 dark:bg-neutral-700">
+            <img
+              class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.04]"
+              src={`https://i.ytimg.com/vi/${featured.youtubeId}/hqdefault.jpg`}
+              alt={`Cuplikan ${featured.title}`}
+            />
+            <div class="absolute inset-0 bg-black/20 transition group-hover:bg-black/35"></div>
+            <span class="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-neutral-800">Pilihan kurator</span>
+            <span class="absolute inset-0 m-auto flex size-14 items-center justify-center rounded-full bg-orange-600 text-white shadow-lg transition group-hover:scale-110" aria-hidden="true">
+              <svg class="size-6" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.14v13.72L19 12 8 5.14z" /></svg>
+            </span>
           </div>
-          <div>
-            <p
-              id="hero-song-title"
-              class="text-base font-semibold dark:text-neutral-200"
-            >
-            </p>
-            <p
-              id="hero-song-artist"
-              class="text-sm text-neutral-700 dark:text-neutral-300"
-            >
-            </p>
+          <div class="flex items-center justify-between gap-3 p-4">
+            <div class="min-w-0">
+              <p class="truncate font-semibold text-neutral-800 dark:text-neutral-100">{featured.title}</p>
+              <p class="mt-0.5 truncate text-sm text-neutral-500 dark:text-neutral-400">{featured.artist} • {featured.languageGroup}</p>
+            </div>
+            <span class="inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold text-orange-700 dark:text-orange-400" aria-hidden="true">
+              Detail
+              <svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /><path d="m13 6 6 6-6 6" /></svg>
+            </span>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </div>
-</div>
-
-<style>
-  .loader {
-    width: 14px;
-    aspect-ratio: 1;
-    --c: no-repeat linear-gradient(#737373 0 0);
-    background:
-      var(--c) 0 100%,
-      var(--c) 33% 100%,
-      var(--c) 66% 100%,
-      var(--c) 100% 100%;
-    background-size: 16% 100%;
-    animation: rhythm 1.5s infinite ease-in-out;
-  }
-
-  @keyframes rhythm {
-    0%,
-    100% {
-      background-size:
-        16% 50%,
-        16% 100%,
-        16% 70%,
-        16% 90%;
-    }
-    25% {
-      background-size:
-        16% 100%,
-        16% 50%,
-        16% 100%,
-        16% 70%;
-    }
-    50% {
-      background-size:
-        16% 70%,
-        16% 100%,
-        16% 50%,
-        16% 100%;
-    }
-    75% {
-      background-size:
-        16% 90%,
-        16% 70%,
-        16% 100%,
-        16% 50%;
-    }
-  }
-</style>
+</section>
