@@ -17,7 +17,9 @@ const { title, description } = Astro.props;
   <head>
     <BaseHead title={title} description={description} />
   </head>
-  <body class="font-onest bg-white text-neutral-800 antialiased dark:bg-neutral-900 dark:text-neutral-100">
+  <body
+    class="font-onest bg-white text-neutral-800 antialiased dark:bg-neutral-900 dark:text-neutral-100"
+  >
     <Navbar />
     <main>
       <slot />

@@ -16,14 +16,18 @@ const href = `/jelajah/?${facetType}=${encodeURIComponent(facetValue)}`;
 
 <a
   href={href}
-  class="category-tile group relative flex aspect-[16/10] overflow-hidden rounded-lg p-3.5 transition duration-200 hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-white sm:p-4 dark:focus-visible:ring-offset-neutral-900"
+  class="category-tile group relative flex aspect-16/10 overflow-hidden rounded-lg p-3.5 transition duration-200 hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-white sm:p-4 dark:focus-visible:ring-offset-neutral-900"
   style={`background-color: ${tileColor(facetValue)}`}
   data-category-tile
   data-facet-type={facetType}
   data-facet-value={facetValue}
 >
   <div class="relative z-10 min-w-0 pr-10">
-    <p class="text-sm font-bold leading-tight text-white sm:text-base md:text-lg">{label}</p>
+    <p
+      class="text-sm font-bold leading-tight text-white sm:text-base md:text-lg"
+    >
+      {label}
+    </p>
     <p class="mt-1 text-[11px] text-white/70">{count} pilihan</p>
   </div>
 
@@ -32,6 +36,6 @@ const href = `/jelajah/?${facetType}=${encodeURIComponent(facetValue)}`;
     alt=""
     aria-hidden="true"
     loading="lazy"
-    class="pointer-events-none absolute -bottom-2 -right-3 h-16 w-16 rotate-[25deg] rounded-sm object-cover shadow-lg shadow-black/40 transition duration-300 group-hover:rotate-[18deg] group-hover:scale-105 sm:h-[4.5rem] sm:w-[4.5rem]"
+    class="pointer-events-none absolute -bottom-2 -right-3 h-16 w-16 rotate-25 rounded-sm object-cover shadow-lg shadow-black/40 transition duration-300 group-hover:rotate-18 group-hover:scale-105 sm:h-18 sm:w-18"
   />
 </a>

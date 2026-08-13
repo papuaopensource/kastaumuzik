@@ -17,7 +17,8 @@ const tileSections = [
   {
     id: "rak",
     title: "Rak kurasi",
-    description: "Lima susunan yang dipakai di teras, dibuka penuh sebagai daftar.",
+    description:
+      "Lima susunan yang dipakai di teras, dibuka penuh sebagai daftar.",
     facetType: "rak",
     facets: collectionFacets.map((facet) => ({
       name: facet.name,
@@ -28,7 +29,8 @@ const tileSections = [
   {
     id: "bahasa",
     title: "Bahasa lagu",
-    description: "Bahasa yang dipakai dalam rekaman. Yang belum jelas ditulis apa adanya, bukan ditebak.",
+    description:
+      "Bahasa yang dipakai dalam rekaman. Yang belum jelas ditulis apa adanya, bukan ditebak.",
     facetType: "bahasa",
     facets: languageFacets.map((facet) => ({
       ...facet,
@@ -38,7 +40,8 @@ const tileSections = [
   {
     id: "jenis",
     title: "Jenis lagu",
-    description: "Dari lagu daerah dan lagu tarian sampai paduan suara, lagu rohani, dan rekaman arsip.",
+    description:
+      "Dari lagu daerah dan lagu tarian sampai paduan suara, lagu rohani, dan rekaman arsip.",
     facetType: "genre",
     facets: genreFacets.map((facet) => ({
       ...facet,
@@ -74,10 +77,21 @@ const resultGroups = collections.map((collection) => ({
   description="Cari lagu Papua berdasarkan judul, artis, kanal, atau bahasa — atau telusuri lewat kategori bahasa, bentuk musik, dan wilayah adat."
 >
   <div class="min-h-screen bg-white dark:bg-neutral-900">
-    <div class="sticky top-[69px] z-40 border-b border-neutral-200 bg-white/95 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-900/95">
-      <div class="mx-auto w-full max-w-[1440px] px-4 py-3 sm:px-6 lg:px-10 xl:px-12">
+    <div
+      class="sticky top-17.25 z-40 border-b border-neutral-200 bg-white/95 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-900/95"
+    >
+      <div class="mx-auto w-full max-w-360 px-4 py-3 sm:px-6 lg:px-10 xl:px-12">
         <form id="explore-form" role="search" class="relative">
-          <svg class="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg
+            class="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-neutral-400"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
             <circle cx="11" cy="11" r="7"></circle>
             <path d="m20 20-3.5-3.5"></path>
           </svg>
@@ -90,13 +104,24 @@ const resultGroups = collections.map((collection) => ({
             aria-label="Cari di koleksi kastaumuzik"
             class="h-12 w-full rounded-full border border-neutral-300 bg-neutral-100 py-2 pl-12 pr-16 text-sm text-neutral-800 outline-none transition placeholder:text-neutral-400 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/15 md:text-base dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 dark:focus:border-orange-500 dark:focus:bg-neutral-800"
           />
-          <kbd class="pointer-events-none absolute right-5 top-1/2 hidden -translate-y-1/2 rounded-sm border border-neutral-300 bg-white px-2 py-0.5 text-[10px] text-neutral-400 sm:block dark:border-neutral-600 dark:bg-neutral-900">/</kbd>
+          <kbd
+            class="pointer-events-none absolute right-5 top-1/2 hidden -translate-y-1/2 rounded-sm border border-neutral-300 bg-white px-2 py-0.5 text-[10px] text-neutral-400 sm:block dark:border-neutral-600 dark:bg-neutral-900"
+            >/</kbd
+          >
         </form>
 
-        <div class="mt-3 flex items-center gap-2 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="Saring cara mendengar">
+        <div
+          class="mt-3 flex items-center gap-2 overflow-x-auto pb-0.5 scrollbar-none [&::-webkit-scrollbar]:hidden"
+          aria-label="Saring cara mendengar"
+        >
           {
             modeOptions.map((mode) => (
-              <button type="button" class="filter-chip shrink-0" data-mode-filter={mode.id} data-active={mode.id === "all" ? "true" : "false"}>
+              <button
+                type="button"
+                class="filter-chip shrink-0"
+                data-mode-filter={mode.id}
+                data-active={mode.id === "all" ? "true" : "false"}
+              >
                 {mode.label} <span>{mode.count}</span>
               </button>
             ))
@@ -105,19 +130,51 @@ const resultGroups = collections.map((collection) => ({
       </div>
     </div>
 
-    <main class="mx-auto w-full max-w-[1440px] px-4 py-8 sm:px-6 lg:px-10 lg:py-10 xl:px-12">
+    <main
+      class="mx-auto w-full max-w-360 px-4 py-8 sm:px-6 lg:px-10 lg:py-10 xl:px-12"
+    >
       <!-- Results: shown as soon as a query, category, or mode filter is active -->
-      <section id="explore-results" class="hidden" aria-labelledby="explore-results-title" aria-live="polite">
+      <section
+        id="explore-results"
+        class="hidden"
+        aria-labelledby="explore-results-title"
+        aria-live="polite"
+      >
         <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p class="text-[11px] font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-400">Hasil</p>
-            <h1 id="explore-results-title" class="mt-1 text-xl font-semibold text-neutral-800 md:text-2xl dark:text-neutral-100">
+            <p
+              class="text-[11px] font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-400"
+            >
+              Hasil
+            </p>
+            <h1
+              id="explore-results-title"
+              class="mt-1 text-xl font-semibold text-neutral-800 md:text-2xl dark:text-neutral-100"
+            >
               <span id="explore-results-count">{videoCount}</span> pilihan ditemukan
             </h1>
-            <div id="explore-active-facets" class="mt-2 flex flex-wrap items-center gap-2"></div>
+            <div
+              id="explore-active-facets"
+              class="mt-2 flex flex-wrap items-center gap-2"
+            >
+            </div>
           </div>
-          <button id="explore-reset" type="button" class="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 px-3.5 py-2 text-xs font-medium text-neutral-600 transition hover:border-neutral-500 hover:text-neutral-900 dark:border-neutral-600 dark:text-neutral-300 dark:hover:border-neutral-400 dark:hover:text-neutral-100">
-            <svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+          <button
+            id="explore-reset"
+            type="button"
+            class="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 px-3.5 py-2 text-xs font-medium text-neutral-600 transition hover:border-neutral-500 hover:text-neutral-900 dark:border-neutral-600 dark:text-neutral-300 dark:hover:border-neutral-400 dark:hover:text-neutral-100"
+          >
+            <svg
+              class="size-3.5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              ><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg
+            >
             Bersihkan
           </button>
         </div>
@@ -127,44 +184,98 @@ const resultGroups = collections.map((collection) => ({
             resultGroups.map((group) => (
               <section data-result-group aria-labelledby={`hasil-${group.id}`}>
                 <div class="mb-3 border-b border-neutral-200 pb-2 dark:border-neutral-800">
-                  <p class="text-[11px] font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-400">{group.eyebrow}</p>
-                  <h2 id={`hasil-${group.id}`} class="mt-0.5 text-base font-semibold text-neutral-800 dark:text-neutral-100">
-                    {group.title} <span class="font-normal text-neutral-400" data-group-count>({group.videos.length})</span>
+                  <p class="text-[11px] font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-400">
+                    {group.eyebrow}
+                  </p>
+                  <h2
+                    id={`hasil-${group.id}`}
+                    class="mt-0.5 text-base font-semibold text-neutral-800 dark:text-neutral-100"
+                  >
+                    {group.title}{" "}
+                    <span class="font-normal text-neutral-400" data-group-count>
+                      ({group.videos.length})
+                    </span>
                   </h2>
                 </div>
                 <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-4 lg:grid-cols-5 xl:grid-cols-6">
-                  {group.videos.map((video) => <VideoCard video={video} variant="grid" />)}
+                  {group.videos.map((video) => (
+                    <VideoCard video={video} variant="grid" />
+                  ))}
                 </div>
               </section>
             ))
           }
         </div>
 
-        <div id="explore-empty" class="hidden rounded-xl border border-dashed border-neutral-300 px-6 py-14 text-center dark:border-neutral-700">
-          <span class="mx-auto flex size-11 items-center justify-center rounded-full bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400" aria-hidden="true">
-            <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+        <div
+          id="explore-empty"
+          class="hidden rounded-xl border border-dashed border-neutral-300 px-6 py-14 text-center dark:border-neutral-700"
+        >
+          <span
+            class="mx-auto flex size-11 items-center justify-center rounded-full bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400"
+            aria-hidden="true"
+          >
+            <svg
+              class="size-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"
+              ></path></svg
+            >
           </span>
-          <h2 class="mt-4 font-semibold text-neutral-800 dark:text-neutral-100">Belum ada pilihan yang cocok</h2>
-          <p class="mt-1 text-sm text-neutral-500 dark:text-neutral-400">Coba kata kunci lain, atau lepaskan salah satu saringan.</p>
-          <button id="explore-empty-reset" type="button" class="mt-4 rounded-full bg-neutral-800 px-4 py-2 text-xs font-semibold text-white transition hover:bg-neutral-700 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-white">Telusuri semua</button>
+          <h2 class="mt-4 font-semibold text-neutral-800 dark:text-neutral-100">
+            Belum ada pilihan yang cocok
+          </h2>
+          <p class="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+            Coba kata kunci lain, atau lepaskan salah satu saringan.
+          </p>
+          <button
+            id="explore-empty-reset"
+            type="button"
+            class="mt-4 rounded-full bg-neutral-800 px-4 py-2 text-xs font-semibold text-white transition hover:bg-neutral-700 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-white"
+            >Telusuri semua</button
+          >
         </div>
       </section>
 
       <!-- Browse all: shown when nothing is being filtered -->
       <div id="explore-browse">
         <div class="mb-8 max-w-2xl">
-          <p class="text-xs font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-400">Jelajah</p>
-          <h1 class="mt-2 text-2xl font-bold tracking-tight text-neutral-800 md:text-3xl dark:text-neutral-100">Telusuri semua</h1>
-          <p class="mt-2 leading-relaxed text-neutral-600 dark:text-neutral-300">
-            {videoCount} pilihan yang bisa dibuka lewat bahasa, bentuk musik, atau wilayah adat. Ketik di kolom pencarian untuk langsung mencari judul, artis, dan kanal sumber.
+          <p
+            class="text-xs font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-400"
+          >
+            Jelajah
+          </p>
+          <h1
+            class="mt-2 text-2xl font-bold tracking-tight text-neutral-800 md:text-3xl dark:text-neutral-100"
+          >
+            Telusuri semua
+          </h1>
+          <p
+            class="mt-2 leading-relaxed text-neutral-600 dark:text-neutral-300"
+          >
+            {videoCount} pilihan yang bisa dibuka lewat bahasa, bentuk musik, atau
+            wilayah adat. Ketik di kolom pencarian untuk langsung mencari judul, artis,
+            dan kanal sumber.
           </p>
         </div>
 
         {
           tileSections.map((section) => (
             <section class="mb-10" aria-labelledby={`${section.id}-title`}>
-              <h2 id={`${section.id}-title`} class="text-lg font-semibold text-neutral-800 md:text-xl dark:text-neutral-100">{section.title}</h2>
-              <p class="mt-1 max-w-2xl text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">{section.description}</p>
+              <h2
+                id={`${section.id}-title`}
+                class="text-lg font-semibold text-neutral-800 md:text-xl dark:text-neutral-100"
+              >
+                {section.title}
+              </h2>
+              <p class="mt-1 max-w-2xl text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
+                {section.description}
+              </p>
               <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-4 lg:grid-cols-4 xl:grid-cols-5">
                 {section.facets.map((facet) => (
                   <CategoryTile
@@ -202,19 +313,37 @@ const resultGroups = collections.map((collection) => ({
     wilayah: "region",
   };
 
-  const searchInput = document.getElementById("explore-search") as HTMLInputElement;
+  const searchInput = document.getElementById(
+    "explore-search",
+  ) as HTMLInputElement;
   const searchForm = document.getElementById("explore-form") as HTMLFormElement;
   const results = document.getElementById("explore-results") as HTMLElement;
   const browse = document.getElementById("explore-browse") as HTMLElement;
-  const resultCount = document.getElementById("explore-results-count") as HTMLElement;
-  const activeFacetBar = document.getElementById("explore-active-facets") as HTMLElement;
+  const resultCount = document.getElementById(
+    "explore-results-count",
+  ) as HTMLElement;
+  const activeFacetBar = document.getElementById(
+    "explore-active-facets",
+  ) as HTMLElement;
   const emptyState = document.getElementById("explore-empty") as HTMLElement;
-  const resetButton = document.getElementById("explore-reset") as HTMLButtonElement;
-  const emptyReset = document.getElementById("explore-empty-reset") as HTMLButtonElement;
-  const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-video-card]"));
-  const modeButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-mode-filter]"));
-  const resultGroupsWrapper = document.getElementById("explore-result-groups") as HTMLElement;
-  const resultGroups = Array.from(document.querySelectorAll<HTMLElement>("[data-result-group]"));
+  const resetButton = document.getElementById(
+    "explore-reset",
+  ) as HTMLButtonElement;
+  const emptyReset = document.getElementById(
+    "explore-empty-reset",
+  ) as HTMLButtonElement;
+  const cards = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-video-card]"),
+  );
+  const modeButtons = Array.from(
+    document.querySelectorAll<HTMLButtonElement>("[data-mode-filter]"),
+  );
+  const resultGroupsWrapper = document.getElementById(
+    "explore-result-groups",
+  ) as HTMLElement;
+  const resultGroups = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-result-group]"),
+  );
 
   const activeFacets = new Map<FacetKey, string>();
   let activeMode = "all";
@@ -226,7 +355,8 @@ const resultGroups = collections.map((collection) => ({
       .replace(/[\u0300-\u036f]/g, "")
       .trim();
 
-  const setHidden = (element: HTMLElement, hidden: boolean) => element.classList.toggle("hidden", hidden);
+  const setHidden = (element: HTMLElement, hidden: boolean) =>
+    element.classList.toggle("hidden", hidden);
 
   const matchesFacet = (card: HTMLElement, key: FacetKey, value: string) => {
     const raw = card.dataset[cardAttribute[key] as keyof DOMStringMap] ?? "";
@@ -251,7 +381,11 @@ const resultGroups = collections.map((collection) => ({
     if (activeMode !== "all") params.set("mode", activeMode);
 
     const query = params.toString();
-    window.history.replaceState(null, "", query ? `?${query}` : window.location.pathname);
+    window.history.replaceState(
+      null,
+      "",
+      query ? `?${query}` : window.location.pathname,
+    );
   };
 
   const renderActiveFacets = () => {
@@ -263,7 +397,10 @@ const resultGroups = collections.map((collection) => ({
       chip.className =
         "inline-flex items-center gap-1.5 rounded-full bg-neutral-800 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-neutral-700 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-white";
       chip.innerHTML = `<span>${facetLabels[key]}: ${value}</span><svg class="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`;
-      chip.setAttribute("aria-label", `Lepaskan saringan ${facetLabels[key]}: ${value}`);
+      chip.setAttribute(
+        "aria-label",
+        `Lepaskan saringan ${facetLabels[key]}: ${value}`,
+      );
       chip.addEventListener("click", () => {
         activeFacets.delete(key);
         apply();
@@ -274,13 +411,15 @@ const resultGroups = collections.map((collection) => ({
 
   const syncModeButtons = () => {
     modeButtons.forEach((button) => {
-      button.dataset.active = button.dataset.modeFilter === activeMode ? "true" : "false";
+      button.dataset.active =
+        button.dataset.modeFilter === activeMode ? "true" : "false";
     });
   };
 
   const apply = ({ pushUrl = true } = {}) => {
     const query = normalise(searchInput.value);
-    const isSearching = Boolean(query) || activeFacets.size > 0 || activeMode !== "all";
+    const isSearching =
+      Boolean(query) || activeFacets.size > 0 || activeMode !== "all";
 
     setHidden(browse, isSearching);
     setHidden(results, !isSearching);
@@ -289,9 +428,14 @@ const resultGroups = collections.map((collection) => ({
       let visible = 0;
 
       cards.forEach((card) => {
-        const matchesQuery = !query || (card.dataset.search ?? "").includes(query);
-        const matchesMode = activeMode === "all" || (card.dataset.modes ?? "").split("|").includes(activeMode);
-        const matchesEveryFacet = [...activeFacets.entries()].every(([key, value]) => matchesFacet(card, key, value));
+        const matchesQuery =
+          !query || (card.dataset.search ?? "").includes(query);
+        const matchesMode =
+          activeMode === "all" ||
+          (card.dataset.modes ?? "").split("|").includes(activeMode);
+        const matchesEveryFacet = [...activeFacets.entries()].every(
+          ([key, value]) => matchesFacet(card, key, value),
+        );
         const isVisible = matchesQuery && matchesMode && matchesEveryFacet;
 
         card.hidden = !isVisible;
@@ -300,9 +444,9 @@ const resultGroups = collections.map((collection) => ({
 
       // Hide any shelf left with no visible cards.
       resultGroups.forEach((group) => {
-        const groupVisible = Array.from(group.querySelectorAll<HTMLElement>("[data-video-card]")).filter(
-          (card) => !card.hidden,
-        ).length;
+        const groupVisible = Array.from(
+          group.querySelectorAll<HTMLElement>("[data-video-card]"),
+        ).filter((card) => !card.hidden).length;
 
         const counter = group.querySelector<HTMLElement>("[data-group-count]");
         if (counter) counter.textContent = `(${groupVisible})`;
@@ -334,28 +478,37 @@ const resultGroups = collections.map((collection) => ({
 
   modeButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      activeMode = button.dataset.modeFilter === activeMode ? "all" : (button.dataset.modeFilter ?? "all");
+      activeMode =
+        button.dataset.modeFilter === activeMode
+          ? "all"
+          : (button.dataset.modeFilter ?? "all");
       apply();
     });
   });
 
   // Tiles stay real links so they can be shared; with JS they filter in place instead.
-  document.querySelectorAll<HTMLAnchorElement>("[data-category-tile]").forEach((tile) => {
-    tile.addEventListener("click", (event) => {
-      event.preventDefault();
-      const key = tile.dataset.facetType as FacetKey;
-      const value = tile.dataset.facetValue ?? "";
-      if (!key || !value) return;
+  document
+    .querySelectorAll<HTMLAnchorElement>("[data-category-tile]")
+    .forEach((tile) => {
+      tile.addEventListener("click", (event) => {
+        event.preventDefault();
+        const key = tile.dataset.facetType as FacetKey;
+        const value = tile.dataset.facetValue ?? "";
+        if (!key || !value) return;
 
-      activeFacets.set(key, value);
-      apply();
-      window.scrollTo({ top: 0, behavior: "smooth" });
+        activeFacets.set(key, value);
+        apply();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
     });
-  });
 
   document.addEventListener("keydown", (event) => {
     const tag = document.activeElement?.tagName;
-    if (event.key === "/" && document.activeElement !== searchInput && !["INPUT", "TEXTAREA", "SELECT"].includes(tag ?? "")) {
+    if (
+      event.key === "/" &&
+      document.activeElement !== searchInput &&
+      !["INPUT", "TEXTAREA", "SELECT"].includes(tag ?? "")
+    ) {
       event.preventDefault();
       searchInput.focus();
     }
@@ -388,7 +541,10 @@ const resultGroups = collections.map((collection) => ({
     font-size: 0.7rem;
     line-height: 1rem;
     font-weight: 500;
-    transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease;
+    transition:
+      border-color 150ms ease,
+      background-color 150ms ease,
+      color 150ms ease;
   }
 
   .filter-chip span {
@@ -432,5 +588,4 @@ const resultGroups = collections.map((collection) => ({
   [data-theme="dark"] .filter-chip[data-active="true"] span {
     color: rgb(82 82 82);
   }
-
 </style>

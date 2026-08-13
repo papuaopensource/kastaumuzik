@@ -5,9 +5,17 @@ const isBrowsing = firstPath === "jelajah";
 
 const links = [
   { href: "/", label: "Teras", match: currentUrl === "/" },
-  { href: "/jelajah/", label: "Jelajah", match: isBrowsing || firstPath === "koleksi" },
+  {
+    href: "/jelajah/",
+    label: "Jelajah",
+    match: isBrowsing || firstPath === "koleksi",
+  },
   { href: "/tentang/", label: "Tentang", match: firstPath === "tentang" },
-  { href: "/pernyataan/", label: "Hak & Koreksi", match: firstPath === "pernyataan" },
+  {
+    href: "/pernyataan/",
+    label: "Hak & Koreksi",
+    match: firstPath === "pernyataan",
+  },
 ];
 
 const linkClass = (active: boolean) =>
@@ -19,9 +27,11 @@ const linkClass = (active: boolean) =>
 ---
 
 <!-- ========== HEADER ========== -->
-<header class="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white/90 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-900/90">
+<header
+  class="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white/90 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-900/90"
+>
   <nav
-    class="mx-auto w-full max-w-[1440px] px-4 py-3 sm:px-6 lg:px-10 xl:px-12"
+    class="mx-auto w-full max-w-360 px-4 py-3 sm:px-6 lg:px-10 xl:px-12"
     aria-label="Navigasi utama"
     x-data="{ open: false }"
     @keydown.escape.window="open = false"
@@ -34,16 +44,39 @@ const linkClass = (active: boolean) =>
         aria-label="kastaumuzik — kembali ke teras"
       >
         <!-- The note in the mark is near-white, so it sits on a dark chip to stay visible in light mode -->
-        <span class="flex size-8 shrink-0 items-center justify-center rounded-md bg-neutral-900 p-1 dark:bg-neutral-800">
-          <img src="/logo-kastaumuzik.png" alt="" aria-hidden="true" width="32" height="32" class="size-full object-contain" />
+        <span
+          class="flex size-8 shrink-0 items-center justify-center rounded-md bg-neutral-900 p-1 dark:bg-neutral-800"
+        >
+          <img
+            src="/logo-kastaumuzik.png"
+            alt=""
+            aria-hidden="true"
+            width="32"
+            height="32"
+            class="size-full object-contain"
+          />
         </span>
         <span>kastau<span class="text-orange-600">muzik</span></span>
       </a>
 
       {
         !isBrowsing && (
-          <form action="/jelajah/" method="get" role="search" class="relative ml-auto hidden min-w-0 max-w-md flex-1 md:block">
-            <svg class="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <form
+            action="/jelajah/"
+            method="get"
+            role="search"
+            class="relative ml-auto hidden min-w-0 max-w-md flex-1 md:block"
+          >
+            <svg
+              class="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-neutral-400"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
               <circle cx="11" cy="11" r="7" />
               <path d="m20 20-3.5-3.5" />
             </svg>
@@ -59,8 +92,20 @@ const linkClass = (active: boolean) =>
         )
       }
 
-      <div class={`hidden items-center gap-1 md:flex ${isBrowsing ? "ml-auto" : ""}`}>
-        {links.map((link) => <a href={link.href} class={linkClass(link.match)} aria-current={link.match ? "page" : undefined}>{link.label}</a>)}
+      <div
+        class={`hidden items-center gap-1 md:flex ${isBrowsing ? "ml-auto" : ""}`}
+      >
+        {
+          links.map((link) => (
+            <a
+              href={link.href}
+              class={linkClass(link.match)}
+              aria-current={link.match ? "page" : undefined}
+            >
+              {link.label}
+            </a>
+          ))
+        }
       </div>
 
       <button
@@ -72,8 +117,34 @@ const linkClass = (active: boolean) =>
         @click="open = !open"
         :aria-expanded="open ? 'true' : 'false'"
       >
-        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" x-show="!open"><line x1="3" x2="21" y1="6" y2="6" /><line x1="3" x2="21" y1="12" y2="12" /><line x1="3" x2="21" y1="18" y2="18" /></svg>
-        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" x-show="open" x-cloak><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+        <svg
+          class="size-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          x-show="!open"
+          ><line x1="3" x2="21" y1="6" y2="6"></line><line
+            x1="3"
+            x2="21"
+            y1="12"
+            y2="12"></line><line x1="3" x2="21" y1="18" y2="18"></line></svg
+        >
+        <svg
+          class="size-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          x-show="open"
+          x-cloak><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg
+        >
       </button>
     </div>
 
@@ -92,8 +163,22 @@ const linkClass = (active: boolean) =>
     >
       {
         !isBrowsing && (
-          <form action="/jelajah/" method="get" role="search" class="relative mt-3">
-            <svg class="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <form
+            action="/jelajah/"
+            method="get"
+            role="search"
+            class="relative mt-3"
+          >
+            <svg
+              class="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-neutral-400"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
               <circle cx="11" cy="11" r="7" />
               <path d="m20 20-3.5-3.5" />
             </svg>
@@ -109,7 +194,18 @@ const linkClass = (active: boolean) =>
         )
       }
       <div class="mt-2 flex flex-col gap-1 pb-2">
-        {links.map((link) => <a href={link.href} class={linkClass(link.match)} aria-current={link.match ? "page" : undefined} @click="open = false">{link.label}</a>)}
+        {
+          links.map((link) => (
+            <a
+              href={link.href}
+              class={linkClass(link.match)}
+              aria-current={link.match ? "page" : undefined}
+              @click="open = false"
+            >
+              {link.label}
+            </a>
+          ))
+        }
       </div>
     </div>
   </nav>

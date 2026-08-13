@@ -28,12 +28,31 @@ const {
 const Heading = headingLevel;
 ---
 
-<section class="music-shelf scroll-mt-36" id={id} aria-labelledby={`${id}-title`} data-shelf>
+<section
+  class="music-shelf scroll-mt-36"
+  id={id}
+  aria-labelledby={`${id}-title`}
+  data-shelf
+>
   <div class="mb-4 flex items-end justify-between gap-4">
     <div class="min-w-0 max-w-2xl">
-      <p class="mb-1 text-[11px] font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-400">{eyebrow}</p>
-      <Heading id={`${id}-title`} class="text-lg font-semibold text-neutral-800 md:text-xl dark:text-neutral-100">{title}</Heading>
-      {description && <p class="mt-1 max-w-xl text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">{description}</p>}
+      <p
+        class="mb-1 text-[11px] font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-400"
+      >
+        {eyebrow}
+      </p>
+      <Heading
+        id={`${id}-title`}
+        class="text-lg font-semibold text-neutral-800 md:text-xl dark:text-neutral-100"
+        >{title}</Heading
+      >
+      {
+        description && (
+          <p class="mt-1 max-w-xl text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
+            {description}
+          </p>
+        )
+      }
     </div>
 
     <div class="flex shrink-0 items-center gap-2">
@@ -47,18 +66,46 @@ const Heading = headingLevel;
           </a>
         )
       }
-      <button type="button" data-shelf-prev class="flex size-8 items-center justify-center rounded-full border border-neutral-300 text-neutral-600 transition hover:border-neutral-500 hover:bg-neutral-100 disabled:cursor-default disabled:opacity-30 dark:border-neutral-600 dark:text-neutral-300 dark:hover:border-neutral-400 dark:hover:bg-neutral-800" aria-label={`Geser ${title} ke kiri`}>
-        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+      <button
+        type="button"
+        data-shelf-prev
+        class="flex size-8 items-center justify-center rounded-full border border-neutral-300 text-neutral-600 transition hover:border-neutral-500 hover:bg-neutral-100 disabled:cursor-default disabled:opacity-30 dark:border-neutral-600 dark:text-neutral-300 dark:hover:border-neutral-400 dark:hover:bg-neutral-800"
+        aria-label={`Geser ${title} ke kiri`}
+      >
+        <svg
+          class="size-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg
+        >
       </button>
-      <button type="button" data-shelf-next class="flex size-8 items-center justify-center rounded-full border border-neutral-300 text-neutral-600 transition hover:border-neutral-500 hover:bg-neutral-100 disabled:cursor-default disabled:opacity-30 dark:border-neutral-600 dark:text-neutral-300 dark:hover:border-neutral-400 dark:hover:bg-neutral-800" aria-label={`Geser ${title} ke kanan`}>
-        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+      <button
+        type="button"
+        data-shelf-next
+        class="flex size-8 items-center justify-center rounded-full border border-neutral-300 text-neutral-600 transition hover:border-neutral-500 hover:bg-neutral-100 disabled:cursor-default disabled:opacity-30 dark:border-neutral-600 dark:text-neutral-300 dark:hover:border-neutral-400 dark:hover:bg-neutral-800"
+        aria-label={`Geser ${title} ke kanan`}
+      >
+        <svg
+          class="size-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg
+        >
       </button>
     </div>
   </div>
 
   <div
     data-shelf-track
-    class="-mx-4 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto scroll-smooth px-4 pb-2 sm:-mx-6 sm:px-6 lg:-mx-10 lg:px-10 xl:-mx-12 xl:px-12 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+    class="-mx-4 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto scroll-smooth px-4 pb-2 sm:-mx-6 sm:px-6 lg:-mx-10 lg:px-10 xl:-mx-12 xl:px-12 scrollbar-none [&::-webkit-scrollbar]:hidden"
     tabindex="0"
     role="group"
     aria-label={`Daftar pilihan pada rak ${title}`}
@@ -68,7 +115,10 @@ const Heading = headingLevel;
 
   {
     moreHref && (
-      <a href={moreHref} class="mt-2 inline-block text-xs font-semibold text-neutral-600 underline decoration-orange-600 underline-offset-4 sm:hidden dark:text-neutral-300">
+      <a
+        href={moreHref}
+        class="mt-2 inline-block text-xs font-semibold text-neutral-600 underline decoration-orange-600 underline-offset-4 sm:hidden dark:text-neutral-300"
+      >
         {moreLabel}
       </a>
     )
@@ -80,7 +130,8 @@ const Heading = headingLevel;
 
   const setupShelf = (shelf: HTMLElement) => {
     const track = shelf.querySelector<HTMLElement>("[data-shelf-track]");
-    const previous = shelf.querySelector<HTMLButtonElement>("[data-shelf-prev]");
+    const previous =
+      shelf.querySelector<HTMLButtonElement>("[data-shelf-prev]");
     const next = shelf.querySelector<HTMLButtonElement>("[data-shelf-next]");
     if (!track || !previous || !next) return;
 
@@ -89,13 +140,18 @@ const Heading = headingLevel;
       const overflows = maxScroll > EDGE_TOLERANCE;
 
       previous.disabled = !overflows || track.scrollLeft <= EDGE_TOLERANCE;
-      next.disabled = !overflows || track.scrollLeft >= maxScroll - EDGE_TOLERANCE;
+      next.disabled =
+        !overflows || track.scrollLeft >= maxScroll - EDGE_TOLERANCE;
     };
 
     const step = () => Math.max(track.clientWidth * 0.8, 200);
 
-    previous.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: "smooth" }));
-    next.addEventListener("click", () => track.scrollBy({ left: step(), behavior: "smooth" }));
+    previous.addEventListener("click", () =>
+      track.scrollBy({ left: -step(), behavior: "smooth" }),
+    );
+    next.addEventListener("click", () =>
+      track.scrollBy({ left: step(), behavior: "smooth" }),
+    );
     track.addEventListener("scroll", syncButtons, { passive: true });
 
     new ResizeObserver(syncButtons).observe(track);

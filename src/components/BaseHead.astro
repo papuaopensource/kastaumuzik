@@ -9,7 +9,10 @@ const { title, description, image } = Astro.props;
 
 // Share image. Pages can override it; otherwise every page gets the site card.
 // Resolved against the configured site so the URL is absolute, as OG requires.
-const socialImage = new URL(image ?? "/og-preview.jpg", Astro.site ?? Astro.url);
+const socialImage = new URL(
+  image ?? "/og-preview.jpg",
+  Astro.site ?? Astro.url,
+);
 ---
 
 <meta charset="UTF-8" />
@@ -56,7 +59,10 @@ const socialImage = new URL(image ?? "/og-preview.jpg", Astro.site ?? Astro.url)
 <meta property="twitter:title" content={`${title} - kastaumuzik`} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={socialImage} />
-<meta property="twitter:image:alt" content="kastaumuzik — arsip lagu daerah Papua" />
+<meta
+  property="twitter:image:alt"
+  content="kastaumuzik — arsip lagu daerah Papua"
+/>
 
 <!-- Onest Font from Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
