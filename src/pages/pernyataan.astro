@@ -3,42 +3,42 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout
-  title="Pernyataan"
-  description="Pernyataan resmi dari KastauMuzik.com mengenai penggunaan situs, hak cipta, dan disclaimer. Kami menyediakan informasi untuk melestarikan lagu daerah Papua dan tidak bertanggung jawab atas kerugian yang mungkin timbul dari penggunaan informasi yang ada di situs kami."
+  title="Sumber & Hak"
+  description="Penjelasan sumber video, hak cipta, proses koreksi, dan penggunaan tautan YouTube di KastauMuzik."
 >
-  <!-- Disclaimer -->
-  <div class="max-w-screen-lg px-4 pt-6 lg:pt-10 pb-12 sm:px-6 lg:px-8 mx-auto">
-    <!-- Content -->
-    <div class="space-y-5 md:space-y-8">
-      <div class="space-y-3">
-        <h3 class="text-2xl font-semibold dark:text-white">Pernyataan</h3>
+  <div class="mx-auto w-full max-w-[1440px] px-4 pb-14 pt-6 sm:px-6 lg:px-10 lg:pt-10 xl:px-12">
+    <div class="mx-auto max-w-3xl space-y-8">
+      <header>
+        <p class="text-xs font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-400">Transparansi</p>
+        <h1 class="mt-2 text-2xl font-semibold text-neutral-800 md:text-3xl dark:text-white">Sumber, kredit, dan hak karya</h1>
+        <p class="mt-4 text-base leading-relaxed text-neutral-700 dark:text-neutral-200">Kami ingin membantu karya ditemukan tanpa mengambil kepemilikannya dari artis, pencipta, label, komunitas, atau kanal sumber.</p>
+      </header>
 
-        <p class="text-neutral-800 dark:text-neutral-200">
-          Semua informasi di situs KastauMuzik.com dipublikasikan dengan itikad
-          baik dan hanya untuk tujuan informasi umum, sebagai bagian dari upaya
-          menyelamatkan dan melestarikan arsip lagu daerah Papua untuk tujuan
-          non-komersial, sesuai dengan UU No. 43 Tahun 2009 dan UU No. 13 Tahun
-          2018. Jika ada pemegang Hak Cipta, Hak Royalti, atau Hak Kekayaan
-          Intelektual lainnya yang keberatan dengan penampilan karyanya di
-          perpustakaan digital kami, silakan hubungi kami agar karya tersebut
-          dapat segera dihapus.
-        </p>
+      <section class="space-y-3" aria-labelledby="tautan-youtube">
+        <h2 id="tautan-youtube" class="text-xl font-semibold text-neutral-800 dark:text-white">Video tetap berada di YouTube</h2>
+        <p class="text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">KastauMuzik menampilkan metadata, gambar mini, catatan kurator, dan pemutar tertanam yang disediakan melalui layanan YouTube. Materi audiovisual tetap ditayangkan dari sumber dan infrastruktur YouTube.</p>
+      </section>
 
-        <p class="text-neutral-800 dark:text-neutral-200">
-          KastauMuzik.com tidak menjamin kelengkapan, keandalan, atau ketepatan
-          informasi di situs ini. Tindakan yang Anda lakukan berdasarkan
-          informasi di situs ini sepenuhnya menjadi tanggung jawab Anda sendiri.
-          KastauMuzik.com tidak bertanggung jawab atas kerugian atau kerusakan
-          yang mungkin timbul dari penggunaan situs kami.
-        </p>
+      <section class="space-y-3" aria-labelledby="hak-pemilik">
+        <h2 id="hak-pemilik" class="text-xl font-semibold text-neutral-800 dark:text-white">Hak tetap pada pemiliknya</h2>
+        <p class="text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">Hak cipta, rekaman, gambar, nama, dan materi lain tetap dimiliki oleh masing-masing pemegang hak. Pencantuman di situs ini bukan klaim kepemilikan atau hubungan resmi dengan YouTube maupun pemilik kanal.</p>
+      </section>
 
-        <p class="text-neutral-800 dark:text-neutral-200">
-          Dengan menggunakan situs kami, Anda setuju dengan ketentuan dan
-          persyaratan yang berlaku.
-        </p>
-      </div>
+      <section class="space-y-3" aria-labelledby="karya-dan-cover">
+        <h2 id="karya-dan-cover" class="text-xl font-semibold text-neutral-800 dark:text-white">Karya asli, penampilan ulang, dan cover</h2>
+        <p class="text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">Pencantuman sebuah video tidak berarti seluruh koleksi hanya berisi rekaman dari penyanyi atau pencipta pertama. Kami juga dapat menampilkan cover dan aransemen ulang yang dinilai memiliki kualitas baik, kredit yang jelas, serta hubungan yang relevan dengan lagu daerah Papua.</p>
+      </section>
+
+      <section class="space-y-3" aria-labelledby="koreksi">
+        <h2 id="koreksi" class="text-xl font-semibold text-neutral-800 dark:text-white">Koreksi dan penghapusan</h2>
+        <p class="text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">Jika kredit, daerah, bahasa, status keaslian, atau konteks sebuah karya tidak tepat, silakan kirim koreksi beserta sumber pendukung. Pemegang hak juga dapat meminta tautannya dihapus dari koleksi kami.</p>
+        <p class="text-sm font-medium text-neutral-800 dark:text-neutral-200">Kontak: salupacode[at]gmail[dot]com</p>
+      </section>
+
+      <section class="rounded-lg border border-orange-200 bg-orange-50 p-5 dark:border-orange-900/70 dark:bg-orange-950/20" aria-labelledby="standar-editorial">
+        <h2 id="standar-editorial" class="text-base font-semibold text-neutral-800 dark:text-white">Standar editorial</h2>
+        <p class="mt-2 text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">Kami mengutamakan karya dengan identitas pelaku dan asal sumber yang jelas. Musik atau lagu yang dibuat menggunakan AI generatif tidak dimasukkan agar koleksi tetap berpusat pada kreativitas manusia dan tujuan pembelajaran lagu daerah Papua. Setiap masukan dari artis, pemegang hak, dan komunitas akan ditinjau sebagai bagian dari pemeliharaan koleksi.</p>
+      </section>
     </div>
-    <!-- End Content -->
   </div>
-  <!-- End Disclaimer -->
 </Layout>

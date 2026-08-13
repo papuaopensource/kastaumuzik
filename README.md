@@ -1,6 +1,8 @@
-# Kastau Muzik
+# KastauMuzik
 
-Project ini dibuat dengan tujuan sederhana: menampung semua lagu daerah Papua dalam satu platform agar mudah ditemui, didengarkan, dan dilestarikan.
+KastauMuzik adalah pusat kurasi video lagu daerah Papua dari YouTube. Koleksinya disusun berdasarkan cerita, daerah, bahasa, dan jenis lagu agar karya serta para pelakunya lebih mudah ditemukan dengan sumber yang jelas.
+
+Setiap pilihan memiliki halaman detail dengan pemutar tertanam dan tautan menuju video serta kanal sumber di YouTube.
 
 ## License
 
