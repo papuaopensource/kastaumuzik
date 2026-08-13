@@ -27,7 +27,7 @@ export type MusicCollection = {
   videos: CuratedVideo[];
 };
 
-/** Video yang sudah tahu asal raknya — dipakai di kartu, rak, dan hasil pencarian. */
+/** A video that knows which shelf it came from. Used by cards, shelves, and search results. */
 export type IndexedVideo = CuratedVideo & {
   collectionId: string;
   collectionTitle: string;

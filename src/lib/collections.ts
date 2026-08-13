@@ -1,7 +1,7 @@
 import collectionData from "../data/collections.json";
 import type { CuratedVideo, Facet, IndexedVideo, MusicCollection } from "../types/index";
 
-/** Urutan rak dari pintu masuk paling umum ke koleksi yang lebih khusus. */
+/** Shelves ordered from the broadest entry point to the most specific. */
 const shelfOrder = [
   "pilihan-untuk-mulai",
   "lima-belas-bahasa-mambesak",
@@ -24,7 +24,7 @@ export const allVideos: IndexedVideo[] = collections.flatMap((collection) =>
 
 export const videoCount = allVideos.length;
 
-/** Cara mendengar: penyaring cepat yang memotong lintas rak di halaman jelajah. */
+/** Listening modes: quick filters that cut across shelves on the browse page. */
 export const modesForVideo = (video: CuratedVideo) =>
   [
     video.languageGroup !== "Bahasa Indonesia" ? "bahasa-daerah" : "",
@@ -86,13 +86,13 @@ export const languageFacets = tally(allVideos.map((video) => video.languageGroup
 export const genreFacets = tally(allVideos.flatMap((video) => video.genres));
 export const regionFacets = tally(allVideos.map((video) => video.customaryRegion));
 
-/** Satu contoh sampul per faset supaya kartu kategori punya wajah. */
+/** One sample cover per facet, so category tiles have a thumbnail. */
 export const coverFor = (predicate: (video: IndexedVideo) => boolean) =>
   (allVideos.find(predicate) ?? allVideos[0]).youtubeId;
 
 /**
- * Palet kartu kategori. Semua warna gelap agar teks putih tetap terbaca,
- * dan dipilih deterministik dari nama faset supaya tidak berubah antar build.
+ * Category tile palette. All dark enough for white text, and picked
+ * deterministically from the facet name so colours are stable across builds.
  */
 const tilePalette = [
   "#8a3b2c",

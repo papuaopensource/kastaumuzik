@@ -15,7 +15,7 @@ const shelves = collections.map((collection) => ({
   })),
 }));
 
-/** Akses cepat: rak yang ada, ditambah jalan pintas ke faset yang sering dicari. */
+/** Quick access: the shelves, plus shortcuts to frequently used facets. */
 const quickAccess = [
   ...collections.map((collection) => ({
     label: collection.title,
@@ -78,7 +78,7 @@ const stats = [
     </div>
   </div>
 
-  <!-- Rak koleksi. Navigasi loncat menempel selama masih berada di area rak. -->
+  <!-- Shelves. The jump nav stays stuck while the reader is inside this block. -->
   <div class="relative">
     <nav class="sticky top-[69px] z-40 border-y border-neutral-200 bg-white/95 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-900/95" aria-label="Loncat ke rak">
       <div class="mx-auto flex w-full max-w-[1440px] items-center gap-2 overflow-x-auto px-4 py-3 sm:px-6 lg:px-10 xl:px-12 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -117,7 +117,7 @@ const stats = [
     <div class="mx-auto w-full max-w-[1440px] px-4 py-14 sm:px-6 lg:px-10 lg:py-16 xl:px-12">
       <div class="grid gap-8 md:grid-cols-5 md:items-start">
         <div class="md:col-span-3">
-          <p class="text-xs font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-400">Kenapa KastauMuzik?</p>
+          <p class="text-xs font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-400">Kenapa kastaumuzik?</p>
           <h2 id="mengapa-kastau" class="mt-2 text-2xl font-semibold leading-tight text-neutral-800 md:text-3xl dark:text-neutral-100">Banyak lagunya. Sulit menemukan sumbernya.</h2>
           <p class="mt-4 max-w-xl leading-relaxed text-neutral-600 dark:text-neutral-300">
             Karya Papua di YouTube tersebar di banyak kanal, versi, dan masa. Kami membantu menyaring serta menyusunnya kembali agar sumber, cerita, dan para pelakunya lebih mudah ditemukan.
@@ -227,7 +227,7 @@ const stats = [
     color: rgb(212 212 212);
   }
 
-  /* Warna gelap mengikuti data-theme yang dipilih pembaca. */
+  /* Dark colours follow the reader’s data-theme choice. */
   [data-theme="dark"] .shelf-link {
     border-color: rgb(82 82 82);
     background: rgb(38 38 38);

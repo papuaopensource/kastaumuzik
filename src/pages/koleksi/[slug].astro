@@ -15,7 +15,7 @@ export function getStaticPaths() {
     collection.videos.map((video) => {
       const indexed = allVideos.find((candidate) => candidate.slug === video.slug)!;
 
-      /** Rekomendasi: seruangan bahasa dulu, lalu serak, tanpa mengulang video ini. */
+      /** Recommendations: same language first, then same shelf, never this video. */
       const related = [
         ...allVideos.filter(
           (candidate) => candidate.slug !== video.slug && candidate.languageGroup === indexed.languageGroup,

@@ -1,6 +1,6 @@
 # Development guide
 
-Technical notes for KastauMuzik. For an overview of the project, see [README.md](./README.md).
+Technical notes for kastaumuzik. For an overview of the project, see [README.md](./README.md).
 
 ## Running locally
 

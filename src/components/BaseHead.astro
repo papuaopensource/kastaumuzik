@@ -58,10 +58,10 @@ const { title, description, image } = Astro.props;
   rel="stylesheet"
 />
 
-<!-- Tema -->
+<!-- Theme -->
 <meta name="color-scheme" content="light dark" />
 <script is:inline>
-  // Blocking dan sebelum <body> supaya tema tidak berkedip saat halaman dimuat.
+  // Runs before <body> so the page never paints the wrong theme.
   (() => {
     const stored = localStorage.getItem("theme");
     const theme =
