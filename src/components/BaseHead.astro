@@ -6,6 +6,10 @@ interface Props {
 }
 
 const { title, description, image } = Astro.props;
+
+// Share image. Pages can override it; otherwise every page gets the site card.
+// Resolved against the configured site so the URL is absolute, as OG requires.
+const socialImage = new URL(image ?? "/og-preview.jpg", Astro.site ?? Astro.url);
 ---
 
 <meta charset="UTF-8" />
@@ -30,25 +34,29 @@ const { title, description, image } = Astro.props;
 
 <!-- Primary Meta Tags -->
 <title>{title} - kastaumuzik</title>
-<meta name="title" content={`${title} — kastaumuzik`} />
+<meta name="title" content={`${title} - kastaumuzik`} />
 <meta name="description" content={description} />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
+<meta property="og:site_name" content="kastaumuzik" />
+<meta property="og:locale" content="id_ID" />
 <meta property="og:url" content={Astro.url} />
-<meta property="og:title" content={`${title} — kastaumuzik`} />
+<meta property="og:title" content={`${title} - kastaumuzik`} />
 <meta property="og:description" content={description} />
-{image && <meta property="og:image" content={new URL(image, Astro.url)} />}
+<meta property="og:image" content={socialImage} />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="kastaumuzik — arsip lagu daerah Papua" />
 
 <!-- Twitter -->
-<meta
-  property="twitter:card"
-  content={image ? "summary_large_image" : "summary"}
-/>
+<meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={`${title} — kastaumuzik`} />
+<meta property="twitter:title" content={`${title} - kastaumuzik`} />
 <meta property="twitter:description" content={description} />
-{image && <meta property="twitter:image" content={new URL(image, Astro.url)} />}
+<meta property="twitter:image" content={socialImage} />
+<meta property="twitter:image:alt" content="kastaumuzik — arsip lagu daerah Papua" />
 
 <!-- Onest Font from Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
