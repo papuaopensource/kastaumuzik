@@ -125,6 +125,10 @@ Category tiles are plain links, so the page is still browsable without JavaScrip
 
 ## Tech
 
-[Astro](https://astro.build) · [Tailwind CSS](https://tailwindcss.com) · [Preline](https://preline.co) · TypeScript.
+[Astro](https://astro.build) · [Tailwind CSS](https://tailwindcss.com) · [Alpine.js](https://alpinejs.dev) · TypeScript.
 
-The output is a static site with no third-party CDN requests at runtime. Search, filtering, and the scrolling shelves are small per-page scripts; shelves use native CSS `scroll-snap` rather than a carousel library. The only third-party JavaScript bundled in is Preline, which drives the small-screen navigation menu. Thumbnails are loaded directly from `i.ytimg.com`.
+The output is a static site with no third-party CDN requests at runtime. Search, filtering, and the scrolling shelves are small per-page scripts written against the DOM directly; shelves use native CSS `scroll-snap` rather than a carousel library. Alpine drives the small-screen navigation menu in `Navbar.astro` and is the only client framework in the bundle. Thumbnails are loaded directly from `i.ytimg.com`.
+
+Alpine is registered through the [`@astrojs/alpinejs`](https://docs.astro.build/en/guides/integrations-guide/alpinejs/) integration in `astro.config.mjs`, so directives work in any `.astro` file without an import. Only Alpine core is installed — if you reach for a plugin such as `@alpinejs/collapse`, register it through an integration entrypoint rather than a script tag.
+
+Elements hidden by `x-show` need `x-cloak` so they do not flash before Alpine hydrates; the matching `[x-cloak] { display: none }` rule lives in `Navbar.astro`.
