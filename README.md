@@ -34,6 +34,4 @@ To run the site locally, understand its structure, or add a recording via pull r
 
 ## License
 
-[MIT License](./LICENSE) © 2024 [Papua Open Source](https://github.com/papua-opensource)
-
-The license covers the site's code. Rights to the recordings, songs, and thumbnails remain with their respective owners and source channels.
+[MIT License](./LICENSE)
