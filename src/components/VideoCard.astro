@@ -36,7 +36,9 @@ const initials = video.artist
   <a
     class:list={[
       "relative block shrink-0 overflow-hidden bg-neutral-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:bg-neutral-800",
-      variant === "list" ? "aspect-video w-42 rounded-lg sm:w-44" : "aspect-video w-full rounded-xl",
+      variant === "list"
+        ? "aspect-video w-42 rounded-lg sm:w-44"
+        : "aspect-video w-full rounded-xl",
     ]}
     href={href}
     aria-label={`Lihat detail ${video.title}`}
@@ -47,35 +49,73 @@ const initials = video.artist
       alt={`Cuplikan video ${video.title}`}
       loading="lazy"
     />
-    {video.duration && (
-      <span class="absolute bottom-1.5 right-1.5 rounded bg-black/85 px-1.5 py-0.5 text-[10px] font-medium leading-none text-white">
-        {video.duration}
-      </span>
-    )}
-    {variant !== "list" && (
-      <span class="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition group-hover:bg-black/20 group-hover:opacity-100" aria-hidden="true">
-        <span class="flex size-11 items-center justify-center rounded-full bg-white/95 text-neutral-950 shadow-lg">
-          <svg class="ml-0.5 size-5" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.14v13.72L19 12 8 5.14z"></path></svg>
+    {
+      video.duration && (
+        <span class="absolute bottom-1.5 right-1.5 rounded bg-black/85 px-1.5 py-0.5 text-[10px] font-medium leading-none text-white">
+          {video.duration}
         </span>
-      </span>
-    )}
+      )
+    }
+    {
+      variant !== "list" && (
+        <span
+          class="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition group-hover:bg-black/20 group-hover:opacity-100"
+          aria-hidden="true"
+        >
+          <span class="flex size-11 items-center justify-center rounded-full bg-white/95 text-neutral-950 shadow-lg">
+            <svg class="ml-0.5 size-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5.14v13.72L19 12 8 5.14z" />
+            </svg>
+          </span>
+        </span>
+      )
+    }
   </a>
 
-  <div class:list={["min-w-0", variant === "list" ? "flex-1 pt-0.5" : "mt-3 flex gap-3"]}>
-    {variant !== "list" && (
-      <span class="flex size-9 shrink-0 items-center justify-center rounded-full text-[11px] font-bold text-white" style={`background:${tileColor(video.artist)}`} aria-hidden="true">
-        {initials}
-      </span>
-    )}
+  <div
+    class:list={[
+      "min-w-0",
+      variant === "list" ? "flex-1 pt-0.5" : "mt-3 flex gap-3",
+    ]}
+  >
+    {
+      variant !== "list" && (
+        <span
+          class="flex size-9 shrink-0 items-center justify-center rounded-full text-[11px] font-bold text-white"
+          style={`background:${tileColor(video.artist)}`}
+          aria-hidden="true"
+        >
+          {initials}
+        </span>
+      )
+    }
     <div class="min-w-0 flex-1">
-      <a href={href} class:list={["line-clamp-2 font-semibold text-neutral-900 transition hover:text-orange-700 focus:outline-none focus-visible:text-orange-700 dark:text-neutral-100 dark:hover:text-orange-400", variant === "list" ? "text-[13px] leading-[1.25rem]" : "text-sm leading-5"]}>
+      <a
+        href={href}
+        class:list={[
+          "line-clamp-2 font-semibold text-neutral-900 transition hover:text-orange-700 focus:outline-none focus-visible:text-orange-700 dark:text-neutral-100 dark:hover:text-orange-400",
+          variant === "list" ? "text-[13px] leading-5" : "text-sm leading-5",
+        ]}
+      >
         {video.title}
       </a>
-      <p class:list={["truncate text-neutral-500 dark:text-neutral-400", variant === "list" ? "mt-1 text-[11px]" : "mt-1.5 text-xs"]}>
+      <p
+        class:list={[
+          "truncate text-neutral-500 dark:text-neutral-400",
+          variant === "list" ? "mt-1 text-[11px]" : "mt-1.5 text-xs",
+        ]}
+      >
         {video.artist}
       </p>
-      <p class:list={["truncate text-neutral-500 dark:text-neutral-400", variant === "list" ? "mt-0.5 text-[11px]" : "mt-0.5 text-xs"]}>
-        {video.languageGroup} <span aria-hidden="true">•</span> {video.genres[0]}
+      <p
+        class:list={[
+          "truncate text-neutral-500 dark:text-neutral-400",
+          variant === "list" ? "mt-0.5 text-[11px]" : "mt-0.5 text-xs",
+        ]}
+      >
+        {video.languageGroup}
+        <span aria-hidden="true">•</span>
+        {video.genres[0]}
       </p>
     </div>
   </div>
