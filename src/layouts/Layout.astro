@@ -1,6 +1,7 @@
 ---
 import BaseHead from "@/components/BaseHead.astro";
 import Navbar from "@/components/Navbar.astro";
+import Sidebar from "@/components/Sidebar.astro";
 import "@/styles/global.css";
 
 interface Props {
@@ -20,8 +21,9 @@ const { title, description, image } = Astro.props;
   <body class="font-sans bg-white text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100">
     <a href="#main-content" class="skip-link">Langsung ke konten</a>
     <Navbar />
+    <Sidebar />
     <div class="site-shell min-h-screen pt-14 transition-[padding] duration-200">
-      <main id="main-content" class="min-h-[calc(100vh-3.5rem)] pb-16 md:pb-0">
+      <main id="main-content" class="min-h-[calc(100vh-3.5rem)]">
         <slot />
       </main>
     </div>

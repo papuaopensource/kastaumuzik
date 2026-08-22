@@ -1,0 +1,428 @@
+---
+const currentUrl = Astro.url.pathname;
+const firstPath = currentUrl.split("/")[1];
+
+const primaryLinks = [
+  { href: "/", label: "Teras", match: currentUrl === "/", icon: "home" },
+  {
+    href: "/jelajah/",
+    label: "Jelajah",
+    match: firstPath === "jelajah" || firstPath === "video",
+    icon: "explore",
+  },
+];
+
+const infoLinks = [
+  {
+    href: "/tentang/",
+    label: "Tentang",
+    match: firstPath === "tentang",
+    icon: "info",
+  },
+  {
+    href: "/pernyataan/",
+    label: "Hak & koreksi",
+    match: firstPath === "pernyataan",
+    icon: "rights",
+  },
+];
+
+const iconPaths: Record<string, string> = {
+  home: '<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9h4.25v-5.5h4.5V19h4.25v-9"/>',
+  explore:
+    '<circle cx="12" cy="12" r="9"/><path d="m14.8 9.2-1.7 3.9-3.9 1.7 1.7-3.9 3.9-1.7Z"/>',
+  info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.5h.01"/>',
+  feedback:
+    '<path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/><path d="M8 9h8M8 13h5"/>',
+  rights:
+    '<path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5"/><path d="m9 14 2 2 4-4"/>',
+};
+
+const navItemClass = (active = false) =>
+  `sidebar-item ${active ? "sidebar-item-active" : ""}`;
+---
+
+<div
+  class="fixed inset-0 z-40 hidden bg-black/50 md:hidden"
+  data-sidebar-backdrop
+>
+</div>
+
+<aside
+  id="site-sidebar"
+  class="site-sidebar fixed bottom-0 left-0 top-14 z-50 flex w-72 max-w-[85vw] flex-col overflow-y-auto overscroll-contain border-r border-neutral-200 bg-white px-3 pb-4 pt-3 shadow-2xl transition-[width,transform] duration-200 md:max-w-none md:shadow-none dark:border-neutral-800 dark:bg-neutral-950"
+  aria-label="Navigasi utama"
+>
+  <nav class="space-y-1">
+    {
+      primaryLinks.map((link) => (
+        <a
+          href={link.href}
+          class={navItemClass(link.match)}
+          aria-current={link.match ? "page" : undefined}
+        >
+          <svg
+            class="sidebar-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            set:html={iconPaths[link.icon]}
+          />
+          <span class="sidebar-label">{link.label}</span>
+        </a>
+      ))
+    }
+  </nav>
+
+  <div
+    class="sidebar-section mt-3 border-t border-neutral-200 pt-3 dark:border-neutral-800"
+  >
+    <p
+      class="sidebar-heading px-3 pb-2 text-sm font-semibold text-neutral-900 dark:text-neutral-100"
+    >
+      Lainnya
+    </p>
+    <nav class="space-y-1" aria-label="Informasi">
+      {
+        infoLinks.map((link) => (
+          <a
+            href={link.href}
+            class={navItemClass(link.match)}
+            aria-current={link.match ? "page" : undefined}
+          >
+            <svg
+              class="sidebar-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              set:html={iconPaths[link.icon]}
+            />
+            <span class="sidebar-label">{link.label}</span>
+          </a>
+        ))
+      }
+      <a
+        href="https://app.formbricks.com/s/v2so83o3gq4aatac480xfytb"
+        target="_blank"
+        rel="noopener noreferrer"
+        class={navItemClass()}
+      >
+        <svg
+          class="sidebar-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          set:html={iconPaths.feedback}
+        />
+        <span class="sidebar-label">Feedback</span>
+      </a>
+    </nav>
+  </div>
+
+  <div
+    class="sidebar-theme-menu relative mt-auto border-t border-neutral-200 pt-2 dark:border-neutral-800"
+    data-theme-menu
+    data-open="false"
+  >
+    <button
+      type="button"
+      class="theme-menu-trigger"
+      data-theme-menu-trigger
+      aria-haspopup="menu"
+      aria-expanded="false"
+    >
+      <svg
+        class="theme-menu-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M12 3a9 9 0 1 0 9 9c0-1.2-.23-2.34-.65-3.39A6 6 0 0 1 12 3Z"></path>
+      </svg>
+      <span class="min-w-0 flex-1 text-left">
+        <span class="block text-sm font-semibold">Tema</span>
+        <span
+          class="mt-0.5 block truncate text-[11px] font-normal text-neutral-500 dark:text-neutral-400"
+          data-theme-current
+        >
+          Auto
+        </span>
+      </span>
+      <svg
+        class="theme-menu-chevron"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        aria-hidden="true"
+      >
+        <path d="m8 10 4 4 4-4"></path>
+      </svg>
+    </button>
+
+    <div
+      class="theme-menu-popover"
+      data-theme-menu-popover
+      role="menu"
+      aria-label="Pilih tema tampilan"
+      hidden
+    >
+      <button
+        type="button"
+        class="theme-menu-option"
+        data-theme-option="system"
+        role="menuitemradio"
+        aria-checked="false"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="13" rx="2"></rect>
+          <path d="M8 21h8M12 17v4"></path>
+        </svg>
+        <span>Auto</span>
+        <svg class="theme-menu-check" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m5 12 4 4L19 6"></path>
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="theme-menu-option"
+        data-theme-option="light"
+        role="menuitemradio"
+        aria-checked="false"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+        </svg>
+        <span>Light</span>
+        <svg class="theme-menu-check" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m5 12 4 4L19 6"></path>
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="theme-menu-option"
+        data-theme-option="dark"
+        role="menuitemradio"
+        aria-checked="false"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"></path>
+        </svg>
+        <span>Dark</span>
+        <svg class="theme-menu-check" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m5 12 4 4L19 6"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="sidebar-foot px-3 pt-4 text-[11px] leading-relaxed text-neutral-500 dark:text-neutral-500"
+  >
+    <p>Kurasi terbuka lagu daerah Papua dari sumber YouTube.</p>
+    <p class="mt-2">© {new Date().getFullYear()} Papua Open Source</p>
+  </div>
+</aside>
+
+<script>
+  const root = document.documentElement;
+  const sidebarToggle = document.querySelector<HTMLButtonElement>(
+    "[data-sidebar-toggle]",
+  );
+  const backdrop = document.querySelector<HTMLElement>(
+    "[data-sidebar-backdrop]",
+  );
+  const sidebar = document.getElementById("site-sidebar");
+  const mobileViewport = window.matchMedia("(max-width: 767px)");
+
+  const setSidebarAvailability = (hidden: boolean) => {
+    sidebar?.setAttribute("aria-hidden", String(hidden));
+    if (sidebar) sidebar.inert = hidden;
+  };
+
+  const syncDesktopToggle = () => {
+    const expanded = root.dataset.sidebar !== "compact";
+    setSidebarAvailability(false);
+    sidebarToggle?.setAttribute("aria-expanded", String(expanded));
+    sidebarToggle?.setAttribute(
+      "aria-label",
+      expanded ? "Kecilkan navigasi" : "Perluas navigasi",
+    );
+  };
+
+  const setMobileNav = (open: boolean, returnFocus = false) => {
+    if (!open && returnFocus) sidebarToggle?.focus();
+    root.dataset.navOpen = open ? "true" : "false";
+    setSidebarAvailability(!open);
+    sidebarToggle?.setAttribute("aria-expanded", String(open));
+    sidebarToggle?.setAttribute(
+      "aria-label",
+      open ? "Tutup navigasi" : "Buka navigasi",
+    );
+
+    if (open) {
+      window.requestAnimationFrame(() =>
+        sidebar?.querySelector<HTMLElement>("a")?.focus(),
+      );
+    }
+  };
+
+  const syncViewport = () => {
+    root.dataset.navOpen = "false";
+    if (mobileViewport.matches) {
+      if (sidebar?.contains(document.activeElement)) sidebarToggle?.focus();
+      setSidebarAvailability(true);
+      sidebarToggle?.setAttribute("aria-expanded", "false");
+      sidebarToggle?.setAttribute("aria-label", "Buka navigasi");
+      return;
+    }
+
+    syncDesktopToggle();
+  };
+
+  syncViewport();
+
+  sidebarToggle?.addEventListener("click", () => {
+    if (mobileViewport.matches) {
+      const shouldOpen = root.dataset.navOpen !== "true";
+      setMobileNav(shouldOpen, !shouldOpen);
+      return;
+    }
+
+    const compact = root.dataset.sidebar === "compact";
+    root.dataset.sidebar = compact ? "expanded" : "compact";
+    localStorage.setItem("sidebar", root.dataset.sidebar);
+    syncDesktopToggle();
+  });
+
+  backdrop?.addEventListener("click", () => setMobileNav(false, true));
+  sidebar
+    ?.querySelectorAll("a")
+    .forEach((link) => link.addEventListener("click", () => {
+      if (mobileViewport.matches) setMobileNav(false, true);
+    }));
+
+  const themeMenu = document.querySelector<HTMLElement>("[data-theme-menu]");
+  const themeMenuTrigger = document.querySelector<HTMLButtonElement>(
+    "[data-theme-menu-trigger]",
+  );
+  const themeMenuPopover = document.querySelector<HTMLElement>(
+    "[data-theme-menu-popover]",
+  );
+  const themeCurrent = document.querySelector<HTMLElement>(
+    "[data-theme-current]",
+  );
+  const themeOptions = Array.from(
+    document.querySelectorAll<HTMLButtonElement>("[data-theme-option]"),
+  );
+  const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
+  const storedTheme = localStorage.getItem("theme");
+  const initialThemePreference = ["light", "dark", "system"].includes(
+    storedTheme ?? "",
+  )
+    ? storedTheme!
+    : "system";
+
+  const themeLabels: Record<string, string> = {
+    system: "Auto",
+    light: "Light",
+    dark: "Dark",
+  };
+
+  const setThemeMenuOpen = (open: boolean, returnFocus = false) => {
+    if (!themeMenu || !themeMenuTrigger || !themeMenuPopover) return;
+    themeMenu.dataset.open = String(open);
+    themeMenuTrigger.setAttribute("aria-expanded", String(open));
+    themeMenuPopover.hidden = !open;
+    if (returnFocus) themeMenuTrigger.focus();
+  };
+
+  const syncThemeMenu = (preference: string) => {
+    if (themeCurrent) themeCurrent.textContent = themeLabels[preference];
+    themeOptions.forEach((option) => {
+      option.setAttribute(
+        "aria-checked",
+        String(option.dataset.themeOption === preference),
+      );
+    });
+  };
+
+  const applyThemePreference = (preference: string) => {
+    const theme =
+      preference === "light" || preference === "dark"
+        ? preference
+        : systemTheme.matches
+          ? "dark"
+          : "light";
+    root.dataset.theme = theme;
+    root.dataset.themePreference = preference;
+    localStorage.setItem("theme", preference);
+    syncThemeMenu(preference);
+  };
+
+  syncThemeMenu(initialThemePreference);
+  root.dataset.themePreference = initialThemePreference;
+
+  themeMenuTrigger?.addEventListener("click", () => {
+    const shouldOpen = themeMenu?.dataset.open !== "true";
+    setThemeMenuOpen(shouldOpen);
+    if (shouldOpen) {
+      const selectedOption = themeOptions.find(
+        (option) => option.getAttribute("aria-checked") === "true",
+      );
+      window.requestAnimationFrame(() => selectedOption?.focus());
+    }
+  });
+
+  themeOptions.forEach((option) => {
+    option.addEventListener("click", () => {
+      applyThemePreference(option.dataset.themeOption ?? "system");
+      setThemeMenuOpen(false, true);
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    if (
+      themeMenu?.dataset.open === "true" &&
+      !themeMenu.contains(event.target as Node)
+    ) {
+      setThemeMenuOpen(false);
+    }
+  });
+
+  systemTheme.addEventListener("change", () => {
+    if (root.dataset.themePreference === "system") {
+      root.dataset.theme = systemTheme.matches ? "dark" : "light";
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && themeMenu?.dataset.open === "true") {
+      setThemeMenuOpen(false, true);
+      return;
+    }
+    if (event.key === "Escape" && root.dataset.navOpen === "true") {
+      setMobileNav(false, true);
+    }
+  });
+
+  mobileViewport.addEventListener("change", syncViewport);
+</script>

@@ -2,7 +2,7 @@
 
 /*
   Theme lives in data-theme on <html>. A blocking script in BaseHead sets it
-  before first paint; the footer switch overwrites it.
+  before first paint; the sidebar control updates it.
 */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
@@ -43,7 +43,8 @@ h6 {
 
 button,
 a,
-input {
+input,
+select {
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -90,21 +91,36 @@ input {
   height: 1.35rem;
 }
 
+.sidebar-toggle-icon {
+  transition:
+    opacity 150ms ease,
+    transform 180ms ease;
+}
+
+.sidebar-toggle-close {
+  position: absolute;
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.75);
+}
+
+@media (max-width: 767px) {
+  html[data-nav-open="true"] .sidebar-toggle-menu {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.75);
+  }
+
+  html[data-nav-open="true"] .sidebar-toggle-close {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
 [data-theme="dark"] .icon-button {
   color: #f5f5f5;
 }
 
 [data-theme="dark"] .icon-button:hover {
   background: #262626;
-}
-
-.theme-icon-dark,
-[data-theme="dark"] .theme-icon-light {
-  display: none;
-}
-
-[data-theme="dark"] .theme-icon-dark {
-  display: block;
 }
 
 .sidebar-item {
@@ -115,6 +131,7 @@ input {
   border-radius: 0.65rem;
   padding: 0.55rem 0.75rem;
   color: #262626;
+  cursor: pointer;
   font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.15;
@@ -124,6 +141,11 @@ input {
 .sidebar-item:hover,
 .sidebar-item-active {
   background: #f2f2f2;
+}
+
+.sidebar-item:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
 }
 
 .sidebar-item-active {
@@ -145,6 +167,137 @@ input {
   background: #272727;
 }
 
+.theme-menu-trigger {
+  display: flex;
+  width: 100%;
+  min-height: 3.25rem;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  color: #262626;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.theme-menu-trigger:hover,
+.theme-menu-trigger[aria-expanded="true"] {
+  background: #f2f2f2;
+}
+
+.theme-menu-trigger:focus-visible,
+.theme-menu-option:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+}
+
+.theme-menu-icon {
+  width: 1.35rem;
+  height: 1.35rem;
+  flex: none;
+}
+
+.theme-menu-chevron {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  color: #737373;
+  transition: transform 150ms ease;
+}
+
+[data-theme-menu][data-open="true"] .theme-menu-chevron {
+  transform: rotate(180deg);
+}
+
+.theme-menu-popover {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.5rem);
+  left: 0;
+  z-index: 10;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.875rem;
+  background: white;
+  padding: 0.35rem;
+  box-shadow:
+    0 12px 32px rgb(0 0 0 / 0.14),
+    0 2px 8px rgb(0 0 0 / 0.08);
+}
+
+.theme-menu-option {
+  display: grid;
+  width: 100%;
+  min-height: 2.75rem;
+  grid-template-columns: 1.25rem 1fr 1.1rem;
+  align-items: center;
+  gap: 0.7rem;
+  border-radius: 0.625rem;
+  padding: 0.55rem 0.65rem;
+  color: #404040;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-align: left;
+  transition: background-color 120ms ease;
+}
+
+.theme-menu-option:hover,
+.theme-menu-option[aria-checked="true"] {
+  background: #f2f2f2;
+  color: #171717;
+}
+
+.theme-menu-option > svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.theme-menu-option .theme-menu-check {
+  opacity: 0;
+  color: #f4511e;
+  stroke-width: 2.4;
+}
+
+.theme-menu-option[aria-checked="true"] .theme-menu-check {
+  opacity: 1;
+}
+
+[data-theme="dark"] .theme-menu-trigger {
+  color: #f5f5f5;
+}
+
+[data-theme="dark"] .theme-menu-trigger:hover,
+[data-theme="dark"] .theme-menu-trigger[aria-expanded="true"] {
+  background: #272727;
+}
+
+[data-theme="dark"] .theme-menu-popover {
+  border-color: #3f3f3f;
+  background: #1b1b1b;
+  box-shadow:
+    0 16px 36px rgb(0 0 0 / 0.4),
+    0 2px 8px rgb(0 0 0 / 0.28);
+}
+
+[data-theme="dark"] .theme-menu-option {
+  color: #d4d4d4;
+}
+
+[data-theme="dark"] .theme-menu-option:hover,
+[data-theme="dark"] .theme-menu-option[aria-checked="true"] {
+  background: #2d2d2d;
+  color: white;
+}
+
+.site-sidebar {
+  transform: translateX(-100%);
+}
+
 html[data-nav-open="true"] .site-sidebar {
   transform: translateX(0);
 }
@@ -157,16 +310,13 @@ html[data-nav-open="true"] {
   overflow: hidden;
 }
 
-html[data-nav-open="true"] [data-mobile-bottom-nav] {
-  display: none;
-}
-
 @media (min-width: 768px) {
   .site-shell {
     padding-left: 4.5rem;
   }
 
   .site-sidebar {
+    transform: translateX(0);
     width: 4.5rem;
     padding-left: 0.25rem;
     padding-right: 0.25rem;
@@ -174,7 +324,8 @@ html[data-nav-open="true"] [data-mobile-bottom-nav] {
 
   .site-sidebar .sidebar-label,
   .site-sidebar .sidebar-heading,
-  .site-sidebar .sidebar-foot {
+  .site-sidebar .sidebar-foot,
+  .site-sidebar .sidebar-theme-menu {
     display: none;
   }
 
@@ -208,7 +359,8 @@ html[data-nav-open="true"] [data-mobile-bottom-nav] {
 
   html:not([data-sidebar="compact"]) .site-sidebar .sidebar-label,
   html:not([data-sidebar="compact"]) .site-sidebar .sidebar-heading,
-  html:not([data-sidebar="compact"]) .site-sidebar .sidebar-foot {
+  html:not([data-sidebar="compact"]) .site-sidebar .sidebar-foot,
+  html:not([data-sidebar="compact"]) .site-sidebar .sidebar-theme-menu {
     display: block;
   }
 
@@ -292,21 +444,4 @@ html[data-nav-open="true"] [data-mobile-bottom-nav] {
 [data-theme="dark"] .yt-chip-active {
   background: #f1f1f1;
   color: #0f0f0f;
-}
-
-/* Hide Alpine nodes until Alpine has processed x-show. */
-[x-cloak] {
-  display: none !important;
-}
-
-/* Active state is CSS, not Alpine, so it does not flash before Alpine boots. */
-:root[data-theme="light"] .theme-option[data-theme-value="light"],
-:root[data-theme="dark"] .theme-option[data-theme-value="dark"] {
-  background: var(--color-neutral-800);
-  color: white;
-}
-
-:root[data-theme="dark"] .theme-option[data-theme-value="dark"] {
-  background: var(--color-neutral-100);
-  color: var(--color-neutral-900);
 }

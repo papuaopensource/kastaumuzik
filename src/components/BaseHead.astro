@@ -17,7 +17,7 @@ const socialImage = new URL(
 
 <meta charset="UTF-8" />
 <meta name="description" content={description} />
-<meta name="viewport" content="width=device-width" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <link
   rel="icon"
   type="image/png"
@@ -78,14 +78,19 @@ const socialImage = new URL(
   // Runs before <body> so the page never paints the wrong theme.
   (() => {
     const stored = localStorage.getItem("theme");
-    const theme =
-      stored === "light" || stored === "dark"
+    const preference =
+      stored === "light" || stored === "dark" || stored === "system"
         ? stored
+        : "system";
+    const theme =
+      preference === "light" || preference === "dark"
+        ? preference
         : window.matchMedia("(prefers-color-scheme: dark)").matches
           ? "dark"
           : "light";
 
     document.documentElement.dataset.theme = theme;
+    document.documentElement.dataset.themePreference = preference;
 
     const sidebar = localStorage.getItem("sidebar");
     if (sidebar === "compact" || sidebar === "expanded") {
