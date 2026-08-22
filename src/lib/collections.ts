@@ -1,5 +1,5 @@
 import collectionData from "@/data/collections.json";
-import type { Facet, IndexedVideo, MusicCollection } from "@/types/index";
+import type { IndexedVideo, MusicCollection } from "@/types/index";
 
 /** A source video is one catalog item. Chapters inside a compilation are not separate entries. */
 const sourceIds = collectionData.flatMap((collection) =>
@@ -67,26 +67,8 @@ export const searchTextFor = (video: IndexedVideo) =>
     .join(" ")
     .toLocaleLowerCase("id");
 
-const tally = (values: string[]): Facet[] => {
-  const counts = new Map<string, number>();
-  values.forEach((value) => counts.set(value, (counts.get(value) ?? 0) + 1));
-
-  return [...counts.entries()]
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, "id"));
-};
-
-export const languageFacets = tally(allVideos.map((video) => video.languageGroup));
-export const genreFacets = tally(allVideos.flatMap((video) => video.genres));
-export const formatFacets = tally(allVideos.flatMap((video) => video.formats));
-export const regionFacets = tally(allVideos.map((video) => video.customaryRegion));
-
-/** One sample cover per facet, so category tiles have a thumbnail. */
-export const coverFor = (predicate: (video: IndexedVideo) => boolean) =>
-  (allVideos.find(predicate) ?? allVideos[0]).youtubeId;
-
 /**
- * Category tile palette. All dark enough for white text, and picked
+ * Avatar palette. All dark enough for white text, and picked
  * deterministically from the facet name so colours are stable across builds.
  */
 const tilePalette = [

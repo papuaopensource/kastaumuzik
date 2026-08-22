@@ -31,8 +31,3 @@ export type IndexedVideo = CuratedVideo & {
   collectionId: string;
   collectionTitle: string;
 };
-
-export type Facet = {
-  name: string;
-  count: number;
-};

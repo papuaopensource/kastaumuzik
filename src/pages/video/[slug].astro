@@ -53,28 +53,12 @@ export function getStaticPaths() {
 }
 
 const { video, related } = Astro.props as DetailProps;
-const facetLinks = [
-  {
-    label: video.languageGroup,
-    href: `/jelajah/?bahasa=${encodeURIComponent(video.languageGroup)}`,
-    show: isSpecific(video.languageGroup),
-  },
-  {
-    label: video.customaryRegion,
-    href: `/jelajah/?wilayah=${encodeURIComponent(video.customaryRegion)}`,
-    show: isSpecific(video.customaryRegion),
-  },
-  ...video.genres.map((genre) => ({
-    label: genre,
-    href: `/jelajah/?genre=${encodeURIComponent(genre)}`,
-    show: true,
-  })),
-  ...video.formats.map((format) => ({
-    label: format,
-    href: `/jelajah/?format=${encodeURIComponent(format)}`,
-    show: true,
-  })),
-].filter((facet) => facet.show);
+const detailLabels = [
+  isSpecific(video.languageGroup) ? video.languageGroup : null,
+  isSpecific(video.customaryRegion) ? video.customaryRegion : null,
+  ...video.genres,
+  ...video.formats,
+].filter((label): label is string => Boolean(label));
 
 const youtubeUrl = `https://www.youtube.com/watch?v=${video.youtubeId}`;
 const embedUrl = `https://www.youtube-nocookie.com/embed/${video.youtubeId}?rel=0`;
@@ -185,13 +169,10 @@ const initials = video.channel
         <div
           class="mt-4 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none [&::-webkit-scrollbar]:hidden"
         >
-          {
-            facetLinks.map((facet) => (
-              <a href={facet.href} class="yt-chip">
-                {facet.label}
-              </a>
-            ))
-          }
+          <a href={`/jelajah/#${video.collectionId}`} class="yt-chip">
+            {video.collectionTitle}
+          </a>
+          {detailLabels.map((label) => <span class="yt-chip">{label}</span>)}
         </div>
 
         <section
