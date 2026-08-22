@@ -20,10 +20,12 @@ Astro keeps the dev server alive across runs. After changing dependencies or con
 ```
 src/
 ├── data/collections.json     # the single source of collection content
-├── lib/collections.ts        # shelf order, facets, filters, search text
+├── lib/collections.ts        # shelf order, video index, search text
 ├── types/index.d.ts
 ├── styles/global.css         # Tailwind entry and theme config
 ├── components/
+│   ├── Navbar.astro         # top header, brand, and proposal action
+│   └── Sidebar.astro        # navigation drawer and theme menu
 ├── layouts/Layout.astro
 └── pages/
     ├── index.astro, jelajah.astro, usulkan.astro, tentang.astro, pernyataan.astro
@@ -32,7 +34,7 @@ src/
 
 Imports use the `@/` alias for anything under `src`, e.g. `import Layout from "@/layouts/Layout.astro"`. It is declared once in `tsconfig.json` under `paths`; Astro picks it up from there, so there is nothing to configure in `astro.config.mjs`.
 
-Pages read `src/lib/collections.ts`, never the JSON directly. Adding a recording updates counts, category tiles, filters, and routes on its own.
+Pages read `src/lib/collections.ts`, never the JSON directly. Adding a recording updates counts, its exclusive Jelajah category, search, and routes on its own.
 
 Shelf order comes from `shelfOrder` in `src/lib/collections.ts`, not the order in the JSON.
 
@@ -74,7 +76,7 @@ Values inside the data stay in Indonesian — they render straight onto the site
 
 **Jenis musik** — hanya menjelaskan isi musiknya. Gunakan istilah yang sudah ada agar kategori tidak terpecah: `Lagu daerah` · `Lagu tarian` · `Lagu rohani` · `Pop Papua` · `Rock Papua`.
 
-**Bentuk video atau penampilan** — menjelaskan cara sumber disajikan, terpisah dari jenis musik: `Kompilasi album` · `Rekaman arsip` · `Rekaman audio` · `Rekaman musik` · `Video lirik` · `Cover` · `Karaoke` · `Paduan suara` · `Pertunjukan langsung`.
+**Bentuk video atau penampilan** — menjelaskan cara sumber disajikan, terpisah dari jenis musik: `Kompilasi album` · `Rekaman arsip` · `Rekaman audio` · `Rekaman musik` · `Video musik` · `Video lirik` · `Terjemahan lirik` · `Cover` · `Karaoke` · `Paduan suara` · `Pertunjukan langsung`.
 
 Satu URL YouTube harus menjadi satu entri. Jangan membuat halaman baru dari `startSeconds` atau bab-bab di dalam video kompilasi; simpan kompilasi tersebut sebagai satu video utuh.
 
@@ -82,15 +84,11 @@ Satu URL YouTube harus menjadi satu entri. Jangan membuat halaman baru dari `sta
 
 **When something is uncertain**, write it as it is: `Belum dipastikan` for the region, `Catatan bahasa terbuka` for `languageGroup`, and the reason in `context`.
 
-## Filter URLs
+## Jelajah categories and search
 
-Filters on `/jelajah/` are mirrored into the URL and can be combined:
+Each video belongs to exactly one shelf in `collections.json`, and `/jelajah/` renders those shelves as exclusive categories. Do not copy the same YouTube entry into another shelf; use its metadata for search and related-video ranking instead.
 
-```
-/jelajah/?q=mambesak&bahasa=Sentani&genre=Lagu+rohani&wilayah=Saireri
-```
-
-Values match the data exactly — `bahasa` is `languageGroup` and `wilayah` is `customaryRegion`. Category tiles are plain links, so the page still works without JavaScript.
+Search is mirrored into the URL as `/jelajah/?q=mambesak`. It searches title, artist, channel, language, region, genre, format, and the concise curation note.
 
 ## Styling and theme
 
@@ -99,11 +97,11 @@ Tailwind v4 runs as a Vite plugin (`@tailwindcss/vite`). There is no `tailwind.c
 `dark:` keys off `data-theme` on `<html>`:
 
 - A blocking inline script in `BaseHead.astro` sets it before first paint from `localStorage.theme`, falling back to the system preference. It must stay inline and in `<head>`.
-- The header theme button saves the choice in `localStorage`; active styling is keyed off `data-theme` so it does not flash.
+- The sidebar theme menu displays Auto, Light, or Dark and saves `system`, `light`, or `dark` in `localStorage`; active styling is keyed off `data-theme` so it does not flash.
 - Hand-written CSS needing a dark variant must use `[data-theme="dark"] .your-class` — those rules sit outside Tailwind's variant system.
 
 **Renamed in v4**, and silently dead under the old names: `shadow-sm` → `shadow-xs`, bare `shadow` → `shadow-sm`, bare `rounded` → `rounded-sm`, bare `ring` → `ring-3`, `bg-gradient-to-*` → `bg-linear-to-*`.
 
 ## Client-side JavaScript
 
-Search, filtering, expandable sections, and sidebar controls are small scripts against the DOM. No third-party CDN requests are used for interface behavior; thumbnails come from `i.ytimg.com`.
+Search, expandable sections, and sidebar controls are small scripts against the DOM. No third-party CDN requests are used for interface behavior; thumbnails come from `i.ytimg.com`.
