@@ -53,16 +53,12 @@ export function getStaticPaths() {
 }
 
 const { video, related } = Astro.props as DetailProps;
-const detailLabels = [
-  isSpecific(video.languageGroup) ? video.languageGroup : null,
-  isSpecific(video.customaryRegion) ? video.customaryRegion : null,
-  ...video.genres,
-  ...video.formats,
-].filter((label): label is string => Boolean(label));
-
 const youtubeUrl = `https://www.youtube.com/watch?v=${video.youtubeId}`;
 const embedUrl = `https://www.youtube-nocookie.com/embed/${video.youtubeId}?rel=0`;
-const initials = video.channel
+const detailFacts = [video.year, video.language, video.region].filter(
+  (fact): fact is string => Boolean(fact),
+);
+const initials = video.artist
   .split(/\s+/)
   .filter(Boolean)
   .slice(0, 2)
@@ -73,10 +69,14 @@ const initials = video.channel
 
 <Layout
   title={video.title}
-  description={video.note}
+  description={`Tonton ${video.title} oleh ${video.artist}, lengkap dengan sumber dan konteks singkat di kastaumuzik.`}
   image={`https://i.ytimg.com/vi/${video.youtubeId}/maxresdefault.jpg`}
 >
-  <div class="page-wrap py-4 sm:py-6">
+  <div
+    class="page-wrap py-4 sm:py-6"
+    data-watch-page
+    data-video-slug={video.slug}
+  >
     <div
       class="grid items-start gap-8 xl:grid-cols-[minmax(0,1fr)_24rem] xl:gap-7"
     >
@@ -106,7 +106,7 @@ const initials = video.channel
           <div class="flex min-w-0 items-center gap-3">
             <span
               class="flex size-10 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
-              style={`background:${tileColor(video.channel)}`}
+              style={`background:${tileColor(video.artist)}`}
               aria-hidden="true"
             >
               {initials}
@@ -115,10 +115,10 @@ const initials = video.channel
               <p
                 class="truncate text-sm font-semibold text-neutral-950 dark:text-white"
               >
-                {video.channel}
+                {video.artist}
               </p>
               <p class="mt-0.5 truncate text-[11px] text-neutral-500">
-                {video.artist}
+                Penyanyi
               </p>
             </div>
           </div>
@@ -142,37 +142,150 @@ const initials = video.channel
               </svg>
               Buka di YouTube
             </a>
-            <button
-              type="button"
-              class="inline-flex h-9 items-center gap-2 rounded-full bg-neutral-100 px-4 text-xs font-semibold text-neutral-800 transition hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700"
-              data-copy-link
-            >
-              <svg
-                class="size-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                aria-hidden="true"
+            <div class="relative" data-share-menu data-open="false">
+              <button
+                type="button"
+                class="inline-flex h-9 items-center gap-2 rounded-full bg-neutral-100 px-4 text-xs font-semibold text-neutral-800 transition hover:bg-neutral-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700"
+                data-share-trigger
+                aria-haspopup="menu"
+                aria-expanded="false"
+                aria-controls="video-share-menu"
               >
-                <circle cx="18" cy="5" r="3"></circle>
-                <circle cx="6" cy="12" r="3"></circle>
-                <circle cx="18" cy="19" r="3"></circle>
-                <path d="m8.7 10.7 6.6-4.3M8.7 13.3l6.6 4.3"></path>
-              </svg>
-              <span data-copy-label>Bagikan</span>
-            </button>
-          </div>
-        </div>
+                <svg
+                  class="size-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  aria-hidden="true"
+                >
+                  <circle cx="18" cy="5" r="3"></circle>
+                  <circle cx="6" cy="12" r="3"></circle>
+                  <circle cx="18" cy="19" r="3"></circle>
+                  <path d="m8.7 10.7 6.6-4.3M8.7 13.3l6.6 4.3"></path>
+                </svg>
+                Bagikan
+              </button>
 
-        <div
-          class="mt-4 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none [&::-webkit-scrollbar]:hidden"
-        >
-          <a href={`/jelajah/#${video.collectionId}`} class="yt-chip">
-            {video.collectionTitle}
-          </a>
-          {detailLabels.map((label) => <span class="yt-chip">{label}</span>)}
+              <div
+                id="video-share-menu"
+                class="fixed left-1/2 z-30 w-[calc(100vw-2rem)] max-w-72 -translate-x-1/2 rounded-2xl border border-neutral-200 bg-white p-3 shadow-xl dark:border-neutral-700 dark:bg-neutral-900 sm:absolute sm:left-auto sm:right-0 sm:top-11 sm:w-72 sm:translate-x-0"
+                data-share-popover
+                role="menu"
+                aria-label="Bagikan video"
+                hidden
+              >
+                <span
+                  class="pointer-events-none absolute -top-1.5 size-3 -translate-x-1/2 rotate-45 border-l border-t border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-900"
+                  style="left: var(--share-caret-left, 50%)"
+                  aria-hidden="true"
+                ></span>
+                <p
+                  class="px-2 pb-3 text-sm font-semibold text-neutral-950 dark:text-white"
+                >
+                  Bagikan video
+                </p>
+                <div class="grid grid-cols-4 gap-1">
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex min-w-0 flex-col items-center gap-2 rounded-xl p-2 text-center text-[11px] font-medium text-neutral-700 transition hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 dark:text-neutral-200 dark:hover:bg-neutral-800"
+                    data-share-platform="whatsapp"
+                    role="menuitem"
+                  >
+                    <span
+                      class="flex size-10 items-center justify-center rounded-full bg-[#25D366] text-white"
+                    >
+                      <svg
+                        class="size-5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.5-4.1A8 8 0 1 1 20 11.5Z"
+                        ></path>
+                        <path d="M9 8.5c.5 2.5 2 4 4.5 5"></path>
+                      </svg>
+                    </span>
+                    WhatsApp
+                  </a>
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex min-w-0 flex-col items-center gap-2 rounded-xl p-2 text-center text-[11px] font-medium text-neutral-700 transition hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 dark:text-neutral-200 dark:hover:bg-neutral-800"
+                    data-share-platform="facebook"
+                    role="menuitem"
+                  >
+                    <span
+                      class="flex size-10 items-center justify-center rounded-full bg-[#1877F2] text-xl font-bold text-white"
+                      aria-hidden="true">f</span
+                    >
+                    Facebook
+                  </a>
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex min-w-0 flex-col items-center gap-2 rounded-xl p-2 text-center text-[11px] font-medium text-neutral-700 transition hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 dark:text-neutral-200 dark:hover:bg-neutral-800"
+                    data-share-platform="x"
+                    role="menuitem"
+                  >
+                    <span
+                      class="flex size-10 items-center justify-center rounded-full bg-neutral-950 text-white dark:bg-white dark:text-neutral-950"
+                      aria-hidden="true"
+                    >
+                      <svg
+                        class="size-4"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"
+                        ></path>
+                      </svg>
+                    </span>
+                    Twitter
+                  </a>
+                  <button
+                    type="button"
+                    class="flex min-w-0 flex-col items-center gap-2 rounded-xl p-2 text-center text-[11px] font-medium text-neutral-700 transition hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 dark:text-neutral-200 dark:hover:bg-neutral-800"
+                    data-copy-share-link
+                    role="menuitem"
+                  >
+                    <span
+                      class="flex size-10 items-center justify-center rounded-full bg-neutral-200 text-neutral-800 dark:bg-neutral-700 dark:text-white"
+                    >
+                      <svg
+                        class="size-5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M10 13a5 5 0 0 0 7.1.1l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1"
+                        ></path>
+                        <path
+                          d="M14 11a5 5 0 0 0-7.1-.1l-2 2A5 5 0 0 0 12 20l1.1-1.1"
+                        ></path>
+                      </svg>
+                    </span>
+                    <span data-copy-share-label>Salin tautan</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <section
@@ -183,11 +296,14 @@ const initials = video.channel
           <div
             class="flex flex-wrap gap-x-2 gap-y-1 font-medium text-neutral-950 dark:text-white"
           >
-            <span>{video.year}</span>
-            <span aria-hidden="true">•</span>
-            <span>{video.language}</span>
-            <span aria-hidden="true">•</span>
-            <span>{video.region}</span>
+            {
+              detailFacts.map((fact, index) => (
+                <>
+                  {index > 0 && <span aria-hidden="true">•</span>}
+                  <span>{fact}</span>
+                </>
+              ))
+            }
           </div>
           <p
             class="mt-3 leading-relaxed text-neutral-700 dark:text-neutral-300"
@@ -230,19 +346,128 @@ const initials = video.channel
 </Layout>
 
 <script>
-  const copyButton =
-    document.querySelector<HTMLButtonElement>("[data-copy-link]");
-  const copyLabel = document.querySelector<HTMLElement>("[data-copy-label]");
+  const watchHistoryKey = "kastaumuzik:watch-history";
+  const watchPage = document.querySelector<HTMLElement>("[data-watch-page]");
+  const currentVideoSlug = watchPage?.dataset.videoSlug;
 
-  copyButton?.addEventListener("click", async () => {
+  if (currentVideoSlug) {
     try {
-      await navigator.clipboard.writeText(window.location.href);
-      if (copyLabel) copyLabel.textContent = "Tersalin";
+      const saved = JSON.parse(localStorage.getItem(watchHistoryKey) ?? "[]");
+      const history = Array.isArray(saved)
+        ? saved.filter((slug): slug is string => typeof slug === "string")
+        : [];
+      const updatedHistory = [
+        currentVideoSlug,
+        ...history.filter((slug) => slug !== currentVideoSlug),
+      ].slice(0, 50);
+      localStorage.setItem(watchHistoryKey, JSON.stringify(updatedHistory));
+    } catch {
+      // The page remains usable when browser storage is unavailable.
+    }
+  }
+
+  const shareMenu = document.querySelector<HTMLElement>("[data-share-menu]");
+  const shareTrigger = document.querySelector<HTMLButtonElement>(
+    "[data-share-trigger]",
+  );
+  const sharePopover = document.querySelector<HTMLElement>(
+    "[data-share-popover]",
+  );
+  const shareLinks = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>("[data-share-platform]"),
+  );
+  const copyShareButton = document.querySelector<HTMLButtonElement>(
+    "[data-copy-share-link]",
+  );
+  const copyShareLabel = document.querySelector<HTMLElement>(
+    "[data-copy-share-label]",
+  );
+
+  const positionSharePopover = () => {
+    if (!shareTrigger || !sharePopover || sharePopover.hidden) return;
+
+    const triggerRect = shareTrigger.getBoundingClientRect();
+    const isMobile = !window.matchMedia("(min-width: 640px)").matches;
+
+    if (isMobile) {
+      sharePopover.style.top = `${triggerRect.bottom + 12}px`;
+    } else {
+      sharePopover.style.removeProperty("top");
+    }
+
+    const popoverRect = sharePopover.getBoundingClientRect();
+    const caretLeft = Math.min(
+      Math.max(triggerRect.left + triggerRect.width / 2 - popoverRect.left, 18),
+      popoverRect.width - 18,
+    );
+    sharePopover.style.setProperty("--share-caret-left", `${caretLeft}px`);
+  };
+
+  const setShareMenuOpen = (open: boolean, returnFocus = false) => {
+    if (!shareMenu || !shareTrigger || !sharePopover) return;
+    shareMenu.dataset.open = String(open);
+    shareTrigger.setAttribute("aria-expanded", String(open));
+    sharePopover.hidden = !open;
+    if (open) {
+      positionSharePopover();
+      window.requestAnimationFrame(() =>
+        sharePopover.querySelector<HTMLElement>("[role='menuitem']")?.focus(),
+      );
+    } else if (returnFocus) {
+      shareTrigger.focus();
+    }
+  };
+
+  const pageUrl = window.location.href;
+  const videoTitle =
+    document.querySelector<HTMLHeadingElement>("h1")?.textContent?.trim() ??
+    document.title;
+  const shareText = `${videoTitle} - kastaumuzik`;
+
+  shareLinks.forEach((link) => {
+    const platform = link.dataset.sharePlatform;
+    if (platform === "whatsapp") {
+      link.href = `https://wa.me/?text=${encodeURIComponent(`${shareText}\n${pageUrl}`)}`;
+    } else if (platform === "facebook") {
+      link.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
+    } else if (platform === "x") {
+      link.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(pageUrl)}`;
+    }
+    link.addEventListener("click", () => setShareMenuOpen(false));
+  });
+
+  shareTrigger?.addEventListener("click", () => {
+    setShareMenuOpen(shareMenu?.dataset.open !== "true");
+  });
+
+  window.addEventListener("resize", () => {
+    if (shareMenu?.dataset.open === "true") positionSharePopover();
+  });
+
+  copyShareButton?.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(pageUrl);
+      if (copyShareLabel) copyShareLabel.textContent = "Tersalin";
       window.setTimeout(() => {
-        if (copyLabel) copyLabel.textContent = "Bagikan";
+        if (copyShareLabel) copyShareLabel.textContent = "Salin tautan";
       }, 1800);
     } catch {
-      window.prompt("Salin tautan ini", window.location.href);
+      window.prompt("Salin tautan ini", pageUrl);
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (
+      shareMenu?.dataset.open === "true" &&
+      !shareMenu.contains(event.target as Node)
+    ) {
+      setShareMenuOpen(false);
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && shareMenu?.dataset.open === "true") {
+      setShareMenuOpen(false, true);
     }
   });
 </script>
