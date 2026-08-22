@@ -12,7 +12,8 @@ The site stores no audio or video of its own. Every entry links back to the reco
 | --- | --- |
 | `/` | Home — curator's pick, quick access, and five scrolling shelves |
 | `/jelajah/` | Search songs, artists, channels, or languages; browse by language, song type, and customary region |
-| `/koleksi/<slug>/` | Detail page for one entry: player, metadata, curation notes, and nearby recommendations |
+| `/video/<slug>/` | Detail page for one video: player, concise context, and related videos |
+| `/usulkan/` | Demo form for proposing a YouTube video for curator review |
 | `/tentang/` | How we curate |
 | `/pernyataan/` | Sources, copyright, and how to send corrections |
 
@@ -26,7 +27,8 @@ A wrong credit harms the rights holder more than a credit that admits it is inco
 
 ## Contributing
 
-- **Suggest a song** through the [submission form](https://app.formbricks.com/s/v2so83o3gq4aatac480xfytb) — include the YouTube link, song title, language, performers, and some context about the recording.
+- **Suggest a song** through the [proposal page](https://kastaumuzik.com/usulkan/) — include the YouTube link, song title, language, performers, and some context about the recording. The current form is a browser-only demo until server submission is connected.
+- **Send product feedback** through the [feedback form](https://app.formbricks.com/s/v2so83o3gq4aatac480xfytb).
 - **Correct a credit, language, or region** through an issue or pull request, with a supporting source.
 - **Rights holders** who want a link removed can contact us; see the [statement page](https://kastaumuzik.com/pernyataan/).
 

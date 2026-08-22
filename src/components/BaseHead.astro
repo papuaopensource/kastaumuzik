@@ -64,11 +64,11 @@ const socialImage = new URL(
   content="kastaumuzik — arsip lagu daerah Papua"
 />
 
-<!-- Onest Font from Google Fonts -->
+<!-- Interface typography -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
-  href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Onest:wght@100..900&display=swap"
   rel="stylesheet"
 />
 
@@ -86,5 +86,10 @@ const socialImage = new URL(
           : "light";
 
     document.documentElement.dataset.theme = theme;
+
+    const sidebar = localStorage.getItem("sidebar");
+    if (sidebar === "compact" || sidebar === "expanded") {
+      document.documentElement.dataset.sidebar = sidebar;
+    }
   })();
 </script>

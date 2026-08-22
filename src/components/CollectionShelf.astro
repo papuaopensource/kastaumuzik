@@ -4,167 +4,109 @@ import type { IndexedVideo } from "@/types/index";
 
 interface Props {
   id: string;
-  eyebrow: string;
   title: string;
-  description?: string;
   videos: IndexedVideo[];
-  /** "See all" link on the right of the shelf header. */
-  moreHref?: string;
-  moreLabel?: string;
+  icon?: "star" | "music" | "sparkles" | "people" | "heart";
   headingLevel?: "h2" | "h3";
 }
 
 const {
   id,
-  eyebrow,
   title,
-  description,
   videos,
-  moreHref,
-  moreLabel = "Lihat semua",
+  icon = "music",
   headingLevel = "h2",
 } = Astro.props as Props;
 
 const Heading = headingLevel;
+const initialCount = 4;
+const hasMore = videos.length > initialCount;
+const iconPaths: Record<string, string> = {
+  star: '<path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z"/>',
+  music: '<path d="M9 18V5l10-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="16" cy="16" r="3"/>',
+  sparkles: '<path d="m12 3 1.1 3.2L16 8l-2.9 1.8L12 13l-1.1-3.2L8 8l2.9-1.8L12 3Z"/><path d="m5 14 .8 2.2L8 17.5l-2.2 1.3L5 21l-.8-2.2L2 17.5l2.2-1.3L5 14ZM19 11l.7 1.8 1.8.7-1.8.7L19 16l-.7-1.8-1.8-.7 1.8-.7L19 11Z"/>',
+  people: '<circle cx="9" cy="8" r="3"/><path d="M3.5 20v-2a5.5 5.5 0 0 1 11 0v2"/><path d="M16 4.5a3 3 0 0 1 0 5.8M16 13a5.5 5.5 0 0 1 4.5 5.4V20"/>',
+  heart: '<path d="M20.8 5.7a5.4 5.4 0 0 0-7.6 0L12 6.9l-1.2-1.2a5.4 5.4 0 1 0-7.6 7.6L12 22l8.8-8.7a5.4 5.4 0 0 0 0-7.6Z"/>',
+};
 ---
 
 <section
-  class="music-shelf scroll-mt-36"
+  class="music-section scroll-mt-24"
   id={id}
   aria-labelledby={`${id}-title`}
-  data-shelf
+  data-expandable-section
 >
-  <div class="mb-4 flex items-end justify-between gap-4">
-    <div class="min-w-0 max-w-2xl">
-      <p
-        class="mb-1 text-[11px] font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-400"
-      >
-        {eyebrow}
-      </p>
-      <Heading
-        id={`${id}-title`}
-        class="text-lg font-semibold text-neutral-800 md:text-xl dark:text-neutral-100"
-        >{title}</Heading
-      >
-      {
-        description && (
-          <p class="mt-1 max-w-xl text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
-            {description}
-          </p>
-        )
-      }
-    </div>
-
-    <div class="flex shrink-0 items-center gap-2">
-      {
-        moreHref && (
-          <a
-            href={moreHref}
-            class="hidden text-xs font-semibold text-neutral-600 underline decoration-orange-600 underline-offset-4 transition hover:text-orange-700 sm:inline dark:text-neutral-300 dark:hover:text-orange-400"
-          >
-            {moreLabel}
-          </a>
-        )
-      }
-      <button
-        type="button"
-        data-shelf-prev
-        class="flex size-8 items-center justify-center rounded-full border border-neutral-300 text-neutral-600 transition hover:border-neutral-500 hover:bg-neutral-100 disabled:cursor-default disabled:opacity-30 dark:border-neutral-600 dark:text-neutral-300 dark:hover:border-neutral-400 dark:hover:bg-neutral-800"
-        aria-label={`Geser ${title} ke kiri`}
-      >
-        <svg
-          class="size-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg
-        >
-      </button>
-      <button
-        type="button"
-        data-shelf-next
-        class="flex size-8 items-center justify-center rounded-full border border-neutral-300 text-neutral-600 transition hover:border-neutral-500 hover:bg-neutral-100 disabled:cursor-default disabled:opacity-30 dark:border-neutral-600 dark:text-neutral-300 dark:hover:border-neutral-400 dark:hover:bg-neutral-800"
-        aria-label={`Geser ${title} ke kanan`}
-      >
-        <svg
-          class="size-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg
-        >
-      </button>
-    </div>
+  <div class="mb-5 flex items-center gap-2.5">
+    <svg
+      class="size-5 shrink-0 text-neutral-800 dark:text-neutral-200"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      set:html={iconPaths[icon]}
+    />
+    <Heading
+      id={`${id}-title`}
+      class="text-xl font-bold tracking-tight text-neutral-950 dark:text-white"
+    >
+      {title}
+    </Heading>
   </div>
 
-  <div
-    data-shelf-track
-    class="-mx-4 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto scroll-smooth px-4 pb-2 sm:-mx-6 sm:px-6 lg:-mx-10 lg:px-10 xl:-mx-12 xl:px-12 scrollbar-none [&::-webkit-scrollbar]:hidden"
-    tabindex="0"
-    role="group"
-    aria-label={`Daftar pilihan pada rak ${title}`}
-  >
-    {videos.map((video) => <VideoCard video={video} variant="shelf" />)}
+  <div class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 xl:grid-cols-4">
+    {videos.map((video, index) => (
+      <div
+        class:list={[index >= initialCount && "hidden"]}
+        data-extra-card={index >= initialCount ? "true" : undefined}
+      >
+        <VideoCard video={video} variant="grid" />
+      </div>
+    ))}
   </div>
 
-  {
-    moreHref && (
-      <a
-        href={moreHref}
-        class="mt-2 inline-block text-xs font-semibold text-neutral-600 underline decoration-orange-600 underline-offset-4 sm:hidden dark:text-neutral-300"
+  {hasMore && (
+    <div class="relative mt-9 flex items-center justify-center">
+      <div class="absolute inset-x-0 border-t border-neutral-200 dark:border-neutral-800"></div>
+      <button
+        type="button"
+        class="relative inline-flex h-9 items-center gap-2 rounded-full border border-neutral-300 bg-white px-5 text-xs font-semibold text-neutral-700 transition hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-200 dark:hover:bg-neutral-800"
+        data-section-toggle
+        aria-expanded="false"
       >
-        {moreLabel}
-      </a>
-    )
-  }
+        <span data-toggle-label>Tampilkan lebih banyak</span>
+        <svg class="size-3.5 transition-transform" data-toggle-icon viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+      </button>
+    </div>
+  )}
 </section>
 
 <script>
-  const EDGE_TOLERANCE = 4;
+  document
+    .querySelectorAll<HTMLElement>("[data-expandable-section]")
+    .forEach((section) => {
+      const button = section.querySelector<HTMLButtonElement>(
+        "[data-section-toggle]",
+      );
+      const label = section.querySelector<HTMLElement>("[data-toggle-label]");
+      const icon = section.querySelector<HTMLElement>("[data-toggle-icon]");
+      const extraCards = Array.from(
+        section.querySelectorAll<HTMLElement>("[data-extra-card]"),
+      );
+      if (!button || extraCards.length === 0) return;
 
-  const setupShelf = (shelf: HTMLElement) => {
-    const track = shelf.querySelector<HTMLElement>("[data-shelf-track]");
-    const previous =
-      shelf.querySelector<HTMLButtonElement>("[data-shelf-prev]");
-    const next = shelf.querySelector<HTMLButtonElement>("[data-shelf-next]");
-    if (!track || !previous || !next) return;
-
-    const syncButtons = () => {
-      const maxScroll = track.scrollWidth - track.clientWidth;
-      const overflows = maxScroll > EDGE_TOLERANCE;
-
-      previous.disabled = !overflows || track.scrollLeft <= EDGE_TOLERANCE;
-      next.disabled =
-        !overflows || track.scrollLeft >= maxScroll - EDGE_TOLERANCE;
-    };
-
-    const step = () => Math.max(track.clientWidth * 0.8, 200);
-
-    previous.addEventListener("click", () =>
-      track.scrollBy({ left: -step(), behavior: "smooth" }),
-    );
-    next.addEventListener("click", () =>
-      track.scrollBy({ left: step(), behavior: "smooth" }),
-    );
-    track.addEventListener("scroll", syncButtons, { passive: true });
-
-    new ResizeObserver(syncButtons).observe(track);
-    syncButtons();
-
-    document.addEventListener("shelf:refresh", syncButtons);
-  };
-
-  document.querySelectorAll<HTMLElement>("[data-shelf]").forEach(setupShelf);
+      button.addEventListener("click", () => {
+        const expanded = button.getAttribute("aria-expanded") === "true";
+        extraCards.forEach((card) => card.classList.toggle("hidden", expanded));
+        button.setAttribute("aria-expanded", String(!expanded));
+        if (label) {
+          label.textContent = expanded
+            ? "Tampilkan lebih banyak"
+            : "Tampilkan lebih sedikit";
+        }
+        icon?.classList.toggle("rotate-180", !expanded);
+      });
+    });
 </script>
-
-<style is:global>
-  .video-card[hidden] {
-    display: none !important;
-  }
-</style>

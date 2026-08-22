@@ -1,0 +1,260 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+const fieldClass =
+  "mt-2 h-11 w-full rounded-lg border border-neutral-300 bg-white px-3.5 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100 dark:placeholder:text-neutral-600";
+const textareaClass =
+  "mt-2 min-h-36 w-full resize-y rounded-lg border border-neutral-300 bg-white px-3.5 py-3 text-sm leading-relaxed text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100 dark:placeholder:text-neutral-600";
+---
+
+<Layout
+  title="Usulkan Video"
+  description="Usulkan video lagu Papua dari YouTube untuk ditinjau kurator kastaumuzik."
+>
+  <div class="page-wrap py-8 sm:py-12">
+    <div class="mx-auto max-w-5xl">
+      <header>
+        <h1 class="text-3xl font-bold tracking-tight text-neutral-950 sm:text-4xl dark:text-white">
+          Usulkan video
+        </h1>
+        <p class="mt-3 max-w-xl text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+          Kirim tautan YouTube. Kurator akan memeriksanya sebelum video dapat tampil di situs.
+        </p>
+        <div class="mt-4 inline-flex items-center gap-2 rounded-full bg-amber-50 px-3 py-1.5 text-xs font-medium text-amber-900 dark:bg-amber-950/40 dark:text-amber-200" role="note">
+          <svg class="size-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M12 11v6M12 7.5h.01"></path>
+          </svg>
+          Mode demo — data hanya tersimpan di browser ini
+        </div>
+      </header>
+
+      <form
+        class="mt-7 rounded-2xl border border-neutral-200 bg-neutral-50 p-5 sm:p-8 dark:border-neutral-800 dark:bg-neutral-900/60"
+        data-proposal-form
+      >
+        <div class="space-y-5">
+          <div>
+            <label for="youtube-url" class="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+              Tautan YouTube <span class="text-orange-600" aria-hidden="true">*</span>
+            </label>
+            <input
+              id="youtube-url"
+              name="youtubeUrl"
+              type="url"
+              required
+              inputmode="url"
+              autocomplete="url"
+              placeholder="https://youtu.be/..."
+              class={fieldClass}
+              data-youtube-url
+            />
+          </div>
+
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label for="song-title" class="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+                Judul <span class="text-orange-600" aria-hidden="true">*</span>
+              </label>
+              <input
+                id="song-title"
+                name="title"
+                type="text"
+                required
+                autocomplete="off"
+                placeholder="Judul lagu atau video"
+                class={fieldClass}
+              />
+            </div>
+
+            <div>
+              <label for="performer" class="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+                Artis atau pelaku <span class="text-orange-600" aria-hidden="true">*</span>
+              </label>
+              <input
+                id="performer"
+                name="performer"
+                type="text"
+                required
+                autocomplete="off"
+                placeholder="Nama artis, grup, atau koor"
+                class={fieldClass}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="description" class="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+              Deskripsi lagu <span class="text-orange-600" aria-hidden="true">*</span>
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              required
+              minlength="20"
+              placeholder="Ceritakan konteks, asal, atau makna lagu yang diketahui"
+              class={textareaClass}
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="mt-6 flex flex-wrap items-center gap-3">
+          <button
+            type="submit"
+            class="inline-flex h-10 items-center rounded-full bg-orange-600 px-5 text-sm font-semibold text-white transition hover:bg-orange-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-900"
+          >
+            <span data-submit-label>Simpan demo</span>
+          </button>
+          <button
+            type="button"
+            class="hidden h-10 items-center rounded-full border border-neutral-300 px-4 text-sm font-semibold text-neutral-700 transition hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800"
+            data-clear-proposal
+          >
+            Hapus
+          </button>
+          <p class="text-xs text-neutral-500 sm:ml-auto">Tidak langsung dipublikasikan.</p>
+        </div>
+
+        <div
+          class="mt-5 hidden rounded-xl border p-3.5 text-sm"
+          data-proposal-status
+          aria-live="polite"
+          role="status"
+        ></div>
+      </form>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-proposal-form]");
+  const youtubeInput = document.querySelector<HTMLInputElement>("[data-youtube-url]");
+  const statusBox = document.querySelector<HTMLElement>("[data-proposal-status]");
+  const clearButton = document.querySelector<HTMLButtonElement>("[data-clear-proposal]");
+  const submitLabel = document.querySelector<HTMLElement>("[data-submit-label]");
+  const storageKey = "kastaumuzik-demo-proposal";
+
+  const showStatus = (message: string, tone: "success" | "warning" = "success") => {
+    if (!statusBox) return;
+    statusBox.textContent = message;
+    statusBox.dataset.tone = tone;
+    statusBox.classList.remove("hidden");
+  };
+
+  const validateYoutubeUrl = () => {
+    if (!youtubeInput || !youtubeInput.value) return true;
+
+    try {
+      const url = new URL(youtubeInput.value);
+      const allowedHosts = new Set([
+        "youtube.com",
+        "www.youtube.com",
+        "m.youtube.com",
+        "music.youtube.com",
+        "youtu.be",
+        "www.youtu.be",
+      ]);
+      const hasVideoId = url.hostname.endsWith("youtu.be")
+        ? url.pathname.split("/").filter(Boolean).length > 0
+        : (url.pathname === "/watch" && Boolean(url.searchParams.get("v"))) ||
+          /^\/(shorts|live)\/[^/]+/.test(url.pathname);
+      const valid =
+        ["http:", "https:"].includes(url.protocol) &&
+        allowedHosts.has(url.hostname) &&
+        hasVideoId;
+      youtubeInput.setCustomValidity(
+        valid ? "" : "Masukkan tautan video YouTube yang valid.",
+      );
+      return valid;
+    } catch {
+      youtubeInput.setCustomValidity("Masukkan tautan video YouTube yang valid.");
+      return false;
+    }
+  };
+
+  youtubeInput?.addEventListener("input", () => {
+    youtubeInput.setCustomValidity("");
+    validateYoutubeUrl();
+  });
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    validateYoutubeUrl();
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const proposal = {
+      ...Object.fromEntries(new FormData(form).entries()),
+      savedAt: new Date().toISOString(),
+    };
+
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(proposal));
+      showStatus("Demo tersimpan di browser. Data belum dikirim ke kurator.");
+      clearButton?.classList.remove("hidden");
+      clearButton?.classList.add("inline-flex");
+      if (submitLabel) submitLabel.textContent = "Simpan ulang";
+    } catch {
+      showStatus("Browser tidak mengizinkan penyimpanan. Data belum dikirim.", "warning");
+    }
+  });
+
+  clearButton?.addEventListener("click", () => {
+    localStorage.removeItem(storageKey);
+    form?.reset();
+    youtubeInput?.setCustomValidity("");
+    statusBox?.classList.add("hidden");
+    clearButton.classList.add("hidden");
+    clearButton.classList.remove("inline-flex");
+    if (submitLabel) submitLabel.textContent = "Simpan demo";
+  });
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey) ?? "null");
+
+    if (saved && form) {
+      Object.entries(saved).forEach(([name, value]) => {
+        const field = form.elements.namedItem(name);
+        if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) {
+          field.value = typeof value === "string" ? value : "";
+        }
+      });
+
+      showStatus("Data demo terakhir dipulihkan dari browser ini.");
+      clearButton?.classList.remove("hidden");
+      clearButton?.classList.add("inline-flex");
+      if (submitLabel) submitLabel.textContent = "Simpan ulang";
+    }
+  } catch {
+    localStorage.removeItem(storageKey);
+  }
+</script>
+
+<style>
+  [data-proposal-status][data-tone="success"] {
+    border-color: rgb(134 239 172);
+    background: rgb(240 253 244);
+    color: rgb(20 83 45);
+  }
+
+  [data-proposal-status][data-tone="warning"] {
+    border-color: rgb(253 186 116);
+    background: rgb(255 247 237);
+    color: rgb(124 45 18);
+  }
+
+  :global([data-theme="dark"]) [data-proposal-status][data-tone="success"] {
+    border-color: rgb(20 83 45);
+    background: rgb(5 46 22 / 0.35);
+    color: rgb(187 247 208);
+  }
+
+  :global([data-theme="dark"]) [data-proposal-status][data-tone="warning"] {
+    border-color: rgb(124 45 18);
+    background: rgb(67 20 7 / 0.35);
+    color: rgb(254 215 170);
+  }
+</style>

@@ -1,13 +1,26 @@
 import collectionData from "@/data/collections.json";
-import type { CuratedVideo, Facet, IndexedVideo, MusicCollection } from "@/types/index";
+import type { Facet, IndexedVideo, MusicCollection } from "@/types/index";
+
+/** A source video is one catalog item. Chapters inside a compilation are not separate entries. */
+const sourceIds = collectionData.flatMap((collection) =>
+  collection.videos.map((video) => video.youtubeId),
+);
+const duplicateSourceIds = sourceIds.filter(
+  (youtubeId, index) => sourceIds.indexOf(youtubeId) !== index,
+);
+
+if (duplicateSourceIds.length > 0) {
+  throw new Error(
+    `Setiap video YouTube hanya boleh menjadi satu entri. Duplikat: ${[...new Set(duplicateSourceIds)].join(", ")}`,
+  );
+}
 
 /** Shelves ordered from the broadest entry point to the most specific. */
 const shelfOrder = [
-  "pilihan-untuk-mulai",
-  "lima-belas-bahasa-mambesak",
-  "ingatan-bersama",
-  "suara-dari-kanal-warga",
-  "nyanyian-jemaat",
+  "arsip-dan-jejak-musik",
+  "lagu-daerah-dan-penampilan",
+  "pop-dan-cover-papua",
+  "rohani-dan-paduan-suara",
 ];
 
 export const collections = (collectionData as MusicCollection[])
@@ -28,34 +41,15 @@ export const videoCount = allVideos.length;
  * Placeholders that record missing information rather than name a real
  * category. They belong in a curation note, not in a badge or a filter link.
  */
-const openEnded = new Set(["Belum dipastikan", "Catatan bahasa terbuka", "Lintas wilayah adat"]);
+const openEnded = new Set([
+  "Belum dipastikan",
+  "Catatan bahasa terbuka",
+  "Lintas wilayah adat",
+  "Beragam bahasa Papua",
+  "Bahasa daerah Papua",
+]);
 
 export const isSpecific = (value: string) => !openEnded.has(value);
-
-/** Listening modes: quick filters that cut across shelves on the browse page. */
-export const modesForVideo = (video: CuratedVideo) =>
-  [
-    video.languageGroup !== "Bahasa Indonesia" ? "bahasa-daerah" : "",
-    video.genres.some((genre) => ["Rekaman arsip", "Arsip Mambesak"].includes(genre)) ? "arsip" : "",
-    video.genres.some((genre) => ["Rekaman panggung", "Paduan suara"].includes(genre)) ? "penampilan" : "",
-    video.genres.includes("Lagu rohani") ? "rohani" : "",
-  ].filter(Boolean);
-
-export const modeLabels: Array<{ id: string; label: string }> = [
-  { id: "all", label: "Semua" },
-  { id: "bahasa-daerah", label: "Bahasa daerah" },
-  { id: "arsip", label: "Rekaman arsip" },
-  { id: "penampilan", label: "Panggung & koor" },
-  { id: "rohani", label: "Lagu rohani" },
-];
-
-export const modeOptions = modeLabels.map((mode) => ({
-  ...mode,
-  count:
-    mode.id === "all"
-      ? videoCount
-      : allVideos.filter((video) => modesForVideo(video).includes(mode.id)).length,
-}));
 
 export const searchTextFor = (video: IndexedVideo) =>
   [
@@ -67,8 +61,7 @@ export const searchTextFor = (video: IndexedVideo) =>
     video.language,
     video.languageGroup,
     video.genres.join(" "),
-    video.collectionTitle,
-    video.curationStatus,
+    video.formats.join(" "),
     video.note,
   ]
     .join(" ")
@@ -83,15 +76,9 @@ const tally = (values: string[]): Facet[] => {
     .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, "id"));
 };
 
-export const collectionFacets = collections.map((collection) => ({
-  name: collection.title,
-  count: collection.videos.length,
-  id: collection.id,
-  coverId: collection.videos[0].youtubeId,
-}));
-
 export const languageFacets = tally(allVideos.map((video) => video.languageGroup));
 export const genreFacets = tally(allVideos.flatMap((video) => video.genres));
+export const formatFacets = tally(allVideos.flatMap((video) => video.formats));
 export const regionFacets = tally(allVideos.map((video) => video.customaryRegion));
 
 /** One sample cover per facet, so category tiles have a thumbnail. */

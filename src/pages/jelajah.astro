@@ -1,47 +1,36 @@
 ---
 import CategoryTile from "@/components/CategoryTile.astro";
-import Layout from "@/layouts/Layout.astro";
 import VideoCard from "@/components/VideoCard.astro";
+import Layout from "@/layouts/Layout.astro";
 import {
-  collectionFacets,
-  collections,
+  allVideos,
   coverFor,
+  formatFacets,
   genreFacets,
+  isSpecific,
   languageFacets,
-  modeOptions,
   regionFacets,
   videoCount,
 } from "@/lib/collections";
+import type { IndexedVideo } from "@/types/index";
 
 const tileSections = [
   {
-    id: "rak",
-    title: "Rak kurasi",
-    description:
-      "Lima susunan yang dipakai di teras, dibuka penuh sebagai daftar.",
-    facetType: "rak",
-    facets: collectionFacets.map((facet) => ({
-      name: facet.name,
-      count: facet.count,
-      coverId: facet.coverId,
-    })),
-  },
-  {
     id: "bahasa",
+    navTitle: "Bahasa",
     title: "Bahasa lagu",
-    description:
-      "Bahasa yang dipakai dalam rekaman. Yang belum jelas ditulis apa adanya, bukan ditebak.",
     facetType: "bahasa",
-    facets: languageFacets.map((facet) => ({
-      ...facet,
-      coverId: coverFor((video) => video.languageGroup === facet.name),
-    })),
+    facets: languageFacets
+      .filter((facet) => isSpecific(facet.name))
+      .map((facet) => ({
+        ...facet,
+        coverId: coverFor((video) => video.languageGroup === facet.name),
+      })),
   },
   {
     id: "jenis",
-    title: "Jenis lagu",
-    description:
-      "Dari lagu daerah dan lagu tarian sampai paduan suara, lagu rohani, dan rekaman arsip.",
+    navTitle: "Jenis musik",
+    title: "Jenis musik",
     facetType: "genre",
     facets: genreFacets.map((facet) => ({
       ...facet,
@@ -49,358 +38,215 @@ const tileSections = [
     })),
   },
   {
-    id: "wilayah",
-    title: "Wilayah adat Papua",
-    description:
-      "Mengikuti tujuh wilayah adat Tanah Papua — Mamta, Saireri, Domberai, Bomberai, Ha Anim, La Pago, dan Mee Pago. Yang muncul di sini hanya wilayah yang sudah punya rekaman; asal yang belum pasti dikumpulkan terpisah.",
-    facetType: "wilayah",
-    facets: regionFacets.map((facet) => ({
+    id: "format",
+    navTitle: "Bentuk video",
+    title: "Bentuk video & penampilan",
+    facetType: "format",
+    facets: formatFacets.map((facet) => ({
       ...facet,
-      coverId: coverFor((video) => video.customaryRegion === facet.name),
+      coverId: coverFor((video) => video.formats.includes(facet.name)),
     })),
+  },
+  {
+    id: "wilayah",
+    navTitle: "Wilayah",
+    title: "Wilayah adat",
+    facetType: "wilayah",
+    facets: regionFacets
+      .filter((facet) => isSpecific(facet.name))
+      .map((facet) => ({
+        ...facet,
+        coverId: coverFor((video) => video.customaryRegion === facet.name),
+      })),
   },
 ];
 
-/** Results are grouped by shelf, mirroring the sections on the home page. */
-const resultGroups = collections.map((collection) => ({
-  ...collection,
-  videos: collection.videos.map((video) => ({
-    ...video,
-    collectionId: collection.id,
-    collectionTitle: collection.title,
-  })),
-}));
+const videoBySlug = new Map(allVideos.map((video) => [video.slug, video]));
+const starterVideos = [
+  "mambesak-album-volume-1-5",
+  "hari-kiamat-black-brothers",
+  "sajojo-lagu-daerah-papua",
+  "awak-param-melani-sawaki",
+]
+  .map((slug) => videoBySlug.get(slug))
+  .filter((video): video is IndexedVideo => Boolean(video));
 ---
 
 <Layout
   title="Jelajah & Cari"
   description="Cari lagu Papua berdasarkan judul, artis, kanal, atau bahasa — atau telusuri lewat kategori bahasa, bentuk musik, dan wilayah adat."
 >
-  <div class="min-h-screen bg-white dark:bg-neutral-900">
-    <div
-      class="sticky top-17.25 z-40 border-b border-neutral-200 bg-white/95 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-900/95"
-    >
-      <div class="mx-auto w-full max-w-360 px-4 py-3 sm:px-6 lg:px-10 xl:px-12">
-        <form id="explore-form" role="search" class="relative">
-          <svg
-            class="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-neutral-400"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <circle cx="11" cy="11" r="7"></circle>
-            <path d="m20 20-3.5-3.5"></path>
-          </svg>
-          <input
-            id="explore-search"
-            type="search"
-            name="q"
-            autocomplete="off"
-            placeholder="Cari lagu, artis, kanal, atau bahasa..."
-            aria-label="Cari di koleksi kastaumuzik"
-            class="h-12 w-full rounded-full border border-neutral-300 bg-neutral-100 py-2 pl-12 pr-16 text-sm text-neutral-800 outline-none transition placeholder:text-neutral-400 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/15 md:text-base dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 dark:focus:border-orange-500 dark:focus:bg-neutral-800"
-          />
-          <kbd
-            class="pointer-events-none absolute right-5 top-1/2 hidden -translate-y-1/2 rounded-sm border border-neutral-300 bg-white px-2 py-0.5 text-[10px] text-neutral-400 sm:block dark:border-neutral-600 dark:bg-neutral-900"
-            >/</kbd
-          >
+  <div class="min-h-screen bg-white dark:bg-neutral-950">
+    <header class="page-wrap pt-7 sm:pt-10">
+      <div class="max-w-4xl">
+        <p class="text-xs font-semibold text-orange-700 dark:text-orange-400">{videoCount} video tersedia</p>
+        <h1 class="mt-2 text-3xl font-bold leading-tight tracking-tight text-neutral-950 sm:text-4xl dark:text-white">Jelajahi video</h1>
+        <p class="mt-3 max-w-2xl text-sm leading-relaxed text-neutral-600 sm:text-base dark:text-neutral-400">
+          Cari judul atau artis, atau pilih kategori yang ingin kamu lihat.
+        </p>
+
+        <form id="explore-search-form" role="search" class="mt-6 max-w-3xl">
+          <label for="explore-search" class="sr-only">Cari judul, artis, kanal, atau bahasa</label>
+          <div class="flex h-12 items-center rounded-full border border-neutral-300 bg-white px-4 transition focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/10 dark:border-neutral-700 dark:bg-neutral-950">
+            <svg class="mr-3 size-5 shrink-0 text-neutral-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="m20 20-3.5-3.5"></path>
+            </svg>
+            <input
+              id="explore-search"
+              type="search"
+              name="q"
+              autocomplete="off"
+              placeholder="Cari judul, artis, kanal, atau bahasa"
+              class="h-full min-w-0 flex-1 bg-transparent text-sm text-neutral-900 outline-none placeholder:text-neutral-500 dark:text-neutral-100"
+            />
+          </div>
         </form>
 
-        <div
-          class="mt-3 flex items-center gap-2 overflow-x-auto pb-0.5 scrollbar-none [&::-webkit-scrollbar]:hidden"
-          aria-label="Saring cara mendengar"
-        >
-          {
-            modeOptions.map((mode) => (
-              <button
-                type="button"
-                class="filter-chip shrink-0"
-                data-mode-filter={mode.id}
-                data-active={mode.id === "all" ? "true" : "false"}
-              >
-                {mode.label} <span>{mode.count}</span>
-              </button>
-            ))
-          }
-        </div>
+        <nav class="mt-4 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none [&::-webkit-scrollbar]:hidden" aria-label="Langsung ke kategori">
+          <span class="mr-1 shrink-0 text-xs font-semibold text-neutral-500">Lihat berdasarkan:</span>
+          {tileSections.map((section) => (
+            <a href={"#" + section.id} class="yt-chip">{section.navTitle}</a>
+          ))}
+        </nav>
       </div>
-    </div>
+    </header>
 
-    <main
-      class="mx-auto w-full max-w-360 px-4 py-8 sm:px-6 lg:px-10 lg:py-10 xl:px-12"
-    >
-      <!-- Results: shown as soon as a query, category, or mode filter is active -->
-      <section
-        id="explore-results"
-        class="hidden"
-        aria-labelledby="explore-results-title"
-        aria-live="polite"
-      >
-        <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+    <div class="page-wrap py-8 lg:py-10">
+      <section id="explore-results" class="hidden scroll-mt-24" aria-labelledby="explore-results-title" aria-live="polite">
+        <div class="mb-6 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p
-              class="text-[11px] font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-400"
-            >
-              Hasil
-            </p>
-            <h1
-              id="explore-results-title"
-              class="mt-1 text-xl font-semibold text-neutral-800 md:text-2xl dark:text-neutral-100"
-            >
-              <span id="explore-results-count">{videoCount}</span> pilihan ditemukan
-            </h1>
-            <div
-              id="explore-active-facets"
-              class="mt-2 flex flex-wrap items-center gap-2"
-            >
-            </div>
+            <p class="text-[11px] font-semibold text-orange-700 dark:text-orange-400">Hasil</p>
+            <h2 id="explore-results-title" class="mt-1 text-2xl font-bold text-neutral-950 dark:text-white">
+              <span id="explore-results-count">{videoCount}</span> video ditemukan
+            </h2>
+            <p id="explore-results-context" class="mt-1 text-xs text-neutral-500">Menampilkan video yang sesuai.</p>
+            <div id="explore-active-facets" class="mt-3 flex flex-wrap items-center gap-2"></div>
           </div>
-          <button
-            id="explore-reset"
-            type="button"
-            class="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 px-3.5 py-2 text-xs font-medium text-neutral-600 transition hover:border-neutral-500 hover:text-neutral-900 dark:border-neutral-600 dark:text-neutral-300 dark:hover:border-neutral-400 dark:hover:text-neutral-100"
-          >
-            <svg
-              class="size-3.5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-              ><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg
-            >
+          <button id="explore-reset" type="button" class="inline-flex h-9 items-center gap-1.5 rounded-full border border-neutral-300 px-4 text-xs font-semibold text-neutral-700 transition hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-800">
+            <svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
             Bersihkan
           </button>
         </div>
 
-        <div id="explore-result-groups" class="space-y-10">
-          {
-            resultGroups.map((group) => (
-              <section data-result-group aria-labelledby={`hasil-${group.id}`}>
-                <div class="mb-3 border-b border-neutral-200 pb-2 dark:border-neutral-800">
-                  <p class="text-[11px] font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-400">
-                    {group.eyebrow}
-                  </p>
-                  <h2
-                    id={`hasil-${group.id}`}
-                    class="mt-0.5 text-base font-semibold text-neutral-800 dark:text-neutral-100"
-                  >
-                    {group.title}{" "}
-                    <span class="font-normal text-neutral-400" data-group-count>
-                      ({group.videos.length})
-                    </span>
-                  </h2>
-                </div>
-                <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-4 lg:grid-cols-5 xl:grid-cols-6">
-                  {group.videos.map((video) => (
-                    <VideoCard video={video} variant="grid" />
-                  ))}
-                </div>
-              </section>
-            ))
-          }
+        <div id="explore-result-grid" class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+          {allVideos.map((video) => <VideoCard video={video} variant="grid" />)}
         </div>
 
-        <div
-          id="explore-empty"
-          class="hidden rounded-xl border border-dashed border-neutral-300 px-6 py-14 text-center dark:border-neutral-700"
-        >
-          <span
-            class="mx-auto flex size-11 items-center justify-center rounded-full bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400"
-            aria-hidden="true"
-          >
-            <svg
-              class="size-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              ><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"
-              ></path></svg
-            >
+        <div id="explore-empty" class="hidden rounded-xl border border-dashed border-neutral-300 px-6 py-14 text-center dark:border-neutral-700">
+          <span class="mx-auto flex size-11 items-center justify-center rounded-full bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400" aria-hidden="true">
+            <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
           </span>
-          <h2 class="mt-4 font-semibold text-neutral-800 dark:text-neutral-100">
-            Belum ada pilihan yang cocok
-          </h2>
-          <p class="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-            Coba kata kunci lain, atau lepaskan salah satu saringan.
-          </p>
-          <button
-            id="explore-empty-reset"
-            type="button"
-            class="mt-4 rounded-full bg-neutral-800 px-4 py-2 text-xs font-semibold text-white transition hover:bg-neutral-700 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-white"
-            >Telusuri semua</button
-          >
+          <h2 class="mt-4 font-bold text-neutral-950 dark:text-white">Belum ada video yang cocok</h2>
+          <p class="mt-1 text-sm text-neutral-500">Coba judul, artis, atau kategori lain.</p>
+          <button id="explore-empty-reset" type="button" class="mt-4 rounded-full bg-neutral-950 px-4 py-2 text-xs font-semibold text-white transition hover:bg-neutral-800 dark:bg-white dark:text-neutral-950">Kembali</button>
         </div>
       </section>
 
-      <!-- Browse all: shown when nothing is being filtered -->
       <div id="explore-browse">
-        <div class="mb-8 max-w-2xl">
-          <p
-            class="text-xs font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-400"
-          >
-            Jelajah
-          </p>
-          <h1
-            class="mt-2 text-2xl font-bold tracking-tight text-neutral-800 md:text-3xl dark:text-neutral-100"
-          >
-            Telusuri semua
-          </h1>
-          <p
-            class="mt-2 leading-relaxed text-neutral-600 dark:text-neutral-300"
-          >
-            {videoCount} pilihan yang bisa dibuka lewat bahasa, bentuk musik, atau
-            wilayah adat. Ketik di kolom pencarian untuk langsung mencari judul, artis,
-            dan kanal sumber.
-          </p>
-        </div>
+        <section aria-labelledby="starter-title">
+          <h2 id="starter-title" class="text-2xl font-bold tracking-tight text-neutral-950 dark:text-white">Pilihan video</h2>
+          <p class="mt-1 text-xs text-neutral-500">Empat pilihan untuk mulai menjelajah.</p>
+          <div class="mt-5 grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 xl:grid-cols-4">
+            {starterVideos.map((video) => <VideoCard video={video} variant="grid" />)}
+          </div>
+        </section>
 
-        {
-          tileSections.map((section) => (
-            <section class="mb-10" aria-labelledby={`${section.id}-title`}>
-              <h2
-                id={`${section.id}-title`}
-                class="text-lg font-semibold text-neutral-800 md:text-xl dark:text-neutral-100"
-              >
-                {section.title}
-              </h2>
-              <p class="mt-1 max-w-2xl text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
-                {section.description}
-              </p>
-              <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-4 lg:grid-cols-4 xl:grid-cols-5">
+        <div class="mt-14 space-y-14">
+          {tileSections.map((section) => (
+            <section id={section.id} class="scroll-mt-24 border-t border-neutral-200 pt-10 dark:border-neutral-800" aria-labelledby={section.id + "-title"}>
+              <h2 id={section.id + "-title"} class="text-xl font-bold text-neutral-950 md:text-2xl dark:text-white">{section.title}</h2>
+              <div class="mt-5 grid grid-cols-2 gap-x-3 gap-y-6 sm:grid-cols-3 md:gap-x-4 lg:grid-cols-4 2xl:grid-cols-5">
                 {section.facets.map((facet) => (
-                  <CategoryTile
-                    label={facet.name}
-                    count={facet.count}
-                    facetType={section.facetType}
-                    facetValue={facet.name}
-                    coverId={facet.coverId}
-                  />
+                  <CategoryTile label={facet.name} count={facet.count} facetType={section.facetType} facetValue={facet.name} coverId={facet.coverId} />
                 ))}
               </div>
             </section>
-          ))
-        }
+          ))}
+        </div>
       </div>
-    </main>
+    </div>
   </div>
 </Layout>
 
 <script>
-  const facetKeys = ["rak", "bahasa", "genre", "wilayah"] as const;
+  const facetKeys = ["bahasa", "genre", "format", "wilayah"] as const;
   type FacetKey = (typeof facetKeys)[number];
 
   const facetLabels: Record<FacetKey, string> = {
-    rak: "Rak",
     bahasa: "Bahasa",
-    genre: "Bentuk",
+    genre: "Jenis",
+    format: "Bentuk video",
     wilayah: "Wilayah",
   };
 
   const cardAttribute: Record<FacetKey, string> = {
-    rak: "collection",
     bahasa: "language",
     genre: "genres",
+    format: "formats",
     wilayah: "region",
   };
 
-  const searchInput = document.getElementById(
-    "explore-search",
-  ) as HTMLInputElement;
-  const searchForm = document.getElementById("explore-form") as HTMLFormElement;
+  const pageSearchInput = document.getElementById("explore-search") as HTMLInputElement;
+  const pageSearchForm = document.getElementById("explore-search-form") as HTMLFormElement;
+  const headerSearchInput = document.getElementById("site-search") as HTMLInputElement | null;
+  const headerSearchForm = document.getElementById("site-search-form") as HTMLFormElement | null;
   const results = document.getElementById("explore-results") as HTMLElement;
   const browse = document.getElementById("explore-browse") as HTMLElement;
-  const resultCount = document.getElementById(
-    "explore-results-count",
-  ) as HTMLElement;
-  const activeFacetBar = document.getElementById(
-    "explore-active-facets",
-  ) as HTMLElement;
+  const resultCount = document.getElementById("explore-results-count") as HTMLElement;
+  const resultContext = document.getElementById("explore-results-context") as HTMLElement;
+  const activeFacetBar = document.getElementById("explore-active-facets") as HTMLElement;
   const emptyState = document.getElementById("explore-empty") as HTMLElement;
-  const resetButton = document.getElementById(
-    "explore-reset",
-  ) as HTMLButtonElement;
-  const emptyReset = document.getElementById(
-    "explore-empty-reset",
-  ) as HTMLButtonElement;
-  const cards = Array.from(
-    document.querySelectorAll<HTMLElement>("[data-video-card]"),
-  );
-  const modeButtons = Array.from(
-    document.querySelectorAll<HTMLButtonElement>("[data-mode-filter]"),
-  );
-  const resultGroupsWrapper = document.getElementById(
-    "explore-result-groups",
-  ) as HTMLElement;
-  const resultGroups = Array.from(
-    document.querySelectorAll<HTMLElement>("[data-result-group]"),
-  );
-
+  const resetButton = document.getElementById("explore-reset") as HTMLButtonElement;
+  const emptyReset = document.getElementById("explore-empty-reset") as HTMLButtonElement;
+  const resultGrid = document.getElementById("explore-result-grid") as HTMLElement;
+  const cards = Array.from(resultGrid.querySelectorAll<HTMLElement>("[data-video-card]"));
   const activeFacets = new Map<FacetKey, string>();
-  let activeMode = "all";
 
   const normalise = (value: string) =>
-    value
-      .toLocaleLowerCase("id")
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .trim();
+    value.toLocaleLowerCase("id").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
 
   const setHidden = (element: HTMLElement, hidden: boolean) =>
     element.classList.toggle("hidden", hidden);
 
+  const setSearchValue = (value: string) => {
+    pageSearchInput.value = value;
+    if (headerSearchInput) headerSearchInput.value = value;
+  };
+
   const matchesFacet = (card: HTMLElement, key: FacetKey, value: string) => {
     const raw = card.dataset[cardAttribute[key] as keyof DOMStringMap] ?? "";
-    return key === "genre" ? raw.split("|").includes(value) : raw === value;
+    return ["genre", "format"].includes(key)
+      ? raw.split("|").includes(value)
+      : raw === value;
   };
 
   const readStateFromUrl = () => {
     const params = new URLSearchParams(window.location.search);
-    searchInput.value = params.get("q") ?? "";
+    setSearchValue(params.get("q") ?? "");
     activeFacets.clear();
     facetKeys.forEach((key) => {
       const value = params.get(key);
       if (value) activeFacets.set(key, value);
     });
-    activeMode = params.get("mode") ?? "all";
   };
 
   const writeStateToUrl = () => {
     const params = new URLSearchParams();
-    if (searchInput.value.trim()) params.set("q", searchInput.value.trim());
+    if (pageSearchInput.value.trim()) params.set("q", pageSearchInput.value.trim());
     activeFacets.forEach((value, key) => params.set(key, value));
-    if (activeMode !== "all") params.set("mode", activeMode);
-
     const query = params.toString();
-    window.history.replaceState(
-      null,
-      "",
-      query ? `?${query}` : window.location.pathname,
-    );
+    window.history.replaceState(null, "", query ? `?${query}` : window.location.pathname);
   };
 
   const renderActiveFacets = () => {
     activeFacetBar.replaceChildren();
-
     activeFacets.forEach((value, key) => {
       const chip = document.createElement("button");
       chip.type = "button";
-      chip.className =
-        "inline-flex items-center gap-1.5 rounded-full bg-neutral-800 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-neutral-700 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-white";
-      chip.innerHTML = `<span>${facetLabels[key]}: ${value}</span><svg class="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`;
-      chip.setAttribute(
-        "aria-label",
-        `Lepaskan saringan ${facetLabels[key]}: ${value}`,
-      );
+      chip.className = "inline-flex items-center gap-1.5 rounded-full bg-neutral-950 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-neutral-800 dark:bg-white dark:text-neutral-950";
+      chip.setAttribute("aria-label", `Lepaskan saringan ${facetLabels[key]}: ${value}`);
+      chip.append(document.createTextNode(`${facetLabels[key]}: ${value} ×`));
       chip.addEventListener("click", () => {
         activeFacets.delete(key);
         apply();
@@ -409,112 +255,94 @@ const resultGroups = collections.map((collection) => ({
     });
   };
 
-  const syncModeButtons = () => {
-    modeButtons.forEach((button) => {
-      button.dataset.active =
-        button.dataset.modeFilter === activeMode ? "true" : "false";
-    });
-  };
-
   const apply = ({ pushUrl = true } = {}) => {
-    const query = normalise(searchInput.value);
-    const isSearching =
-      Boolean(query) || activeFacets.size > 0 || activeMode !== "all";
+    const query = normalise(pageSearchInput.value);
+    const isFiltering = Boolean(query) || activeFacets.size > 0;
+    setHidden(browse, isFiltering);
+    setHidden(results, !isFiltering);
 
-    setHidden(browse, isSearching);
-    setHidden(results, !isSearching);
-
-    if (isSearching) {
+    if (isFiltering) {
       let visible = 0;
-
       cards.forEach((card) => {
-        const matchesQuery =
-          !query || (card.dataset.search ?? "").includes(query);
-        const matchesMode =
-          activeMode === "all" ||
-          (card.dataset.modes ?? "").split("|").includes(activeMode);
-        const matchesEveryFacet = [...activeFacets.entries()].every(
-          ([key, value]) => matchesFacet(card, key, value),
-        );
-        const isVisible = matchesQuery && matchesMode && matchesEveryFacet;
-
+        const matchesQuery = !query || (card.dataset.search ?? "").includes(query);
+        const matchesEveryFacet = [...activeFacets.entries()].every(([key, value]) => matchesFacet(card, key, value));
+        const isVisible = matchesQuery && matchesEveryFacet;
         card.hidden = !isVisible;
         if (isVisible) visible += 1;
       });
 
-      // Hide any shelf left with no visible cards.
-      resultGroups.forEach((group) => {
-        const groupVisible = Array.from(
-          group.querySelectorAll<HTMLElement>("[data-video-card]"),
-        ).filter((card) => !card.hidden).length;
-
-        const counter = group.querySelector<HTMLElement>("[data-group-count]");
-        if (counter) counter.textContent = `(${groupVisible})`;
-        setHidden(group, groupVisible === 0);
-      });
-
       resultCount.textContent = String(visible);
+      resultContext.textContent = pageSearchInput.value.trim()
+        ? `Hasil untuk “${pageSearchInput.value.trim()}”.`
+        : "Menampilkan video dari kategori yang dipilih.";
       setHidden(emptyState, visible !== 0);
-      setHidden(resultGroupsWrapper, visible === 0);
+      setHidden(resultGrid, visible === 0);
       renderActiveFacets();
     }
 
-    syncModeButtons();
     if (pushUrl) writeStateToUrl();
   };
 
   const reset = () => {
-    searchInput.value = "";
+    setSearchValue("");
     activeFacets.clear();
-    activeMode = "all";
     apply();
-    searchInput.focus();
+    pageSearchInput.focus();
   };
 
-  searchForm.addEventListener("submit", (event) => event.preventDefault());
-  searchInput.addEventListener("input", () => apply());
+  pageSearchForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    apply();
+  });
+  pageSearchInput.addEventListener("input", () => {
+    if (headerSearchInput) headerSearchInput.value = pageSearchInput.value;
+    apply();
+  });
+  headerSearchForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    setSearchValue(headerSearchInput?.value ?? "");
+    apply();
+    if (pageSearchInput.value.trim()) {
+      results.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+  headerSearchInput?.addEventListener("input", () => {
+    pageSearchInput.value = headerSearchInput.value;
+    apply();
+  });
   resetButton.addEventListener("click", reset);
   emptyReset.addEventListener("click", reset);
 
-  modeButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      activeMode =
-        button.dataset.modeFilter === activeMode
-          ? "all"
-          : (button.dataset.modeFilter ?? "all");
+  document.querySelectorAll<HTMLAnchorElement>("[data-category-tile]").forEach((tile) => {
+    tile.addEventListener("click", (event) => {
+      event.preventDefault();
+      const key = tile.dataset.facetType as FacetKey;
+      const value = tile.dataset.facetValue ?? "";
+      if (!key || !value) return;
+      activeFacets.set(key, value);
       apply();
+      results.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   });
-
-  // Tiles stay real links so they can be shared; with JS they filter in place instead.
-  document
-    .querySelectorAll<HTMLAnchorElement>("[data-category-tile]")
-    .forEach((tile) => {
-      tile.addEventListener("click", (event) => {
-        event.preventDefault();
-        const key = tile.dataset.facetType as FacetKey;
-        const value = tile.dataset.facetValue ?? "";
-        if (!key || !value) return;
-
-        activeFacets.set(key, value);
-        apply();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-    });
 
   document.addEventListener("keydown", (event) => {
     const tag = document.activeElement?.tagName;
     if (
       event.key === "/" &&
-      document.activeElement !== searchInput &&
+      document.activeElement !== pageSearchInput &&
       !["INPUT", "TEXTAREA", "SELECT"].includes(tag ?? "")
     ) {
       event.preventDefault();
-      searchInput.focus();
+      pageSearchInput.focus();
     }
-    if (event.key === "Escape" && document.activeElement === searchInput) {
+    if (
+      event.key === "Escape" &&
+      [pageSearchInput, headerSearchInput].includes(
+        document.activeElement as HTMLInputElement,
+      )
+    ) {
       reset();
-      searchInput.blur();
+      (document.activeElement as HTMLElement)?.blur();
     }
   });
 
@@ -526,66 +354,3 @@ const resultGroups = collections.map((collection) => ({
   readStateFromUrl();
   apply({ pushUrl: false });
 </script>
-
-<style is:global>
-  .filter-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    height: 2rem;
-    border: 1px solid rgb(212 212 212);
-    border-radius: 9999px;
-    padding: 0 0.75rem;
-    color: rgb(82 82 82);
-    background: white;
-    font-size: 0.7rem;
-    line-height: 1rem;
-    font-weight: 500;
-    transition:
-      border-color 150ms ease,
-      background-color 150ms ease,
-      color 150ms ease;
-  }
-
-  .filter-chip span {
-    color: rgb(163 163 163);
-    font-size: 0.625rem;
-  }
-
-  .filter-chip:hover {
-    border-color: rgb(115 115 115);
-    color: rgb(23 23 23);
-  }
-
-  .filter-chip[data-active="true"] {
-    border-color: rgb(38 38 38);
-    background: rgb(38 38 38);
-    color: white;
-  }
-
-  .filter-chip[data-active="true"] span {
-    color: rgb(212 212 212);
-  }
-
-  /* Dark colours follow the reader’s data-theme choice. */
-  [data-theme="dark"] .filter-chip {
-    border-color: rgb(82 82 82);
-    background: rgb(38 38 38);
-    color: rgb(212 212 212);
-  }
-
-  [data-theme="dark"] .filter-chip:hover {
-    border-color: rgb(163 163 163);
-    color: white;
-  }
-
-  [data-theme="dark"] .filter-chip[data-active="true"] {
-    border-color: rgb(245 245 245);
-    background: rgb(245 245 245);
-    color: rgb(23 23 23);
-  }
-
-  [data-theme="dark"] .filter-chip[data-active="true"] span {
-    color: rgb(82 82 82);
-  }
-</style>

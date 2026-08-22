@@ -7,7 +7,291 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme {
-  --font-onest: "Onest", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Onest", ui-sans-serif, system-ui, sans-serif;
+  --color-kastau: #f4511e;
+}
+
+html {
+  background: white;
+  scrollbar-gutter: stable;
+}
+
+html[data-theme="dark"] {
+  --color-neutral-950: #111111;
+  background: #111111;
+}
+
+body {
+  min-width: 320px;
+  font-weight: 400;
+}
+
+h1,
+h2 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+}
+
+button,
+a,
+input {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.skip-link {
+  position: fixed;
+  left: 0.75rem;
+  top: -4rem;
+  z-index: 100;
+  border-radius: 0.5rem;
+  background: #171717;
+  padding: 0.65rem 0.9rem;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 700;
+  transition: top 150ms ease;
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+.icon-button {
+  display: inline-flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  color: #262626;
+  transition: background-color 150ms ease;
+}
+
+.icon-button:hover {
+  background: #f2f2f2;
+}
+
+.icon-button:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+}
+
+.icon-button svg {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+[data-theme="dark"] .icon-button {
+  color: #f5f5f5;
+}
+
+[data-theme="dark"] .icon-button:hover {
+  background: #262626;
+}
+
+.theme-icon-dark,
+[data-theme="dark"] .theme-icon-light {
+  display: none;
+}
+
+[data-theme="dark"] .theme-icon-dark {
+  display: block;
+}
+
+.sidebar-item {
+  display: flex;
+  min-height: 2.5rem;
+  align-items: center;
+  gap: 1.5rem;
+  border-radius: 0.65rem;
+  padding: 0.55rem 0.75rem;
+  color: #262626;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.15;
+  transition: background-color 150ms ease;
+}
+
+.sidebar-item:hover,
+.sidebar-item-active {
+  background: #f2f2f2;
+}
+
+.sidebar-item-active {
+  font-weight: 700;
+}
+
+.sidebar-icon {
+  width: 1.35rem;
+  height: 1.35rem;
+  flex: none;
+}
+
+[data-theme="dark"] .sidebar-item {
+  color: #f5f5f5;
+}
+
+[data-theme="dark"] .sidebar-item:hover,
+[data-theme="dark"] .sidebar-item-active {
+  background: #272727;
+}
+
+html[data-nav-open="true"] .site-sidebar {
+  transform: translateX(0);
+}
+
+html[data-nav-open="true"] [data-sidebar-backdrop] {
+  display: block;
+}
+
+html[data-nav-open="true"] {
+  overflow: hidden;
+}
+
+html[data-nav-open="true"] [data-mobile-bottom-nav] {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .site-shell {
+    padding-left: 4.5rem;
+  }
+
+  .site-sidebar {
+    width: 4.5rem;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+
+  .site-sidebar .sidebar-label,
+  .site-sidebar .sidebar-heading,
+  .site-sidebar .sidebar-foot {
+    display: none;
+  }
+
+  .site-sidebar .sidebar-section {
+    margin-top: 0.25rem;
+    border: 0;
+    padding-top: 0;
+  }
+
+  .site-sidebar .sidebar-item {
+    min-height: 4.25rem;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.2rem;
+    font-size: 0.625rem;
+    text-align: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  html:not([data-sidebar="compact"]) .site-shell {
+    padding-left: 15rem;
+  }
+
+  html:not([data-sidebar="compact"]) .site-sidebar {
+    width: 15rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  html:not([data-sidebar="compact"]) .site-sidebar .sidebar-label,
+  html:not([data-sidebar="compact"]) .site-sidebar .sidebar-heading,
+  html:not([data-sidebar="compact"]) .site-sidebar .sidebar-foot {
+    display: block;
+  }
+
+  html:not([data-sidebar="compact"]) .site-sidebar .sidebar-section {
+    margin-top: 0.75rem;
+    border-top: 1px solid #e5e5e5;
+    padding-top: 0.75rem;
+  }
+
+  html[data-theme="dark"]:not([data-sidebar="compact"]) .site-sidebar .sidebar-section {
+    border-color: #262626;
+  }
+
+  html:not([data-sidebar="compact"]) .site-sidebar .sidebar-item {
+    min-height: 2.5rem;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.875rem;
+    text-align: left;
+  }
+}
+
+.page-wrap {
+  width: 100%;
+  max-width: 112rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 640px) {
+  .page-wrap {
+    padding-inline: 1.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .page-wrap {
+    padding-inline: 2rem;
+  }
+}
+
+.yt-chip {
+  display: inline-flex;
+  height: 2rem;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border-radius: 0.5rem;
+  background: #f2f2f2;
+  padding-inline: 0.8rem;
+  color: #272727;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background-color 150ms ease;
+}
+
+.yt-chip:hover {
+  background: #e5e5e5;
+}
+
+.yt-chip[data-active="true"],
+.yt-chip-active {
+  background: #0f0f0f;
+  color: white;
+}
+
+[data-theme="dark"] .yt-chip {
+  background: #272727;
+  color: #f1f1f1;
+}
+
+[data-theme="dark"] .yt-chip:hover {
+  background: #3f3f3f;
+}
+
+[data-theme="dark"] .yt-chip[data-active="true"],
+[data-theme="dark"] .yt-chip-active {
+  background: #f1f1f1;
+  color: #0f0f0f;
 }
 
 /* Hide Alpine nodes until Alpine has processed x-show. */

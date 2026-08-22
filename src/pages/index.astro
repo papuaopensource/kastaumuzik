@@ -1,55 +1,64 @@
 ---
 import CollectionShelf from "@/components/CollectionShelf.astro";
-import Hero from "@/components/Hero.astro";
 import Layout from "@/layouts/Layout.astro";
-import {
-  allVideos,
-  collections,
-  genreFacets,
-  languageFacets,
-  videoCount,
-} from "@/lib/collections";
+import { allVideos } from "@/lib/collections";
+import type { IndexedVideo } from "@/types/index";
 
-const featured = allVideos[0];
+const videoBySlug = new Map(allVideos.map((video) => [video.slug, video]));
+const selectVideos = (slugs: string[]) =>
+  slugs
+    .map((slug) => videoBySlug.get(slug))
+    .filter((video): video is IndexedVideo => Boolean(video));
 
-const shelves = collections.map((collection) => ({
-  ...collection,
-  videos: collection.videos.map((video) => ({
-    ...video,
-    collectionId: collection.id,
-    collectionTitle: collection.title,
-  })),
-}));
+const editorialPicks = selectVideos([
+  "mambesak-album-volume-1-5",
+  "fafisu-kayam-kubena-yance-bisim",
+  "yamko-rambe-yamko-bermazmur-choir",
+  "allah-na-khena-buhea-khaban-sele",
+  "ade-mei-edgar-aronggear",
+  "sajojo-lagu-daerah-papua",
+  "sera-bawa-lada-papua",
+  "suandei-siksa-bathin-tycko-nenepat",
+]);
 
-/** Quick access: the shelves, plus shortcuts to frequently used facets. */
-const quickAccess = [
-  ...collections.map((collection) => ({
-    label: collection.title,
-    href: `#${collection.id}`,
-    coverId: collection.videos[0].youtubeId,
-  })),
+const shelves = [
   {
-    label: "Arsip Mambesak",
-    href: "/jelajah/?genre=Arsip+Mambesak",
-    coverId: "Hzesbr7ofR4",
+    id: "unggulan",
+    title: "Unggulan",
+    icon: "star" as const,
+    videos: editorialPicks,
   },
   {
-    label: "Bahasa Sentani",
-    href: "/jelajah/?bahasa=Sentani",
-    coverId: "A56uQ0XOosI",
+    id: "lagu-daerah",
+    title: "Lagu daerah Papua",
+    icon: "music" as const,
+    videos: allVideos.filter((video) => video.genres.includes("Lagu daerah")),
   },
   {
-    label: "Lagu rohani",
-    href: "/jelajah/?genre=Lagu+rohani",
-    coverId: "xVp9BSE8-mA",
+    id: "pop-dan-cover",
+    title: "Pop Papua & cover",
+    icon: "sparkles" as const,
+    videos: allVideos.filter((video) =>
+      video.genres.some((genre) => ["Pop Papua", "Rock Papua"].includes(genre)) ||
+      video.formats.includes("Cover"),
+    ),
   },
-];
-
-const stats = [
-  { label: "Pilihan terkurasi", value: videoCount },
-  { label: "Bahasa", value: languageFacets.length },
-  { label: "Jenis lagu", value: genreFacets.length },
-  { label: "Rak kurasi", value: collections.length },
+  {
+    id: "penampilan-bersama",
+    title: "Penampilan & nyanyi bersama",
+    icon: "people" as const,
+    videos: allVideos.filter((video) =>
+      video.formats.some((format) =>
+        ["Paduan suara", "Pertunjukan langsung", "Video lirik", "Karaoke"].includes(format),
+      ),
+    ),
+  },
+  {
+    id: "lagu-rohani",
+    title: "Lagu rohani",
+    icon: "heart" as const,
+    videos: allVideos.filter((video) => video.genres.includes("Lagu rohani")),
+  },
 ];
 ---
 
@@ -57,357 +66,14 @@ const stats = [
   title="Kurasi Lagu Daerah Papua"
   description="Pintu masuk untuk menemukan karya, penampilan, dan cover lagu daerah Papua yang dikurasi dari YouTube dengan sumber serta konteks yang lebih jelas."
 >
-  <Hero featured={featured} />
-
-  <div
-    class="border-b border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900"
-  >
-    <div
-      class="mx-auto grid w-full max-w-360 grid-cols-2 gap-y-6 px-4 py-7 sm:px-6 md:grid-cols-4 lg:px-10 xl:px-12"
-    >
-      {
-        stats.map((stat) => (
-          <div>
-            <p class="text-2xl font-bold text-neutral-800 md:text-3xl dark:text-neutral-100">
-              {stat.value}
-            </p>
-            <p class="mt-0.5 text-xs text-neutral-500 dark:text-neutral-400">
-              {stat.label}
-            </p>
-          </div>
-        ))
-      }
-    </div>
+  <div class="page-wrap space-y-14 py-8 sm:space-y-16 sm:py-10">
+    {shelves.map((shelf) => (
+      <CollectionShelf
+        id={shelf.id}
+        title={shelf.title}
+        icon={shelf.icon}
+        videos={shelf.videos}
+      />
+    ))}
   </div>
-
-  <div
-    class="mx-auto w-full max-w-360 px-4 py-10 sm:px-6 lg:px-10 lg:py-12 xl:px-12"
-  >
-    <h2 class="sr-only">Akses cepat</h2>
-    <div class="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
-      {
-        quickAccess.map((item) => (
-          <a
-            href={item.href}
-            class="group flex items-center gap-3 overflow-hidden rounded-md border border-neutral-200 bg-neutral-100 pr-3 transition hover:border-neutral-300 hover:bg-neutral-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:border-neutral-600 dark:hover:bg-neutral-700"
-          >
-            <img
-              src={`https://i.ytimg.com/vi/${item.coverId}/default.jpg`}
-              alt=""
-              aria-hidden="true"
-              loading="lazy"
-              class="size-14 shrink-0 object-cover"
-            />
-            <span class="min-w-0 truncate text-sm font-semibold text-neutral-800 dark:text-neutral-100">
-              {item.label}
-            </span>
-            <svg
-              class="ml-auto size-4 shrink-0 text-neutral-400 opacity-0 transition group-hover:opacity-100"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="m9 18 6-6-6-6" />
-            </svg>
-          </a>
-        ))
-      }
-    </div>
-  </div>
-
-  <!-- Shelves. The jump nav stays stuck while the reader is inside this block. -->
-  <div class="relative">
-    <nav
-      class="sticky top-17.25 z-40 border-y border-neutral-200 bg-white/95 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-900/95"
-      aria-label="Loncat ke rak"
-    >
-      <div
-        class="mx-auto flex w-full max-w-360 items-center gap-2 overflow-x-auto px-4 py-3 sm:px-6 lg:px-10 xl:px-12 scrollbar-none [&::-webkit-scrollbar]:hidden"
-      >
-        {
-          shelves.map((shelf) => (
-            <a
-              href={`#${shelf.id}`}
-              class="shelf-link shrink-0"
-              data-shelf-link={shelf.id}
-            >
-              {shelf.title} <span>{shelf.videos.length}</span>
-            </a>
-          ))
-        }
-        <a
-          href="/jelajah/"
-          class="ml-auto hidden shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-orange-600 px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-orange-700 sm:inline-flex"
-        >
-          <svg
-            class="size-3.5"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-            ><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"
-            ></path></svg
-          >
-          Cari semua
-        </a>
-      </div>
-    </nav>
-
-    <div
-      class="mx-auto w-full max-w-360 space-y-12 px-4 py-10 sm:px-6 lg:px-10 lg:py-12 xl:px-12"
-    >
-      {
-        shelves.map((shelf) => (
-          <CollectionShelf
-            id={shelf.id}
-            eyebrow={shelf.eyebrow}
-            title={shelf.title}
-            description={shelf.description}
-            videos={shelf.videos}
-            moreHref={`/jelajah/?q=${encodeURIComponent(shelf.title)}`}
-            moreLabel="Cari yang mirip"
-          />
-        ))
-      }
-    </div>
-  </div>
-
-  <section
-    class="border-y border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-800/50"
-    aria-labelledby="mengapa-kastau"
-  >
-    <div
-      class="mx-auto w-full max-w-360 px-4 py-14 sm:px-6 lg:px-10 lg:py-16 xl:px-12"
-    >
-      <div class="grid gap-8 md:grid-cols-5 md:items-start">
-        <div class="md:col-span-3">
-          <p
-            class="text-xs font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-400"
-          >
-            Kenapa kastaumuzik?
-          </p>
-          <h2
-            id="mengapa-kastau"
-            class="mt-2 text-2xl font-semibold leading-tight text-neutral-800 md:text-3xl dark:text-neutral-100"
-          >
-            Banyak lagunya. Sulit menemukan sumbernya.
-          </h2>
-          <p
-            class="mt-4 max-w-xl leading-relaxed text-neutral-600 dark:text-neutral-300"
-          >
-            Karya Papua di YouTube tersebar di banyak kanal, versi, dan masa.
-            Kami membantu menyaring serta menyusunnya kembali agar sumber,
-            cerita, dan para pelakunya lebih mudah ditemukan.
-          </p>
-          <a
-            href="/tentang/"
-            class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-neutral-700 underline decoration-orange-600 underline-offset-4 transition hover:text-orange-700 dark:text-neutral-200 dark:hover:text-orange-400"
-          >
-            Cara kami mengkurasi
-            <svg
-              class="size-3.5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-              ><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg
-            >
-          </a>
-        </div>
-        <div class="grid gap-3 md:col-span-2">
-          <div
-            class="rounded-lg border border-neutral-200 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-900"
-          >
-            <p
-              class="text-sm font-semibold text-neutral-800 dark:text-neutral-100"
-            >
-              Dikurasi manusia
-            </p>
-            <p class="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-              {videoCount} pilihan, masing-masing diperiksa sumber dan konteksnya.
-            </p>
-          </div>
-          <div
-            class="rounded-lg border border-neutral-200 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-900"
-          >
-            <p
-              class="text-sm font-semibold text-neutral-800 dark:text-neutral-100"
-            >
-              Kembali ke sumber
-            </p>
-            <p class="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-              Setiap pilihan terhubung dengan rekaman dan kanal sumbernya.
-            </p>
-          </div>
-          <div
-            class="rounded-lg border border-neutral-200 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-900"
-          >
-            <p
-              class="text-sm font-semibold text-neutral-800 dark:text-neutral-100"
-            >
-              Catatan yang terbuka
-            </p>
-            <p class="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-              Kredit yang belum pasti ditulis apa adanya, bukan ditebak.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section
-    class="mx-auto w-full max-w-360 px-4 py-14 sm:px-6 lg:px-10 lg:py-16 xl:px-12"
-  >
-    <div
-      class="rounded-xl bg-neutral-200 p-6 md:flex md:items-center md:justify-between md:gap-8 md:p-8 dark:bg-neutral-800"
-    >
-      <div class="max-w-2xl">
-        <p
-          class="text-xs font-semibold uppercase tracking-wider text-orange-700 dark:text-orange-400"
-        >
-          Bantu koleksi ini tumbuh
-        </p>
-        <h2
-          class="mt-2 text-xl font-semibold text-neutral-800 dark:text-neutral-100"
-        >
-          Punya tautan lagu daerah Papua yang patut didengar?
-        </h2>
-        <p
-          class="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-300"
-        >
-          Kirim tautan YouTube beserta nama lagu, bahasa, pelaku, dan sedikit
-          konteks tentang rekamannya.
-        </p>
-      </div>
-      <a
-        href="https://app.formbricks.com/s/v2so83o3gq4aatac480xfytb"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="mt-5 inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-orange-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-700 md:mt-0"
-      >
-        Usulkan video
-        <svg
-          class="size-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-          ><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path
-            d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
-          ></path></svg
-        >
-      </a>
-    </div>
-  </section>
 </Layout>
-
-<script>
-  const links = Array.from(
-    document.querySelectorAll<HTMLAnchorElement>("[data-shelf-link]"),
-  );
-  const sections = links
-    .map((link) => document.getElementById(link.dataset.shelfLink ?? ""))
-    .filter((section): section is HTMLElement => Boolean(section));
-
-  const setActive = (id: string) => {
-    links.forEach((link) => {
-      link.dataset.active = link.dataset.shelfLink === id ? "true" : "false";
-    });
-  };
-
-  if (sections.length) {
-    setActive(sections[0].id);
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const topMost = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort(
-            (a, b) => a.boundingClientRect.top - b.boundingClientRect.top,
-          )[0];
-        if (topMost) setActive(topMost.target.id);
-      },
-      { rootMargin: "-140px 0px -55% 0px", threshold: 0 },
-    );
-
-    sections.forEach((section) => observer.observe(section));
-  }
-</script>
-
-<style is:global>
-  .shelf-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    height: 2rem;
-    border: 1px solid rgb(212 212 212);
-    border-radius: 9999px;
-    padding: 0 0.75rem;
-    color: rgb(82 82 82);
-    background: white;
-    font-size: 0.7rem;
-    line-height: 1rem;
-    font-weight: 500;
-    white-space: nowrap;
-    transition:
-      border-color 150ms ease,
-      background-color 150ms ease,
-      color 150ms ease;
-  }
-
-  .shelf-link span {
-    color: rgb(163 163 163);
-    font-size: 0.625rem;
-  }
-
-  .shelf-link:hover {
-    border-color: rgb(115 115 115);
-    color: rgb(23 23 23);
-  }
-
-  .shelf-link[data-active="true"] {
-    border-color: rgb(38 38 38);
-    background: rgb(38 38 38);
-    color: white;
-  }
-
-  .shelf-link[data-active="true"] span {
-    color: rgb(212 212 212);
-  }
-
-  /* Dark colours follow the reader’s data-theme choice. */
-  [data-theme="dark"] .shelf-link {
-    border-color: rgb(82 82 82);
-    background: rgb(38 38 38);
-    color: rgb(212 212 212);
-  }
-
-  [data-theme="dark"] .shelf-link:hover {
-    border-color: rgb(163 163 163);
-    color: white;
-  }
-
-  [data-theme="dark"] .shelf-link[data-active="true"] {
-    border-color: rgb(245 245 245);
-    background: rgb(245 245 245);
-    color: rgb(23 23 23);
-  }
-
-  [data-theme="dark"] .shelf-link[data-active="true"] span {
-    color: rgb(82 82 82);
-  }
-</style>

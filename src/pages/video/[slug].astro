@@ -1,0 +1,267 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import VideoCard from "@/components/VideoCard.astro";
+import { allVideos, isSpecific, tileColor } from "@/lib/collections";
+import type { IndexedVideo } from "@/types/index";
+
+type DetailProps = {
+  video: IndexedVideo;
+  related: IndexedVideo[];
+};
+
+export function getStaticPaths() {
+  const relevanceScore = (source: IndexedVideo, candidate: IndexedVideo) => {
+    let score = 0;
+
+    if (
+      isSpecific(source.languageGroup) &&
+      source.languageGroup === candidate.languageGroup
+    ) {
+      score += 4;
+    }
+    if (
+      isSpecific(source.customaryRegion) &&
+      source.customaryRegion === candidate.customaryRegion
+    ) {
+      score += 3;
+    }
+    score +=
+      source.genres.filter((genre) => candidate.genres.includes(genre)).length *
+      2;
+    score += source.formats.filter((format) =>
+      candidate.formats.includes(format),
+    ).length;
+
+    return score;
+  };
+
+  return allVideos.map((video) => {
+    const related = allVideos
+      .filter((candidate) => candidate.slug !== video.slug)
+      .sort((a, b) => {
+        const scoreDifference =
+          relevanceScore(video, b) - relevanceScore(video, a);
+        return scoreDifference || a.title.localeCompare(b.title, "id");
+      })
+      .slice(0, 10);
+
+    return {
+      params: { slug: video.slug },
+      props: { video, related },
+    };
+  });
+}
+
+const { video, related } = Astro.props as DetailProps;
+const facetLinks = [
+  {
+    label: video.languageGroup,
+    href: `/jelajah/?bahasa=${encodeURIComponent(video.languageGroup)}`,
+    show: isSpecific(video.languageGroup),
+  },
+  {
+    label: video.customaryRegion,
+    href: `/jelajah/?wilayah=${encodeURIComponent(video.customaryRegion)}`,
+    show: isSpecific(video.customaryRegion),
+  },
+  ...video.genres.map((genre) => ({
+    label: genre,
+    href: `/jelajah/?genre=${encodeURIComponent(genre)}`,
+    show: true,
+  })),
+  ...video.formats.map((format) => ({
+    label: format,
+    href: `/jelajah/?format=${encodeURIComponent(format)}`,
+    show: true,
+  })),
+].filter((facet) => facet.show);
+
+const youtubeUrl = `https://www.youtube.com/watch?v=${video.youtubeId}`;
+const embedUrl = `https://www.youtube-nocookie.com/embed/${video.youtubeId}?rel=0`;
+const initials = video.channel
+  .split(/\s+/)
+  .filter(Boolean)
+  .slice(0, 2)
+  .map((word) => word[0])
+  .join("")
+  .toUpperCase();
+---
+
+<Layout
+  title={video.title}
+  description={video.note}
+  image={`https://i.ytimg.com/vi/${video.youtubeId}/maxresdefault.jpg`}
+>
+  <div class="page-wrap py-4 sm:py-6">
+    <div
+      class="grid items-start gap-8 xl:grid-cols-[minmax(0,1fr)_24rem] xl:gap-7"
+    >
+      <article class="min-w-0">
+        <div
+          class="aspect-video overflow-hidden rounded-xl bg-black sm:rounded-2xl"
+        >
+          <iframe
+            class="size-full"
+            src={embedUrl}
+            title={`Putar ${video.title} oleh ${video.artist}`}
+            loading="eager"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+        </div>
+
+        <h1
+          class="mt-4 text-xl font-bold leading-snug tracking-tight text-neutral-950 sm:text-2xl dark:text-white"
+        >
+          {video.title}
+        </h1>
+
+        <div
+          class="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div class="flex min-w-0 items-center gap-3">
+            <span
+              class="flex size-10 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
+              style={`background:${tileColor(video.channel)}`}
+              aria-hidden="true"
+            >
+              {initials}
+            </span>
+            <div class="min-w-0">
+              <p
+                class="truncate text-sm font-semibold text-neutral-950 dark:text-white"
+              >
+                {video.channel}
+              </p>
+              <p class="mt-0.5 truncate text-[11px] text-neutral-500">
+                {video.artist}
+              </p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <a
+              href={youtubeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex h-9 items-center gap-2 rounded-full bg-orange-600 px-4 text-xs font-semibold text-white transition hover:bg-orange-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-neutral-950"
+            >
+              <svg
+                class="size-4"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8ZM9.5 15.6V8.4L15.8 12l-6.3 3.6Z"
+                ></path>
+              </svg>
+              Buka di YouTube
+            </a>
+            <button
+              type="button"
+              class="inline-flex h-9 items-center gap-2 rounded-full bg-neutral-100 px-4 text-xs font-semibold text-neutral-800 transition hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700"
+              data-copy-link
+            >
+              <svg
+                class="size-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                aria-hidden="true"
+              >
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <path d="m8.7 10.7 6.6-4.3M8.7 13.3l6.6 4.3"></path>
+              </svg>
+              <span data-copy-label>Bagikan</span>
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="mt-4 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none [&::-webkit-scrollbar]:hidden"
+        >
+          {
+            facetLinks.map((facet) => (
+              <a href={facet.href} class="yt-chip">
+                {facet.label}
+              </a>
+            ))
+          }
+        </div>
+
+        <section
+          class="mt-4 rounded-xl bg-neutral-100 p-4 text-sm dark:bg-neutral-900"
+          aria-labelledby="tentang-video"
+        >
+          <h2 id="tentang-video" class="sr-only">Tentang video</h2>
+          <div
+            class="flex flex-wrap gap-x-2 gap-y-1 font-medium text-neutral-950 dark:text-white"
+          >
+            <span>{video.year}</span>
+            <span aria-hidden="true">•</span>
+            <span>{video.language}</span>
+            <span aria-hidden="true">•</span>
+            <span>{video.region}</span>
+          </div>
+          <p
+            class="mt-3 leading-relaxed text-neutral-700 dark:text-neutral-300"
+          >
+            {video.description}
+          </p>
+          <div
+            class="mt-3 border-t border-neutral-200 pt-3 dark:border-neutral-800"
+          >
+            <h3
+              class="text-xs font-semibold text-neutral-700 dark:text-neutral-300"
+            >
+              Catatan kurator
+            </h3>
+            <p
+              class="mt-2 leading-relaxed text-neutral-600 dark:text-neutral-400"
+            >
+              {video.context}
+            </p>
+          </div>
+        </section>
+      </article>
+
+      <section
+        class="min-w-0 xl:sticky xl:top-18"
+        aria-labelledby="video-terkait"
+      >
+        <h2
+          id="video-terkait"
+          class="mb-4 text-lg font-bold text-neutral-950 dark:text-white"
+        >
+          Video terkait
+        </h2>
+        <div class="space-y-3">
+          {related.map((item) => <VideoCard video={item} variant="list" />)}
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const copyButton =
+    document.querySelector<HTMLButtonElement>("[data-copy-link]");
+  const copyLabel = document.querySelector<HTMLElement>("[data-copy-label]");
+
+  copyButton?.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      if (copyLabel) copyLabel.textContent = "Tersalin";
+      window.setTimeout(() => {
+        if (copyLabel) copyLabel.textContent = "Bagikan";
+      }, 1800);
+    } catch {
+      window.prompt("Salin tautan ini", window.location.href);
+    }
+  });
+</script>

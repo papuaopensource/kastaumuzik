@@ -1,213 +1,311 @@
 ---
 const currentUrl = Astro.url.pathname;
 const firstPath = currentUrl.split("/")[1];
-const isBrowsing = firstPath === "jelajah";
 
-const links = [
-  { href: "/", label: "Teras", match: currentUrl === "/" },
+const primaryLinks = [
+  { href: "/", label: "Teras", match: currentUrl === "/", icon: "home" },
   {
     href: "/jelajah/",
     label: "Jelajah",
-    match: isBrowsing || firstPath === "koleksi",
-  },
-  { href: "/tentang/", label: "Tentang", match: firstPath === "tentang" },
-  {
-    href: "/pernyataan/",
-    label: "Hak & Koreksi",
-    match: firstPath === "pernyataan",
+    match: firstPath === "jelajah" || firstPath === "video",
+    icon: "explore",
   },
 ];
 
-const linkClass = (active: boolean) =>
-  `whitespace-nowrap rounded-full px-3 py-2 text-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 md:py-1.5 ${
-    active
-      ? "bg-neutral-900 font-semibold text-white dark:bg-neutral-100 dark:text-neutral-900"
-      : "text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100"
-  }`;
+const infoLinks = [
+  {
+    href: "/tentang/",
+    label: "Tentang",
+    match: firstPath === "tentang",
+    icon: "info",
+  },
+  {
+    href: "/pernyataan/",
+    label: "Hak & koreksi",
+    match: firstPath === "pernyataan",
+    icon: "rights",
+  },
+];
+
+const iconPaths: Record<string, string> = {
+  home: '<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9h4.25v-5.5h4.5V19h4.25v-9"/>',
+  explore:
+    '<circle cx="12" cy="12" r="9"/><path d="m14.8 9.2-1.7 3.9-3.9 1.7 1.7-3.9 3.9-1.7Z"/>',
+  info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.5h.01"/>',
+  feedback:
+    '<path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/><path d="M8 9h8M8 13h5"/>',
+  rights:
+    '<path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5"/><path d="m9 14 2 2 4-4"/>',
+};
+
+const navItemClass = (active = false) =>
+  `sidebar-item ${active ? "sidebar-item-active" : ""}`;
 ---
 
-<!-- ========== HEADER ========== -->
 <header
-  class="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white/90 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-900/90"
+  id="site-header"
+  class="fixed inset-x-0 top-0 z-60 h-14 border-b border-neutral-200/80 bg-white/95 backdrop-blur-xl dark:border-neutral-800 dark:bg-neutral-950/95"
 >
-  <nav
-    class="mx-auto w-full max-w-360 px-4 py-3 sm:px-6 lg:px-10 xl:px-12"
-    aria-label="Navigasi utama"
-    x-data="{ open: false }"
-    @keydown.escape.window="open = false"
-    @resize.window="if (window.innerWidth >= 768) open = false"
-  >
-    <div class="flex h-11 items-center gap-3">
-      <a
-        class="flex shrink-0 items-center gap-2 rounded-md text-lg font-semibold text-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 md:text-xl dark:text-neutral-100"
-        href="/"
-        aria-label="kastaumuzik — kembali ke teras"
+  <div class="flex h-full items-center gap-2 px-3 sm:px-4">
+    <button
+      type="button"
+      class="icon-button shrink-0"
+      data-sidebar-toggle
+      aria-label="Buka atau kecilkan navigasi"
+      aria-controls="site-sidebar"
+      aria-expanded="true"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        aria-hidden="true"
       >
-        <!-- The note in the mark is near-white, so it sits on a dark chip to stay visible in light mode -->
-        <span
-          class="flex size-8 shrink-0 items-center justify-center rounded-md bg-neutral-900 p-1 dark:bg-neutral-800"
-        >
-          <img
-            src="/logo-kastaumuzik.png"
-            alt=""
-            aria-hidden="true"
-            width="32"
-            height="32"
-            class="size-full object-contain"
-          />
-        </span>
-        <span>kastau<span class="text-orange-600">muzik</span></span>
-      </a>
+        <path d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
 
-      {
-        !isBrowsing && (
-          <form
-            action="/jelajah/"
-            method="get"
-            role="search"
-            class="relative ml-auto hidden min-w-0 max-w-md flex-1 md:block"
-          >
-            <svg
-              class="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-neutral-400"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <circle cx="11" cy="11" r="7" />
-              <path d="m20 20-3.5-3.5" />
-            </svg>
-            <input
-              type="search"
-              name="q"
-              autocomplete="off"
-              placeholder="Cari lagu, artis, atau bahasa..."
-              aria-label="Cari di koleksi kastaumuzik"
-              class="h-10 w-full rounded-full border border-neutral-300 bg-neutral-100 py-2 pl-10 pr-4 text-sm text-neutral-800 outline-none transition placeholder:text-neutral-400 focus:border-orange-500 focus:bg-white focus:ring-2 focus:ring-orange-500/15 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 dark:focus:border-orange-500"
-            />
-          </form>
-        )
-      }
+    <a
+      class="flex shrink-0 items-center gap-2 rounded-lg pr-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600"
+      href="/"
+      aria-label="kastaumuzik — kembali ke teras"
+    >
+      <span class="flex size-8 items-center justify-center rounded-lg bg-neutral-950 p-1 dark:bg-neutral-800">
+        <img
+          src="/logo-kastaumuzik.png"
+          alt=""
+          aria-hidden="true"
+          width="32"
+          height="32"
+          class="size-full object-contain"
+        />
+      </span>
+      <span class="hidden text-lg font-bold tracking-[-0.04em] text-neutral-950 sm:block dark:text-white">
+        kastau<span class="text-orange-600">muzik</span>
+      </span>
+    </a>
 
-      <div
-        class={`hidden items-center gap-1 md:flex ${isBrowsing ? "ml-auto" : ""}`}
-      >
-        {
-          links.map((link) => (
-            <a
-              href={link.href}
-              class={linkClass(link.match)}
-              aria-current={link.match ? "page" : undefined}
-            >
-              {link.label}
-            </a>
-          ))
-        }
-      </div>
-
+    <div class="ml-auto flex shrink-0 items-center gap-1">
       <button
         type="button"
-        class="ml-auto flex size-9 items-center justify-center rounded-full border border-neutral-300 text-neutral-600 transition hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 md:hidden dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800"
-        id="navbar-menu-toggle"
-        aria-controls="navbar-menu"
-        aria-label="Buka atau tutup menu"
-        @click="open = !open"
-        :aria-expanded="open ? 'true' : 'false'"
+        class="icon-button"
+        data-theme-toggle
+        aria-label="Ganti tema tampilan"
+        title="Ganti tema"
       >
         <svg
-          class="size-4"
+          class="theme-icon-light"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          stroke-width="2"
+          stroke-width="1.8"
           stroke-linecap="round"
-          stroke-linejoin="round"
           aria-hidden="true"
-          x-show="!open"
-          ><line x1="3" x2="21" y1="6" y2="6"></line><line
-            x1="3"
-            x2="21"
-            y1="12"
-            y2="12"></line><line x1="3" x2="21" y1="18" y2="18"></line></svg
         >
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+        </svg>
         <svg
-          class="size-4"
+          class="theme-icon-dark"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          stroke-width="2"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M20.7 15.1A9 9 0 0 1 8.9 3.3 9 9 0 1 0 20.7 15.1Z"></path>
+        </svg>
+      </button>
+      <a
+        href="/usulkan/"
+        class="inline-flex size-9 items-center justify-center gap-2 rounded-full bg-neutral-950 text-sm font-semibold text-white transition hover:bg-neutral-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 focus-visible:ring-offset-2 md:w-auto md:px-3.5 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200 dark:focus-visible:ring-offset-neutral-950"
+        aria-label="Usulkan lagu"
+      >
+        <svg
+          class="size-4 shrink-0"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M12 5v14M5 12h14"></path>
+        </svg>
+        <span class="hidden md:inline">Usulkan</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="fixed inset-0 z-40 hidden bg-black/50 md:hidden" data-sidebar-backdrop></div>
+
+<aside
+  id="site-sidebar"
+  class="site-sidebar fixed bottom-0 left-0 top-14 z-50 flex w-60 -translate-x-full flex-col overflow-y-auto bg-white px-3 pb-4 pt-3 transition-[width,transform] duration-200 md:translate-x-0 dark:bg-neutral-950"
+  aria-label="Navigasi utama"
+>
+  <nav class="space-y-1">
+    {primaryLinks.map((link) => (
+      <a
+        href={link.href}
+        class={navItemClass(link.match)}
+        aria-current={link.match ? "page" : undefined}
+      >
+        <svg
+          class="sidebar-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
           stroke-linecap="round"
           stroke-linejoin="round"
           aria-hidden="true"
-          x-show="open"
-          x-cloak><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg
-        >
-      </button>
-    </div>
-
-    <div
-      id="navbar-menu"
-      class="basis-full overflow-hidden md:hidden"
-      aria-labelledby="navbar-menu-toggle"
-      x-show="open"
-      x-cloak
-      x-transition:enter="transition ease-out duration-200"
-      x-transition:enter-start="opacity-0 -translate-y-1"
-      x-transition:enter-end="opacity-100 translate-y-0"
-      x-transition:leave="transition ease-in duration-150"
-      x-transition:leave-start="opacity-100 translate-y-0"
-      x-transition:leave-end="opacity-0 -translate-y-1"
-    >
-      {
-        !isBrowsing && (
-          <form
-            action="/jelajah/"
-            method="get"
-            role="search"
-            class="relative mt-3"
-          >
-            <svg
-              class="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-neutral-400"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <circle cx="11" cy="11" r="7" />
-              <path d="m20 20-3.5-3.5" />
-            </svg>
-            <input
-              type="search"
-              name="q"
-              autocomplete="off"
-              placeholder="Cari lagu, artis, atau bahasa..."
-              aria-label="Cari di koleksi kastaumuzik"
-              class="h-10 w-full rounded-full border border-neutral-300 bg-neutral-100 py-2 pl-10 pr-4 text-sm text-neutral-800 outline-none transition placeholder:text-neutral-400 focus:border-orange-500 focus:bg-white dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
-            />
-          </form>
-        )
-      }
-      <div class="mt-2 flex flex-col gap-1 pb-2">
-        {
-          links.map((link) => (
-            <a
-              href={link.href}
-              class={linkClass(link.match)}
-              aria-current={link.match ? "page" : undefined}
-              @click="open = false"
-            >
-              {link.label}
-            </a>
-          ))
-        }
-      </div>
-    </div>
+          set:html={iconPaths[link.icon]}
+        />
+        <span class="sidebar-label">{link.label}</span>
+      </a>
+    ))}
   </nav>
-</header>
-<!-- ========== END HEADER ========== -->
+
+  <div class="sidebar-section mt-3 border-t border-neutral-200 pt-3 dark:border-neutral-800">
+    <p class="sidebar-heading px-3 pb-2 text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+      Lainnya
+    </p>
+    <nav class="space-y-1" aria-label="Informasi">
+      {infoLinks.map((link) => (
+        <a
+          href={link.href}
+          class={navItemClass(link.match)}
+          aria-current={link.match ? "page" : undefined}
+        >
+          <svg
+            class="sidebar-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            set:html={iconPaths[link.icon]}
+          />
+          <span class="sidebar-label">{link.label}</span>
+        </a>
+      ))}
+      <a
+        href="https://app.formbricks.com/s/v2so83o3gq4aatac480xfytb"
+        target="_blank"
+        rel="noopener noreferrer"
+        class={navItemClass()}
+      >
+        <svg
+          class="sidebar-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          set:html={iconPaths.feedback}
+        />
+        <span class="sidebar-label">Feedback</span>
+      </a>
+    </nav>
+  </div>
+
+  <div class="sidebar-foot sidebar-label mt-auto px-3 pt-6 text-[11px] leading-relaxed text-neutral-500 dark:text-neutral-500">
+    <p>Kurasi terbuka lagu daerah Papua dari sumber YouTube.</p>
+    <p class="mt-2">© {new Date().getFullYear()} Papua Open Source</p>
+  </div>
+</aside>
+
+<nav
+  class="fixed inset-x-0 bottom-0 z-50 grid h-16 grid-cols-4 border-t border-neutral-200 bg-white/98 px-1 pb-[env(safe-area-inset-bottom)] md:hidden dark:border-neutral-800 dark:bg-neutral-950/98"
+  aria-label="Navigasi seluler"
+  data-mobile-bottom-nav
+>
+  {[...primaryLinks, ...infoLinks].map((link) => (
+    <a
+      href={link.href}
+      class:list={[
+        "flex flex-col items-center justify-center gap-1 text-[10px] font-semibold",
+        link.match
+          ? "text-neutral-950 dark:text-white"
+          : "text-neutral-500 dark:text-neutral-400",
+      ]}
+      aria-current={link.match ? "page" : undefined}
+    >
+      <svg
+        class="size-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width={link.match ? "2.2" : "1.7"}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        set:html={iconPaths[link.icon]}
+      />
+      <span>{link.label === "Hak & koreksi" ? "Hak" : link.label}</span>
+    </a>
+  ))}
+</nav>
+
+<script>
+  const root = document.documentElement;
+  const sidebarToggle = document.querySelector<HTMLButtonElement>("[data-sidebar-toggle]");
+  const backdrop = document.querySelector<HTMLElement>("[data-sidebar-backdrop]");
+  const sidebar = document.getElementById("site-sidebar");
+
+  sidebarToggle?.setAttribute(
+    "aria-expanded",
+    String(window.innerWidth >= 768 && root.dataset.sidebar !== "compact"),
+  );
+
+  const setMobileNav = (open: boolean) => {
+    root.dataset.navOpen = open ? "true" : "false";
+    sidebarToggle?.setAttribute("aria-expanded", String(open));
+  };
+
+  sidebarToggle?.addEventListener("click", () => {
+    if (window.innerWidth < 768) {
+      setMobileNav(root.dataset.navOpen !== "true");
+      return;
+    }
+
+    const compact = root.dataset.sidebar === "compact";
+    root.dataset.sidebar = compact ? "expanded" : "compact";
+    sidebarToggle.setAttribute("aria-expanded", String(compact));
+    localStorage.setItem("sidebar", root.dataset.sidebar);
+  });
+
+  backdrop?.addEventListener("click", () => setMobileNav(false));
+  sidebar
+    ?.querySelectorAll("a")
+    .forEach((link) => link.addEventListener("click", () => setMobileNav(false)));
+
+  document.querySelector("[data-theme-toggle]")?.addEventListener("click", () => {
+    const nextTheme = root.dataset.theme === "dark" ? "light" : "dark";
+    root.dataset.theme = nextTheme;
+    localStorage.setItem("theme", nextTheme);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setMobileNav(false);
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth >= 768) {
+      setMobileNav(false);
+      sidebarToggle?.setAttribute(
+        "aria-expanded",
+        String(root.dataset.sidebar !== "compact"),
+      );
+    }
+  });
+</script>

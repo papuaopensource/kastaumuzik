@@ -1,10 +1,8 @@
 ---
-import { tileColor } from "@/lib/collections";
-
 interface Props {
   label: string;
   count: number;
-  /** Facet kind: rak | bahasa | genre | wilayah. Used as the filter key. */
+  /** Facet kind: bahasa | genre | format | wilayah. Used as the filter key. */
   facetType: string;
   facetValue: string;
   coverId: string;
@@ -16,26 +14,26 @@ const href = `/jelajah/?${facetType}=${encodeURIComponent(facetValue)}`;
 
 <a
   href={href}
-  class="category-tile group relative flex aspect-16/10 overflow-hidden rounded-lg p-3.5 transition duration-200 hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-white sm:p-4 dark:focus-visible:ring-offset-neutral-900"
-  style={`background-color: ${tileColor(facetValue)}`}
+  class="category-tile group block min-w-0 focus:outline-none"
   data-category-tile
   data-facet-type={facetType}
   data-facet-value={facetValue}
 >
-  <div class="relative z-10 min-w-0 pr-10">
-    <p
-      class="text-sm font-bold leading-tight text-white sm:text-base md:text-lg"
-    >
+  <div class="relative aspect-video overflow-hidden rounded-xl bg-neutral-200 ring-offset-2 transition group-focus-visible:ring-2 group-focus-visible:ring-blue-500 dark:bg-neutral-800 dark:ring-offset-neutral-950">
+    <img
+      src={`https://i.ytimg.com/vi/${coverId}/hqdefault.jpg`}
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+      class="size-full object-cover transition duration-300 group-hover:scale-[1.035]"
+    />
+    <div class="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent"></div>
+    <span class="absolute bottom-3 left-3 right-3 line-clamp-2 text-sm font-semibold leading-tight text-white sm:text-base">
       {label}
-    </p>
-    <p class="mt-1 text-[11px] text-white/70">{count} pilihan</p>
+    </span>
+    <span class="absolute right-2.5 top-2.5 flex size-7 items-center justify-center rounded-full bg-black/65 text-white opacity-0 backdrop-blur transition group-hover:opacity-100" aria-hidden="true">
+      <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"></path></svg>
+    </span>
   </div>
-
-  <img
-    src={`https://i.ytimg.com/vi/${coverId}/default.jpg`}
-    alt=""
-    aria-hidden="true"
-    loading="lazy"
-    class="pointer-events-none absolute -bottom-2 -right-3 h-16 w-16 rotate-25 rounded-sm object-cover shadow-lg shadow-black/40 transition duration-300 group-hover:rotate-18 group-hover:scale-105 sm:h-18 sm:w-18"
-  />
+  <p class="mt-2 text-xs text-neutral-500 dark:text-neutral-400">{count} pilihan</p>
 </a>
