@@ -1,79 +1,182 @@
 ---
-import CollectionShelf from "@/components/CollectionShelf.astro";
 import Layout from "@/layouts/Layout.astro";
+import VideoCard from "@/components/VideoCard.astro";
 import { allVideos } from "@/lib/collections";
-import type { IndexedVideo } from "@/types/index";
 
-const videoBySlug = new Map(allVideos.map((video) => [video.slug, video]));
-const selectVideos = (slugs: string[]) =>
-  slugs
-    .map((slug) => videoBySlug.get(slug))
-    .filter((video): video is IndexedVideo => Boolean(video));
-
-const editorialPicks = selectVideos([
-  "mambesak-album-volume-1-5",
-  "fafisu-kayam-kubena-yance-bisim",
-  "segenggam-harapan-black-papas",
-  "allah-na-khena-buhea-khaban-sele",
-  "ade-mei-edgar-aronggear",
-  "sajojo-lagu-daerah-papua",
-  "sera-bawa-lada-papua",
-  "suandei-siksa-bathin-tycko-nenepat",
-]);
-
-const shelves = [
-  {
-    id: "unggulan",
-    title: "Unggulan",
-    icon: "star" as const,
-    videos: editorialPicks,
-  },
-  {
-    id: "lagu-daerah",
-    title: "Lagu daerah Papua",
-    icon: "music" as const,
-    videos: allVideos.filter((video) => video.genres.includes("Lagu daerah")),
-  },
-  {
-    id: "pop-dan-cover",
-    title: "Pop Papua & cover",
-    icon: "sparkles" as const,
-    videos: allVideos.filter((video) =>
-      video.genres.some((genre) => ["Pop Papua", "Rock Papua"].includes(genre)) ||
-      video.formats.includes("Cover"),
-    ),
-  },
-  {
-    id: "penampilan-bersama",
-    title: "Penampilan & nyanyi bersama",
-    icon: "people" as const,
-    videos: allVideos.filter((video) =>
-      video.formats.some((format) =>
-        ["Paduan suara", "Pertunjukan langsung", "Video lirik", "Karaoke"].includes(format),
-      ),
-    ),
-  },
-  {
-    id: "lagu-rohani",
-    title: "Lagu rohani",
-    icon: "heart" as const,
-    videos: allVideos.filter((video) => video.genres.includes("Lagu rohani")),
-  },
+const homeFilters = [
+  { value: "all", label: "Semua" },
+  { value: "lagu-daerah", label: "Lagu daerah" },
+  { value: "pop-papua", label: "Pop & rock Papua" },
+  { value: "rohani", label: "Lagu rohani" },
+  { value: "video-lirik", label: "Video lirik" },
+  { value: "paduan-suara", label: "Paduan suara" },
+  { value: "cover", label: "Cover" },
+  { value: "arsip", label: "Arsip" },
 ];
 ---
 
-<Layout
-  title="Kurasi Lagu Daerah Papua"
-  description="Pintu masuk untuk menemukan karya, penampilan, dan cover lagu daerah Papua yang dikurasi dari YouTube dengan sumber serta konteks yang lebih jelas."
->
-  <div class="page-wrap space-y-14 py-8 sm:space-y-16 sm:py-10">
-    {shelves.map((shelf) => (
-      <CollectionShelf
-        id={shelf.id}
-        title={shelf.title}
-        icon={shelf.icon}
-        videos={shelf.videos}
-      />
-    ))}
+<Layout title="kastaumuzik">
+  <nav
+    class="sticky top-14 z-30 border-b border-neutral-200/80 bg-white/95 backdrop-blur-xl dark:border-neutral-800 dark:bg-neutral-950/95"
+    aria-label="Filter video teras"
+  >
+    <div class="page-wrap flex gap-2 overflow-x-auto py-3 scrollbar-none [&::-webkit-scrollbar]:hidden">
+      {homeFilters.map((filter, index) => (
+        <button
+          type="button"
+          class="yt-chip shrink-0"
+          data-home-filter={filter.value}
+          data-active={index === 0 ? "true" : "false"}
+          aria-pressed={index === 0 ? "true" : "false"}
+        >
+          {filter.label}
+        </button>
+      ))}
+    </div>
+  </nav>
+
+  <div class="page-wrap py-6 sm:py-8">
+    <section aria-labelledby="feed-title">
+      <h1 id="feed-title" class="sr-only">Pilihan video lagu Papua</h1>
+      <div
+        class="grid grid-cols-1 gap-x-4 gap-y-9 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
+        data-home-feed
+      >
+        {allVideos.map((video) => (
+          <div
+            class="hidden min-w-0"
+            data-home-video
+            data-video-slug={video.slug}
+            data-genres={video.genres.join("|")}
+            data-formats={video.formats.join("|")}
+          >
+            <VideoCard video={video} variant="grid" />
+          </div>
+        ))}
+      </div>
+      <div
+        class="flex h-20 items-center justify-center"
+        data-feed-sentinel
+        aria-label="Memuat video lainnya"
+      >
+        <span class="size-5 animate-spin rounded-full border-2 border-neutral-300 border-t-orange-600 dark:border-neutral-700 dark:border-t-orange-500"></span>
+      </div>
+    </section>
+
+    <noscript>
+      <style>
+        [data-home-video] { display: block !important; }
+        [data-feed-sentinel] { display: none !important; }
+      </style>
+    </noscript>
   </div>
 </Layout>
+
+<script>
+  const homeFeed = document.querySelector<HTMLElement>("[data-home-feed]");
+  const feedSentinel = document.querySelector<HTMLElement>(
+    "[data-feed-sentinel]",
+  );
+  const videoItems = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-home-video]"),
+  );
+  const filterButtons = Array.from(
+    document.querySelectorAll<HTMLButtonElement>("[data-home-filter]"),
+  );
+
+  const shuffle = <Item,>(items: Item[]) => {
+    for (let index = items.length - 1; index > 0; index -= 1) {
+      const target = Math.floor(Math.random() * (index + 1));
+      [items[index], items[target]] = [items[target], items[index]];
+    }
+    return items;
+  };
+
+  const batchSize = window.matchMedia("(min-width: 1536px)").matches
+    ? 16
+    : window.matchMedia("(min-width: 1280px)").matches
+      ? 12
+      : 8;
+  let feedItems: HTMLElement[] = [];
+  let visibleFeedCount = 0;
+  let activeFilter = "all";
+
+  const matchesActiveFilter = (item: HTMLElement) => {
+    const genres = (item.dataset.genres ?? "").split("|");
+    const formats = (item.dataset.formats ?? "").split("|");
+
+    switch (activeFilter) {
+      case "lagu-daerah":
+        return genres.includes("Lagu daerah");
+      case "pop-papua":
+        return genres.some((genre) =>
+          ["Pop Papua", "Rock Papua"].includes(genre),
+        );
+      case "rohani":
+        return genres.includes("Lagu rohani");
+      case "video-lirik":
+        return formats.includes("Video lirik");
+      case "paduan-suara":
+        return formats.includes("Paduan suara");
+      case "cover":
+        return formats.includes("Cover");
+      case "arsip":
+        return formats.some((format) =>
+          ["Rekaman arsip", "Kompilasi album"].includes(format),
+        );
+      default:
+        return true;
+    }
+  };
+
+  const showNextBatch = () => {
+    const nextItems = feedItems.slice(
+      visibleFeedCount,
+      visibleFeedCount + batchSize,
+    );
+    nextItems.forEach((item) => item.classList.remove("hidden"));
+    visibleFeedCount += nextItems.length;
+    feedSentinel?.classList.toggle(
+      "hidden",
+      visibleFeedCount >= feedItems.length,
+    );
+  };
+
+  const renderHomeFeed = () => {
+    if (!homeFeed || !feedSentinel) return;
+
+    videoItems.forEach((item) => item.classList.add("hidden"));
+    feedItems = shuffle(videoItems.filter(matchesActiveFilter));
+    feedItems.forEach((item) => homeFeed.append(item));
+
+    visibleFeedCount = 0;
+    showNextBatch();
+  };
+
+  renderHomeFeed();
+
+  if (feedSentinel && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) showNextBatch();
+      },
+      { rootMargin: "200px 0px" },
+    );
+    observer.observe(feedSentinel);
+  } else {
+    feedItems.forEach((item) => item.classList.remove("hidden"));
+    feedSentinel?.classList.add("hidden");
+  }
+
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      activeFilter = button.dataset.homeFilter ?? "all";
+      filterButtons.forEach((item) => {
+        const isActive = item === button;
+        item.dataset.active = String(isActive);
+        item.setAttribute("aria-pressed", String(isActive));
+      });
+      renderHomeFeed();
+    });
+  });
+</script>
