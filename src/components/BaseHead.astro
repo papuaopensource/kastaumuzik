@@ -1,11 +1,31 @@
 ---
 interface Props {
   title: string;
-  description: string;
+  description?: string;
   image?: string;
 }
 
 const { title, description, image } = Astro.props;
+
+const siteName = "kastaumuzik";
+const defaultDescription =
+  "Temukan dan bagikan video lagu daerah Papua bersama family dorang dan siapa saja.";
+const fullTitle =
+  title.trim().toLocaleLowerCase("id") === siteName
+    ? siteName
+    : `${title.trim()} - ${siteName}`;
+
+// Keep search-result snippets concise, even when a page supplies dynamic copy.
+const normalizedDescription = (description ?? defaultDescription)
+  .replace(/\s+/g, " ")
+  .trim();
+const metaDescription =
+  normalizedDescription.length <= 155
+    ? normalizedDescription
+    : `${normalizedDescription
+        .slice(0, 152)
+        .replace(/\s+\S*$/, "")
+        .trimEnd()}…`;
 
 // Share image. Pages can override it; otherwise every page gets the site card.
 // Resolved against the configured site so the URL is absolute, as OG requires.
@@ -16,7 +36,6 @@ const socialImage = new URL(
 ---
 
 <meta charset="UTF-8" />
-<meta name="description" content={description} />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link
   rel="icon"
@@ -36,17 +55,17 @@ const socialImage = new URL(
 <meta name="generator" content={Astro.generator} />
 
 <!-- Primary Meta Tags -->
-<title>{title} - kastaumuzik</title>
-<meta name="title" content={`${title} - kastaumuzik`} />
-<meta name="description" content={description} />
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
+<meta name="description" content={metaDescription} />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="kastaumuzik" />
 <meta property="og:locale" content="id_ID" />
 <meta property="og:url" content={Astro.url} />
-<meta property="og:title" content={`${title} - kastaumuzik`} />
-<meta property="og:description" content={description} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={metaDescription} />
 <meta property="og:image" content={socialImage} />
 <meta property="og:image:type" content="image/jpeg" />
 <meta property="og:image:width" content="1200" />
@@ -56,8 +75,8 @@ const socialImage = new URL(
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={`${title} - kastaumuzik`} />
-<meta property="twitter:description" content={description} />
+<meta property="twitter:title" content={fullTitle} />
+<meta property="twitter:description" content={metaDescription} />
 <meta property="twitter:image" content={socialImage} />
 <meta
   property="twitter:image:alt"
