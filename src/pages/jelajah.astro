@@ -11,19 +11,9 @@ const sectionIcons = {
   "rohani-dan-paduan-suara": "heart",
 } as const;
 
-const sectionNavTitles = {
-  "arsip-dan-jejak-musik": "Arsip",
-  "lagu-daerah-dan-penampilan": "Lagu daerah",
-  "pop-dan-cover-papua": "Pop & cover",
-  "rohani-dan-paduan-suara": "Rohani",
-} as const;
-
 const categorySections = collections.map((collection) => ({
   id: collection.id,
   title: collection.title,
-  navTitle:
-    sectionNavTitles[collection.id as keyof typeof sectionNavTitles] ??
-    collection.title,
   icon:
     sectionIcons[collection.id as keyof typeof sectionIcons] ??
     ("music" as const),
@@ -44,7 +34,7 @@ if (
 
 <Layout
   title="Jelajah & Cari"
-  description="Cari lagu Papua berdasarkan judul, artis, kanal, atau bahasa — atau telusuri kategori video tanpa daftar yang berulang."
+  description="Cari video lagu Papua berdasarkan judul, artis, kanal, bahasa, atau kategori."
 >
   <div class="min-h-screen bg-white dark:bg-neutral-950">
     <header class="page-wrap pt-7 sm:pt-10">
@@ -73,12 +63,6 @@ if (
           </div>
         </form>
 
-        <nav class="mt-4 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none [&::-webkit-scrollbar]:hidden" aria-label="Langsung ke kategori">
-          <span class="mr-1 shrink-0 text-xs font-semibold text-neutral-500">Langsung ke:</span>
-          {categorySections.map((section) => (
-            <a href={"#" + section.id} class="yt-chip">{section.navTitle}</a>
-          ))}
-        </nav>
       </div>
     </header>
 
