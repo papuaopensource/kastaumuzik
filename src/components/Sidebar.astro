@@ -10,6 +10,12 @@ const primaryLinks = [
     match: firstPath === "jelajah" || firstPath === "video",
     icon: "explore",
   },
+  {
+    href: "/riwayat/",
+    label: "Riwayat",
+    match: firstPath === "riwayat",
+    icon: "history",
+  },
 ];
 
 const infoLinks = [
@@ -31,6 +37,8 @@ const iconPaths: Record<string, string> = {
   home: '<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9h4.25v-5.5h4.5V19h4.25v-9"/>',
   explore:
     '<circle cx="12" cy="12" r="9"/><path d="m14.8 9.2-1.7 3.9-3.9 1.7 1.7-3.9 3.9-1.7Z"/>',
+  history:
+    '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/>',
   info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.5h.01"/>',
   feedback:
     '<path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/><path d="M8 9h8M8 13h5"/>',
@@ -144,7 +152,33 @@ const navItemClass = (active = false) =>
       aria-expanded="false"
     >
       <svg
-        class="theme-menu-icon"
+        class="theme-menu-icon theme-menu-icon-system"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <rect x="3" y="4" width="18" height="13" rx="2"></rect>
+        <path d="M8 21h8M12 17v4"></path>
+      </svg>
+      <svg
+        class="theme-menu-icon theme-menu-icon-light"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+      </svg>
+      <svg
+        class="theme-menu-icon theme-menu-icon-dark"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"

@@ -193,9 +193,16 @@ select {
 }
 
 .theme-menu-icon {
+  display: none;
   width: 1.35rem;
   height: 1.35rem;
   flex: none;
+}
+
+[data-theme-preference="system"] .theme-menu-icon-system,
+[data-theme-preference="light"] .theme-menu-icon-light,
+[data-theme-preference="dark"] .theme-menu-icon-dark {
+  display: block;
 }
 
 .theme-menu-chevron {
