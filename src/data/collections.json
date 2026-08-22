@@ -1,13 +1,11 @@
 [
   {
     "id": "arsip-dan-jejak-musik",
-    "eyebrow": "Arsip dan musisi penting",
     "title": "Arsip & jejak musik Papua",
-    "description": "Album, kelompok, dan karya penting yang membantu melihat perjalanan musik Papua dari masa ke masa.",
     "videos": [
       {
         "slug": "mambesak-album-volume-1-5",
-        "title": "Mambesak — Album Volume I–V",
+        "title": "Mambesak: Album Volume I–V",
         "artist": "Mambesak",
         "youtubeId": "Hzesbr7ofR4",
         "channel": "Papua Traces Channel",
@@ -15,10 +13,13 @@
         "customaryRegion": "Lintas wilayah adat",
         "language": "Beragam bahasa Papua",
         "languageGroup": "Beragam bahasa Papua",
-        "genres": ["Lagu daerah"],
-        "formats": ["Kompilasi album", "Rekaman arsip"],
-        "year": "Album Volume I–V",
-        "curationStatus": "Sumber arsip",
+        "genres": [
+          "Lagu daerah"
+        ],
+        "formats": [
+          "Kompilasi album",
+          "Rekaman arsip"
+        ],
         "note": "Kompilasi utuh 73 lagu Mambesak yang mengangkat musik, tari, puisi, dan cerita rakyat Papua.",
         "description": "Kompilasi digital ini mempertemukan lima volume karya Mambesak dalam satu rekaman panjang. Entri ditampilkan sebagai satu album utuh agar konteks susunan dan sumber rekamannya tidak terpecah menjadi banyak halaman.",
         "context": "Video ini menjadi satu-satunya entri untuk kompilasi Mambesak tersebut. Informasi jumlah lagu dan susunan volume mengikuti keterangan kanal sumber; masing-masing bab tidak diperlakukan sebagai video tersendiri."
@@ -33,10 +34,14 @@
         "customaryRegion": "Mamta",
         "language": "Indonesia",
         "languageGroup": "Bahasa Indonesia",
-        "genres": ["Rock Papua", "Pop Papua"],
-        "formats": ["Rekaman audio"],
+        "genres": [
+          "Rock Papua",
+          "Pop Papua"
+        ],
+        "formats": [
+          "Rekaman audio"
+        ],
         "year": "1979",
-        "curationStatus": "Kanal artis",
         "note": "Karya rock Papua dari album Derita Tiada Akhir, tersedia melalui kanal Topic artis di YouTube.",
         "description": "Hari Kiamat merupakan salah satu karya The Black Brothers Papua yang memperlihatkan pertemuan rock, pop, dan suara sosial dalam perjalanan musik Papua modern.",
         "context": "Rekaman tersedia melalui kanal Topic The Black Brothers Papua. Keterangan album dan tahun mengikuti metadata yang ditampilkan pada halaman sumber di YouTube."
@@ -51,11 +56,16 @@
         "customaryRegion": "Belum dipastikan",
         "language": "Indonesia",
         "languageGroup": "Bahasa Indonesia",
-        "genres": ["Pop Papua", "Rock Papua"],
-        "formats": ["Video lirik", "Rekaman arsip"],
+        "genres": [
+          "Pop Papua",
+          "Rock Papua"
+        ],
+        "formats": [
+          "Video lirik",
+          "Rekaman arsip"
+        ],
         "year": "Akhir 1970-an",
         "duration": "4:50",
-        "curationStatus": "Sumber arsip",
         "note": "Lagu Black Papas dari akhir 1970-an yang dipelihara kembali melalui unggahan lirik oleh kanal warga.",
         "description": "Segenggam Harapan memperluas jejak kelompok musik Papua yang aktif pada generasi Black Brothers. Video lirik ini membuat lagunya kembali mudah diikuti dan ditemukan.",
         "context": "Video sumber diterbitkan pada 2020 dan bukan unggahan kanal artis. Informasi pencipta, album asal, dan master rekaman masih perlu dilengkapi."
@@ -70,11 +80,15 @@
         "customaryRegion": "Belum dipastikan",
         "language": "Indonesia",
         "languageGroup": "Bahasa Indonesia",
-        "genres": ["Pop Papua"],
-        "formats": ["Rekaman audio", "Rekaman arsip"],
+        "genres": [
+          "Pop Papua"
+        ],
+        "formats": [
+          "Rekaman audio",
+          "Rekaman arsip"
+        ],
         "year": "1990",
         "duration": "3:46",
-        "curationStatus": "Kanal artis",
         "note": "Rekaman Rio Grime dari album Irsinggit yang dirilis pada 1990 dan tersedia melalui kanal Topic artis.",
         "description": "Taman Bunga menghadirkan satu bagian dari rekaman pop Papua era 1990 dalam bentuk audio resmi yang tetap mudah dijangkau melalui YouTube.",
         "context": "Judul album, tahun rilis, dan label mengikuti metadata yang disediakan pada kanal Topic. Asal daerah yang lebih spesifik belum dicantumkan."
@@ -83,28 +97,8 @@
   },
   {
     "id": "lagu-daerah-dan-penampilan",
-    "eyebrow": "Lagu yang terus hidup",
     "title": "Lagu daerah & penampilan",
-    "description": "Lagu yang dikenal melalui nyanyian, tarian, sekolah, dan panggung komunitas, disertai catatan ketika asal atau kreditnya belum pasti.",
     "videos": [
-      {
-        "slug": "sajojo-lagu-daerah-papua",
-        "title": "Sajojo — Lagu Daerah Papua",
-        "artist": "Lagu daerah Papua",
-        "youtubeId": "Xc_L_zMeqbQ",
-        "channel": "Lagu Daerah Indonesia",
-        "region": "Tanah Papua",
-        "customaryRegion": "Belum dipastikan",
-        "language": "Bahasa daerah Papua",
-        "languageGroup": "Bahasa daerah Papua",
-        "genres": ["Lagu daerah", "Lagu tarian"],
-        "formats": ["Video lirik"],
-        "year": "Tahun tidak dicantumkan",
-        "curationStatus": "Kredit perlu dilengkapi",
-        "note": "Versi lirik untuk mengikuti Sajojo, dengan catatan pencipta dan asal bahasa yang masih perlu dilengkapi.",
-        "description": "Sajojo dikenal luas melalui nyanyian dan tarian bersama. Video lirik ini dipilih sebagai bahan dengar awal untuk mengikuti bentuk lagu dan pengulangannya.",
-        "context": "Informasi mengenai pencipta dan asal bahasa Sajojo tidak selalu ditulis secara seragam pada berbagai sumber populer. Catatan dibiarkan terbuka agar kreditnya dapat terus diperbaiki bersama."
-      },
       {
         "slug": "firum-nembani-waropen",
         "title": "Firum Nembani",
@@ -115,11 +109,14 @@
         "customaryRegion": "Saireri",
         "language": "Waropen",
         "languageGroup": "Waropen",
-        "genres": ["Lagu daerah"],
-        "formats": ["Rekaman musik"],
+        "genres": [
+          "Lagu daerah"
+        ],
+        "formats": [
+          "Rekaman musik"
+        ],
         "year": "2018",
         "duration": "4:21",
-        "curationStatus": "Kredit perlu dilengkapi",
         "note": "Lagu daerah Waropen yang tersimpan melalui unggahan sederhana dari kanal warga.",
         "description": "Firum Nembani menambah jalur penelusuran untuk repertoar Waropen di dalam koleksi. Rekaman ini dipertahankan sebagai satu sumber utuh sesuai unggahan aslinya.",
         "context": "Deskripsi sumber hanya mencantumkan judul dan menyebutnya sebagai lagu daerah Waropen. Penyanyi dan penciptanya belum dicantumkan."
@@ -134,18 +131,21 @@
         "customaryRegion": "Saireri",
         "language": "Ambai",
         "languageGroup": "Ambai",
-        "genres": ["Lagu daerah"],
-        "formats": ["Video lirik"],
+        "genres": [
+          "Lagu daerah"
+        ],
+        "formats": [
+          "Video lirik"
+        ],
         "year": "2024",
         "duration": "5:46",
-        "curationStatus": "Kredit perlu dilengkapi",
         "note": "Video lirik lagu Ambai dari Serui yang dibawakan Albert Fontataba.",
         "description": "Aro Aie disajikan dengan lirik sehingga pendengar dapat mengikuti lagu berbahasa Ambai dengan lebih dekat.",
         "context": "Judul video menyebut Albert Fontataba dan bahasa Ambai, sedangkan deskripsinya menandai lagu daerah Serui. Kredit pencipta belum tersedia."
       },
       {
         "slug": "doto-tanah-merah-sau-mabu",
-        "title": "Doto Tanah Merah",
+        "title": "Memay Nameng Poye Nekembe",
         "artist": "Sau Mabu",
         "youtubeId": "vTQdGTEYLMg",
         "channel": "Lee Ylnavets",
@@ -153,22 +153,23 @@
         "customaryRegion": "Ha Anim",
         "language": "Bahasa daerah Papua",
         "languageGroup": "Catatan bahasa terbuka",
-        "genres": ["Lagu daerah"],
-        "formats": ["Rekaman musik"],
+        "genres": [
+          "Lagu daerah"
+        ],
+        "formats": [
+          "Rekaman musik"
+        ],
         "year": "2017",
         "duration": "4:28",
-        "curationStatus": "Bahasa perlu dipastikan",
-        "note": "Lagu daerah yang pada judul sumber dikaitkan dengan Tanah Merah dan dibawakan Sau Mabu.",
-        "description": "Doto Tanah Merah membawa satu rekaman dari selatan Papua ke dalam jalur penelusuran lagu daerah, tanpa menambahkan informasi yang tidak tersedia pada sumber.",
-        "context": "Halaman sumber mencantumkan judul, wilayah Tanah Merah, dan nama Sau Mabu, tetapi tidak menyebut bahasa maupun pencipta lagu."
+        "note": "Lagu daerah berjudul Memay Nameng Poye Nekembe yang dikaitkan dengan Tanah Merah dan dibawakan Sau Mabu.",
+        "description": "Memay Nameng Poye Nekembe membawa satu rekaman dari selatan Papua ke dalam jalur penelusuran lagu daerah, tanpa menambahkan informasi yang tidak tersedia pada sumber.",
+        "context": "Nama Memay Nameng Poye Nekembe mengikuti koreksi judul asli. Halaman sumber mengaitkan rekaman dengan Tanah Merah dan Sau Mabu, tetapi tidak menyebut bahasa maupun pencipta lagu."
       }
     ]
   },
   {
     "id": "pop-dan-cover-papua",
-    "eyebrow": "Karya dan penampilan masa kini",
     "title": "Pop Papua & cover",
-    "description": "Lagu populer dan penampilan ulang yang beredar melalui kanal artis maupun kanal perorangan.",
     "videos": [
       {
         "slug": "awak-param-melani-sawaki",
@@ -180,11 +181,15 @@
         "customaryRegion": "Saireri",
         "language": "Biak",
         "languageGroup": "Biak",
-        "genres": ["Lagu daerah", "Pop Papua"],
-        "formats": ["Rekaman musik"],
+        "genres": [
+          "Lagu daerah",
+          "Pop Papua"
+        ],
+        "formats": [
+          "Rekaman musik"
+        ],
         "year": "2021",
         "duration": "4:03",
-        "curationStatus": "Kredit perlu dilengkapi",
         "note": "Lagu daerah berbahasa Biak yang dibawakan Melani Sawaki dan beredar melalui kanal perorangan.",
         "description": "Awak Param hadir sebagai rekaman lagu daerah yang beredar luas lewat kanal warga. Suara vokalnya menjadi jalan masuk untuk mendengar bagaimana repertoar Biak dinyanyikan hari ini.",
         "context": "Kanal sumber menandai rekaman ini sebagai lagu daerah Papua tanpa mencantumkan pencipta. Bahasa mengikuti repertoar Biak yang biasa dikaitkan dengan lagu ini dan tetap terbuka untuk diperbaiki."
@@ -199,11 +204,14 @@
         "customaryRegion": "Saireri",
         "language": "Biak",
         "languageGroup": "Biak",
-        "genres": ["Lagu daerah"],
-        "formats": ["Cover"],
+        "genres": [
+          "Lagu daerah"
+        ],
+        "formats": [
+          "Cover"
+        ],
         "year": "2021",
         "duration": "5:39",
-        "curationStatus": "Kanal artis",
         "note": "Cover lagu berbahasa Biak yang direkam dan diunggah sendiri oleh penyanyinya.",
         "description": "Fafisu Kayam Kubena dibawakan ulang oleh Yance Bisim Aninam dalam rekaman sederhana. Cover ini memperlihatkan bagaimana lagu berbahasa Biak terus dipakai dan dinyanyikan kembali.",
         "context": "Kanal sumber menyebut lagu ini sebagai lagu Biak Papua dan menandainya sebagai cover. Pencipta aslinya belum dicantumkan sehingga kredit tersebut masih terbuka."
@@ -218,11 +226,14 @@
         "customaryRegion": "Belum dipastikan",
         "language": "Belum dicantumkan sumber",
         "languageGroup": "Catatan bahasa terbuka",
-        "genres": ["Pop Papua"],
-        "formats": ["Rekaman musik"],
+        "genres": [
+          "Pop Papua"
+        ],
+        "formats": [
+          "Rekaman musik"
+        ],
         "year": "2020",
         "duration": "6:22",
-        "curationStatus": "Konteks perlu dilengkapi",
         "note": "Pop Papua dari kanal warga yang diperkenalkan sumbernya sebagai karya anak Papua.",
         "description": "Ade Mei mewakili lapis musik pop Papua yang lahir dan beredar langsung melalui kanal warga, tanpa jalur rilis label. Rekamannya memperlihatkan cara lagu baru menemukan pendengarnya sendiri.",
         "context": "Kanal sumber hanya menyebut lagu ini sebagai hasil karya anak Papua. Asal daerah dan bahasa lagunya belum dicantumkan sehingga catatannya tetap terbuka."
@@ -237,11 +248,14 @@
         "customaryRegion": "Belum dipastikan",
         "language": "Belum dicantumkan sumber",
         "languageGroup": "Catatan bahasa terbuka",
-        "genres": ["Pop Papua"],
-        "formats": ["Rekaman musik"],
+        "genres": [
+          "Pop Papua"
+        ],
+        "formats": [
+          "Rekaman musik"
+        ],
         "year": "2014",
         "duration": "5:43",
-        "curationStatus": "Konteks perlu dilengkapi",
         "note": "Unggahan lama dari kanal perorangan yang menyimpan satu lagu tanpa keterangan tambahan.",
         "description": "Suandei Siksa Bathin adalah salah satu rekaman yang bertahan di YouTube sejak awal 2010-an. Unggahan sederhana seperti ini kerap menjadi satu-satunya jejak sebuah lagu di ruang daring.",
         "context": "Halaman sumber tidak memuat keterangan selain judul lagu. Pencipta, bahasa, dan asal daerahnya masih terbuka untuk dilengkapi bersama."
@@ -256,11 +270,14 @@
         "customaryRegion": "Belum dipastikan",
         "language": "Indonesia",
         "languageGroup": "Bahasa Indonesia",
-        "genres": ["Pop Papua"],
-        "formats": ["Rekaman audio"],
+        "genres": [
+          "Pop Papua"
+        ],
+        "formats": [
+          "Rekaman audio"
+        ],
         "year": "2023",
         "duration": "5:39",
-        "curationStatus": "Kanal artis",
         "note": "Rilis Robby Sawaki yang tersedia melalui kanal Topic dengan kredit pencipta dan penulis lagu pada sumbernya.",
         "description": "Rasa Duri (Siksa Batin) hadir sebagai rekaman audio resmi dan memperluas pilihan pop Papua yang dapat ditelusuri langsung ke sumber artis.",
         "context": "Metadata kanal Topic mencantumkan Robby Sawaki sebagai penyanyi, komposer, dan penulis lirik serta menandai tanggal rilis pada 2023."
@@ -275,11 +292,14 @@
         "customaryRegion": "Belum dipastikan",
         "language": "Melayu Papua",
         "languageGroup": "Melayu Papua",
-        "genres": ["Pop Papua"],
-        "formats": ["Rekaman musik"],
+        "genres": [
+          "Pop Papua"
+        ],
+        "formats": [
+          "Rekaman musik"
+        ],
         "year": "2019",
         "duration": "6:23",
-        "curationStatus": "Konteks perlu dilengkapi",
         "note": "Lagu pop Papua berbahasa Melayu Papua yang diperkenalkan pada sumber sebagai karya Suandei.",
         "description": "Ngapulu Ko Jahat menambah warna Melayu Papua pada bagian pop melalui rekaman yang telah beredar di YouTube sejak 2019.",
         "context": "Halaman sumber hanya mengulang judul dan nama Suandei. Kredit pencipta serta daerah asal yang lebih khusus belum dicantumkan."
@@ -294,11 +314,14 @@
         "customaryRegion": "Mamta",
         "language": "Indonesia",
         "languageGroup": "Bahasa Indonesia",
-        "genres": ["Pop Papua"],
-        "formats": ["Video musik"],
+        "genres": [
+          "Pop Papua"
+        ],
+        "formats": [
+          "Video musik"
+        ],
         "year": "2022",
         "duration": "4:35",
-        "curationStatus": "Kanal artis",
         "note": "Video musik resmi kolaborasi Dave Baransano dan Mechu Imbiri yang direkam di kawasan Holtekamp.",
         "description": "Rantai Raksasa mewakili produksi musik Papua masa kini melalui kolaborasi artis dan penyajian video musik yang utuh.",
         "context": "Kredit produksi, penyuntingan video, dan lokasi Holtekamp dicantumkan oleh kanal Dave Baransano. Informasi pencipta lagu belum ditulis pada deskripsi."
@@ -313,11 +336,15 @@
         "customaryRegion": "Saireri",
         "language": "Biak",
         "languageGroup": "Biak",
-        "genres": ["Lagu daerah", "Pop Papua"],
-        "formats": ["Rekaman musik"],
+        "genres": [
+          "Lagu daerah",
+          "Pop Papua"
+        ],
+        "formats": [
+          "Rekaman musik"
+        ],
         "year": "2024",
         "duration": "3:52",
-        "curationStatus": "Sumber alternatif",
         "note": "Sumber alternatif untuk Awak Param yang dibawakan Melani Sawaki dan diunggah oleh DASER OFFICIAL.",
         "description": "Versi sumber ini memberi pilihan rekaman lain untuk mendengar Awak Param tanpa memecah atau mengambil potongan dari video aslinya.",
         "context": "Judul sumber mencantumkan Melani Sawaki dan menyebutnya sebagai lagu daerah Papua. Kredit pencipta tidak tersedia pada deskripsi."
@@ -332,11 +359,15 @@
         "customaryRegion": "Saireri",
         "language": "Ambai",
         "languageGroup": "Ambai",
-        "genres": ["Lagu daerah", "Pop Papua"],
-        "formats": ["Video lirik"],
+        "genres": [
+          "Lagu daerah",
+          "Pop Papua"
+        ],
+        "formats": [
+          "Video lirik"
+        ],
         "year": "2018",
         "duration": "5:20",
-        "curationStatus": "Kredit perlu dilengkapi",
         "note": "Video lirik lagu berbahasa Ambai dari Serui yang dibawakan Edgar Aronggear.",
         "description": "Sio Maneta mempertemukan bentuk pop Papua dengan bahasa Ambai dan disajikan melalui lirik agar lebih mudah diikuti.",
         "context": "Kanal pengunggah menyatakan mungkin masih ada kesalahan penulisan lirik. Kredit pencipta dan informasi rekaman belum dicantumkan."
@@ -345,9 +376,7 @@
   },
   {
     "id": "rohani-dan-paduan-suara",
-    "eyebrow": "Nyanyian iman dan komunitas",
     "title": "Lagu rohani & paduan suara",
-    "description": "Lagu ibadah berbahasa daerah, video lirik, dan penampilan koor jemaat dari berbagai kanal komunitas.",
     "videos": [
       {
         "slug": "nahele-tuhan-sentani",
@@ -359,11 +388,14 @@
         "customaryRegion": "Mamta",
         "language": "Sentani",
         "languageGroup": "Sentani",
-        "genres": ["Lagu rohani"],
-        "formats": ["Video lirik"],
+        "genres": [
+          "Lagu rohani"
+        ],
+        "formats": [
+          "Video lirik"
+        ],
         "year": "2019",
         "duration": "6:05",
-        "curationStatus": "Kredit perlu dilengkapi",
         "note": "Lagu rohani berbahasa Sentani dengan teks lirik lengkap pada halaman sumber.",
         "description": "Nahele Tuhan dinyanyikan dalam bahasa Sentani dan disajikan sebagai video lirik. Teks yang ditampilkan memudahkan pendengar mengikuti bunyi bahasa sekaligus ikut menyanyikannya.",
         "context": "Lirik lengkap dicantumkan oleh kanal sumber. Nama pencipta dan penyanyinya belum disebut sehingga kreditnya masih terbuka untuk dilengkapi."
@@ -378,11 +410,14 @@
         "customaryRegion": "Mamta",
         "language": "Sentani",
         "languageGroup": "Sentani",
-        "genres": ["Lagu rohani"],
-        "formats": ["Rekaman musik"],
+        "genres": [
+          "Lagu rohani"
+        ],
+        "formats": [
+          "Rekaman musik"
+        ],
         "year": "2019",
         "duration": "4:41",
-        "curationStatus": "Kredit perlu dilengkapi",
         "note": "Lagu rohani berbahasa Sentani dengan terjemahan bahasa Indonesia pada sumbernya.",
         "description": "Dyllon Vindlau membawakan lagu ini sepenuhnya dalam bahasa Sentani. Terjemahan yang disertakan sumber membantu pendengar di luar penutur bahasa itu mengikuti isinya.",
         "context": "Kanal sumber mencantumkan terjemahan bahasa Indonesia. Kredit pencipta lagunya belum disebut dan masih terbuka untuk dilengkapi."
@@ -397,11 +432,14 @@
         "customaryRegion": "Mamta",
         "language": "Sentani",
         "languageGroup": "Sentani",
-        "genres": ["Lagu rohani"],
-        "formats": ["Rekaman musik"],
+        "genres": [
+          "Lagu rohani"
+        ],
+        "formats": [
+          "Rekaman musik"
+        ],
         "year": "2020",
         "duration": "4:16",
-        "curationStatus": "Kredit perlu dilengkapi",
         "note": "Lagu rohani bahasa Sentani dengan vokal Daud Taime sebagaimana dicantumkan pada kanal sumber.",
         "description": "Khukhui Memea melengkapi pilihan lagu rohani Sentani dengan satu rekaman vokal yang dapat diputar langsung dari kanal khusus bahasa Sentani.",
         "context": "Kanal sumber mencantumkan Daud Taime sebagai vokalis, tetapi belum menyebut pencipta lagu maupun keterangan produksi lainnya."
@@ -416,11 +454,15 @@
         "customaryRegion": "Saireri",
         "language": "Biak",
         "languageGroup": "Biak",
-        "genres": ["Lagu rohani"],
-        "formats": ["Video lirik", "Terjemahan lirik"],
+        "genres": [
+          "Lagu rohani"
+        ],
+        "formats": [
+          "Video lirik",
+          "Terjemahan lirik"
+        ],
         "year": "2023",
         "duration": "4:26",
-        "curationStatus": "Sumber terjemahan",
         "note": "Lagu rohani bahasa Biak yang dibawakan Shandy Betay dan disertai terjemahan bahasa Indonesia.",
         "description": "Manseren Nanggi disajikan bersama lirik dan arti sehingga pendengar dapat mengikuti bunyi bahasa Biak sekaligus memahami isi nyanyiannya.",
         "context": "Nama penyanyi mengikuti judul sumber. Kanal menyediakan lirik serta terjemahan, tetapi tidak mencantumkan pencipta atau informasi rekaman asli."
@@ -435,11 +477,14 @@
         "customaryRegion": "Saireri",
         "language": "Biak",
         "languageGroup": "Biak",
-        "genres": ["Lagu rohani"],
-        "formats": ["Rekaman musik"],
+        "genres": [
+          "Lagu rohani"
+        ],
+        "formats": [
+          "Rekaman musik"
+        ],
         "year": "2019",
         "duration": "5:39",
-        "curationStatus": "Kredit sumber lengkap",
         "note": "Lagu rohani bahasa Biak dengan vokal Fenny Mirino dan Ros Mayor, ciptaan Absalom Mirino.",
         "description": "Waswarsikam mempertemukan dua vokalis dalam rekaman rohani Biak dan memiliki kredit dasar yang cukup jelas pada halaman sumber.",
         "context": "Bahasa, nama vokalis, dan pencipta mengikuti keterangan kanal Lagu Rohani Papua Official. Tahun menggunakan tanggal publikasi video."
@@ -454,11 +499,15 @@
         "customaryRegion": "Saireri",
         "language": "Biak",
         "languageGroup": "Biak",
-        "genres": ["Lagu rohani", "Lagu daerah"],
-        "formats": ["Rekaman musik"],
+        "genres": [
+          "Lagu rohani",
+          "Lagu daerah"
+        ],
+        "formats": [
+          "Rekaman musik"
+        ],
         "year": "2021",
         "duration": "7:12",
-        "curationStatus": "Kredit sumber lengkap",
         "note": "Lagu rohani bahasa Biak ciptaan Frids Kapisa yang dibawakan bersama Humeibou Group.",
         "description": "Ro Dunia menghadirkan format vokal kelompok dalam rekaman rohani tradisional Papua berbahasa Biak.",
         "context": "Judul, vokal, pencipta, dan bahasa dicantumkan langsung pada deskripsi sumber. Video diperkenalkan sebagai bagian dari album rohani tradisional Papua Humeibou Group."
@@ -473,11 +522,15 @@
         "customaryRegion": "Saireri",
         "language": "Ambai",
         "languageGroup": "Ambai",
-        "genres": ["Lagu rohani"],
-        "formats": ["Video lirik", "Terjemahan lirik"],
+        "genres": [
+          "Lagu rohani"
+        ],
+        "formats": [
+          "Video lirik",
+          "Terjemahan lirik"
+        ],
         "year": "2023",
         "duration": "4:28",
-        "curationStatus": "Sumber terjemahan",
         "note": "Lagu rohani bahasa Ambai dari Serui yang dinyanyikan Edgar Aronggear dan disertai terjemahan.",
         "description": "Reidowana memberi ruang pada bahasa Ambai dalam koleksi rohani dan membantu pendengar mengikuti lagunya melalui lirik terjemahan.",
         "context": "Asal bahasa, wilayah, penyanyi, dan fungsi terjemahan disebut langsung oleh kanal Papuansog. Kredit pencipta belum dicantumkan."
@@ -492,11 +545,14 @@
         "customaryRegion": "Saireri",
         "language": "Ambai",
         "languageGroup": "Ambai",
-        "genres": ["Lagu rohani"],
-        "formats": ["Video lirik"],
+        "genres": [
+          "Lagu rohani"
+        ],
+        "formats": [
+          "Video lirik"
+        ],
         "year": "2026",
         "duration": "4:31",
-        "curationStatus": "Kredit sumber lengkap",
         "note": "Lagu rohani bahasa Ambai dengan vokal George dan kredit ciptaan Napoleon “Pedos” Muabuai.",
         "description": "Seng Paisi menambah pilihan lagu rohani Ambai melalui sajian lirik yang membantu pendengar mengikuti bahasa dan nyanyiannya.",
         "context": "Nama vokalis, pencipta, bahasa, dan bentuk lirik dicantumkan langsung pada judul serta deskripsi kanal SAFAR_STUDIO."
@@ -511,11 +567,15 @@
         "customaryRegion": "Saireri",
         "language": "Aruisai",
         "languageGroup": "Aruisai",
-        "genres": ["Lagu rohani", "Lagu daerah"],
-        "formats": ["Pertunjukan langsung"],
+        "genres": [
+          "Lagu rohani",
+          "Lagu daerah"
+        ],
+        "formats": [
+          "Pertunjukan langsung"
+        ],
         "year": "2018",
         "duration": "5:31",
-        "curationStatus": "Konteks sumber tersedia",
         "note": "Lagu tradisional bernuansa religi dari suku Aruisai yang dibawakan Nakon Gandeguai.",
         "description": "Seng Yesus Wiru Wane menghadirkan nyanyian religi Aruisai dalam suasana pertunjukan langsung dan memperluas representasi Kepulauan Yapen di koleksi.",
         "context": "Kanal artefak papua menyebut lagu ini berasal dari suku Aruisai di Kabupaten Kepulauan Yapen dan merekam penampilan Nakon Gandeguai di Jayapura. Kredit pencipta belum dicantumkan."
@@ -530,11 +590,15 @@
         "customaryRegion": "Domberai",
         "language": "Indonesia",
         "languageGroup": "Bahasa Indonesia",
-        "genres": ["Lagu rohani"],
-        "formats": ["Paduan suara", "Rekaman musik"],
+        "genres": [
+          "Lagu rohani"
+        ],
+        "formats": [
+          "Paduan suara",
+          "Rekaman musik"
+        ],
         "year": "2013",
         "duration": "3:27",
-        "curationStatus": "Kredit perlu dilengkapi",
         "note": "Rekaman VG Immanuel Voice dari Manokwari yang diperkenalkan sebagai bagian dari album volume pertama mereka.",
         "description": "Perahu Kita Tersedia menghadirkan warna vokal grup rohani dari Manokwari dan menambah representasi Domberai dalam koleksi.",
         "context": "Deskripsi sumber menyebut asal grup dari Kabupaten Manokwari dan album VG Immanuel Voice Volume 1. Pencipta serta tahun rilis album belum tersedia."
@@ -549,11 +613,15 @@
         "customaryRegion": "Belum dipastikan",
         "language": "Bahasa daerah Papua",
         "languageGroup": "Catatan bahasa terbuka",
-        "genres": ["Lagu rohani"],
-        "formats": ["Video lirik", "Karaoke"],
+        "genres": [
+          "Lagu rohani"
+        ],
+        "formats": [
+          "Video lirik",
+          "Karaoke"
+        ],
         "year": "2024",
         "duration": "6:17",
-        "curationStatus": "Bahasa perlu dipastikan",
         "note": "Video lirik karaoke lagu rohani berbahasa daerah yang disiapkan untuk menyanyi bersama.",
         "description": "Sera Bawa disajikan sebagai video lirik karaoke sehingga dapat dipakai untuk latihan dan ibadah bersama. Bentuk ini memperlihatkan bagaimana lagu berbahasa daerah dirawat lewat praktik menyanyi.",
         "context": "Teks lirik dicantumkan penuh oleh kanal sumber, tetapi nama bahasa dan daerah asalnya tidak disebutkan. Karena itu penanda bahasanya dibiarkan terbuka."
@@ -568,11 +636,15 @@
         "customaryRegion": "Belum dipastikan",
         "language": "Indonesia",
         "languageGroup": "Bahasa Indonesia",
-        "genres": ["Lagu rohani"],
-        "formats": ["Paduan suara", "Pertunjukan langsung"],
+        "genres": [
+          "Lagu rohani"
+        ],
+        "formats": [
+          "Paduan suara",
+          "Pertunjukan langsung"
+        ],
         "year": "2018",
         "duration": "4:50",
-        "curationStatus": "Konteks perlu dilengkapi",
         "note": "Penampilan koor kaum bapak jemaat Sinai Dobukurung yang direkam dan dibagikan warga.",
         "description": "Ketahuilah dibawakan sebagai nyanyian kelompok oleh PKB Sinai Dobukurung. Rekaman jemaat seperti ini memperlihatkan tradisi koor yang hidup di ruang ibadah Papua.",
         "context": "Video diunggah oleh perekam perorangan tanpa keterangan lokasi jemaat maupun aransemennya. Informasi tersebut masih terbuka untuk dilengkapi."
@@ -587,11 +659,15 @@
         "customaryRegion": "Belum dipastikan",
         "language": "Indonesia",
         "languageGroup": "Bahasa Indonesia",
-        "genres": ["Lagu rohani"],
-        "formats": ["Paduan suara", "Pertunjukan langsung"],
+        "genres": [
+          "Lagu rohani"
+        ],
+        "formats": [
+          "Paduan suara",
+          "Pertunjukan langsung"
+        ],
         "year": "2018",
         "duration": "4:41",
-        "curationStatus": "Konteks perlu dilengkapi",
         "note": "Doa Bapa Kami dalam bentuk koor jemaat, direkam pada kesempatan yang sama dengan Ketahuilah.",
         "description": "Doa Bapa Kami dinyanyikan PKB Sinai Dobukurung sebagai satu kesatuan suara kelompok. Rekamannya melengkapi gambaran repertoar koor yang dibawakan jemaat ini.",
         "context": "Video diunggah oleh perekam perorangan tanpa keterangan lokasi jemaat maupun aransemennya. Informasi tersebut masih terbuka untuk dilengkapi."
@@ -606,11 +682,15 @@
         "customaryRegion": "Belum dipastikan",
         "language": "Indonesia",
         "languageGroup": "Bahasa Indonesia",
-        "genres": ["Lagu rohani"],
-        "formats": ["Paduan suara", "Pertunjukan langsung"],
+        "genres": [
+          "Lagu rohani"
+        ],
+        "formats": [
+          "Paduan suara",
+          "Pertunjukan langsung"
+        ],
         "year": "2018",
         "duration": "2:45",
-        "curationStatus": "Konteks perlu dilengkapi",
         "note": "Nyanyian rohani kaum bapak yang direkam langsung dan diunggah tanpa keterangan tambahan.",
         "description": "Hidup Ku Bersenang direkam sebagai nyanyian rohani kelompok kaum bapak. Durasinya singkat tetapi cukup untuk menangkap warna suara dan cara jemaat membawakan lagu.",
         "context": "Kanal sumber tidak mencantumkan nama jemaat, lokasi, maupun pencipta lagu. Informasi tersebut masih terbuka untuk diperbaiki."

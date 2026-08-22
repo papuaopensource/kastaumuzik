@@ -31,7 +31,6 @@ export const allVideos: IndexedVideo[] = collections.flatMap((collection) =>
   collection.videos.map((video) => ({
     ...video,
     collectionId: collection.id,
-    collectionTitle: collection.title,
   })),
 );
 

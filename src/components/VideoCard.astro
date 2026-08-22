@@ -109,13 +109,18 @@ const initials = video.artist
       </p>
       <p
         class:list={[
-          "truncate text-neutral-500 dark:text-neutral-400",
-          variant === "list" ? "mt-0.5 text-[11px]" : "mt-0.5 text-xs",
+          "flex min-w-0 items-center gap-2 text-neutral-500 dark:text-neutral-400",
+          variant === "list" ? "mt-1 text-[11px]" : "mt-1 text-xs",
         ]}
       >
-        {video.languageGroup}
-        <span aria-hidden="true">•</span>
-        {video.genres[0]}
+        <span class="min-w-0 truncate">{video.languageGroup}</span>
+        <span
+          class="shrink-0 text-neutral-400 dark:text-neutral-600"
+          aria-hidden="true"
+        >
+          •
+        </span>
+        <span class="min-w-0 truncate">{video.genres[0]}</span>
       </p>
     </div>
   </div>

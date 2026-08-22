@@ -10,9 +10,8 @@ export type CuratedVideo = {
   languageGroup: string;
   genres: string[];
   formats: string[];
-  year: string;
+  year?: string;
   duration?: string;
-  curationStatus: string;
   note: string;
   description: string;
   context: string;
@@ -20,14 +19,11 @@ export type CuratedVideo = {
 
 export type MusicCollection = {
   id: string;
-  eyebrow: string;
   title: string;
-  description: string;
   videos: CuratedVideo[];
 };
 
 /** A video that knows which shelf it came from. Used by cards, shelves, and search results. */
 export type IndexedVideo = CuratedVideo & {
   collectionId: string;
-  collectionTitle: string;
 };
