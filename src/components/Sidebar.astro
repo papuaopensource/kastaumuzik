@@ -175,7 +175,9 @@ const navItemClass = (active = false) =>
         aria-hidden="true"
       >
         <circle cx="12" cy="12" r="4"></circle>
-        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+        <path
+          d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
+        ></path>
       </svg>
       <svg
         class="theme-menu-icon theme-menu-icon-dark"
@@ -187,7 +189,8 @@ const navItemClass = (active = false) =>
         stroke-linejoin="round"
         aria-hidden="true"
       >
-        <path d="M12 3a9 9 0 1 0 9 9c0-1.2-.23-2.34-.65-3.39A6 6 0 0 1 12 3Z"></path>
+        <path d="M12 3a9 9 0 1 0 9 9c0-1.2-.23-2.34-.65-3.39A6 6 0 0 1 12 3Z"
+        ></path>
       </svg>
       <span class="min-w-0 flex-1 text-left">
         <span class="block text-sm font-semibold">Tema</span>
@@ -243,7 +246,9 @@ const navItemClass = (active = false) =>
       >
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="12" cy="12" r="4"></circle>
-          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+          <path
+            d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
+          ></path>
         </svg>
         <span>Light</span>
         <svg class="theme-menu-check" viewBox="0 0 24 24" aria-hidden="true">
@@ -258,7 +263,8 @@ const navItemClass = (active = false) =>
         aria-checked="false"
       >
         <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"></path>
+          <path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"
+          ></path>
         </svg>
         <span>Dark</span>
         <svg class="theme-menu-check" viewBox="0 0 24 24" aria-hidden="true">
@@ -271,7 +277,7 @@ const navItemClass = (active = false) =>
   <div
     class="sidebar-foot px-3 pt-4 text-[11px] leading-relaxed text-neutral-500 dark:text-neutral-500"
   >
-    <p>Kurasi terbuka lagu daerah Papua dari sumber YouTube.</p>
+    <p>Arsip lagu daerah Papua, yang dikurasi dari YouTube.</p>
     <p class="mt-2">© {new Date().getFullYear()} Papua Open Source</p>
   </div>
 </aside>
@@ -348,11 +354,11 @@ const navItemClass = (active = false) =>
   });
 
   backdrop?.addEventListener("click", () => setMobileNav(false, true));
-  sidebar
-    ?.querySelectorAll("a")
-    .forEach((link) => link.addEventListener("click", () => {
+  sidebar?.querySelectorAll("a").forEach((link) =>
+    link.addEventListener("click", () => {
       if (mobileViewport.matches) setMobileNav(false, true);
-    }));
+    }),
+  );
 
   const themeMenu = document.querySelector<HTMLElement>("[data-theme-menu]");
   const themeMenuTrigger = document.querySelector<HTMLButtonElement>(
