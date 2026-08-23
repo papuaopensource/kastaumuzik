@@ -1,0 +1,88 @@
+{% extends 'admin/base.html' %}
+
+{% load i18n unfold %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+    {% include "unfold/helpers/site_branding.html" %}
+{% endblock %}
+
+{% block content %}
+    <div class="flex flex-col lg:flex-row lg:gap-8">
+        <div class="grow flex flex-col gap-8">
+
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                {% for item in kpi %}
+                    {% component "unfold/components/card.html" with href=item.href %}
+                        <div class="flex flex-row gap-3 items-start">
+                            <span class="bg-primary-50 flex h-9 items-center justify-center rounded-default shrink-0 w-9 text-primary-600 dark:bg-base-800 dark:text-primary-500">
+                                <span class="material-symbols-outlined md-18">{{ item.icon }}</span>
+                            </span>
+
+                            <div class="min-w-0">
+                                <p class="text-font-subtle-light text-sm dark:text-font-subtle-dark">
+                                    {{ item.title }}
+                                </p>
+                                <p class="font-semibold mt-1 text-2xl text-font-important-light dark:text-font-important-dark">
+                                    {{ item.value }}
+                                </p>
+                            </div>
+                        </div>
+                    {% endcomponent %}
+                {% endfor %}
+            </div>
+
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                {% component "unfold/components/card.html" with title="Video per koleksi" %}
+                    {% component "unfold/components/chart/bar.html" with data=collection_chart height="220" %}{% endcomponent %}
+                {% endcomponent %}
+
+                {% component "unfold/components/card.html" with title="Sebaran wilayah adat" %}
+                    {% component "unfold/components/chart/bar.html" with data=region_chart height="220" %}{% endcomponent %}
+
+                    <p class="mt-4 text-font-subtle-light text-xs dark:text-font-subtle-dark">
+                        Semua wilayah adat ditampilkan meski masih kosong, supaya bagian
+                        yang belum terwakili tetap terlihat.
+                    </p>
+                {% endcomponent %}
+            </div>
+
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                {% component "unfold/components/card.html" with title="Usulan masuk per bulan" %}
+                    {% component "unfold/components/chart/line.html" with data=submissions_chart height="200" %}{% endcomponent %}
+                {% endcomponent %}
+
+                {% component "unfold/components/card.html" with title="Menunggu tinjauan" %}
+                    {% if pending_submissions %}
+                        <div class="flex flex-col -my-2">
+                            {% for submission in pending_submissions %}
+                                <a href="{% url 'admin:submissions_submission_change' submission.pk %}"
+                                   class="border-b border-base-200 flex flex-col gap-1 group last:border-0 py-3 dark:border-base-800">
+                                    <span class="font-medium text-sm text-font-important-light group-hover:text-primary-600 dark:text-font-important-dark dark:group-hover:text-primary-500">
+                                        {{ submission.title }}
+                                    </span>
+                                    <span class="text-font-subtle-light text-xs dark:text-font-subtle-dark">
+                                        {{ submission.performer }} &middot; {{ submission.created_at|date:"j M Y" }}
+                                    </span>
+                                </a>
+                            {% endfor %}
+                        </div>
+
+                        <a href="{{ submissions_url }}"
+                           class="inline-block font-medium mt-4 text-primary-600 text-sm dark:text-primary-500">
+                            Lihat semua usulan
+                        </a>
+                    {% else %}
+                        <p class="text-font-subtle-light text-sm dark:text-font-subtle-dark">
+                            Tidak ada usulan yang menunggu tinjauan.
+                        </p>
+                    {% endif %}
+                {% endcomponent %}
+            </div>
+
+        </div>
+
+        {% include "unfold/helpers/history.html" %}
+    </div>
+{% endblock %}
