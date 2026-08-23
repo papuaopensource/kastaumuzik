@@ -124,7 +124,6 @@ jobs:
               http://127.0.0.1:5000/api/v1/collections/; do
               if [ "$attempt" -ge 15 ]; then
                 echo "Django API tidak sehat setelah restart."
-                sudo supervisorctl status kastaumuzik
                 exit 1
               fi
 
