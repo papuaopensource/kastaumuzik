@@ -3,12 +3,9 @@ export type CuratedVideo = {
   title: string;
   artist: string;
   youtubeId: string;
-  channel: string;
   region: string;
   customaryRegion: string;
   language: string;
-  languageGroup: string;
-  genres: string[];
   formats: string[];
   year?: string;
   duration?: string;

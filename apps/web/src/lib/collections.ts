@@ -1,65 +1,58 @@
-import collectionData from "@/data/collections.json";
+/**
+ * The catalogue, as the pages see it.
+ *
+ * Read on every request. The result is not memoised: module state in a Worker
+ * lives as long as the isolate, so caching it here would serve a stale archive
+ * for minutes or hours after a curator publishes.
+ */
+
+import { loadCatalog, type Catalog } from "@/lib/catalog";
 import type { IndexedVideo, MusicCollection } from "@/types/index";
 
-/** A source video is one catalog item. Chapters inside a compilation are not separate entries. */
-const sourceIds = collectionData.flatMap((collection) =>
-  collection.videos.map((video) => video.youtubeId),
-);
-const duplicateSourceIds = sourceIds.filter(
-  (youtubeId, index) => sourceIds.indexOf(youtubeId) !== index,
-);
+export type SiteCatalog = {
+  collections: MusicCollection[];
+  allVideos: IndexedVideo[];
+  videoCount: number;
+  /** Related videos for a slug, already ordered by relevance by the API. */
+  relatedVideosFor(slug: string): IndexedVideo[];
+  /** Curator picks, most prominent first. */
+  featuredVideos: IndexedVideo[];
+};
 
-if (duplicateSourceIds.length > 0) {
-  throw new Error(
-    `Setiap video YouTube hanya boleh menjadi satu entri. Duplikat: ${[...new Set(duplicateSourceIds)].join(", ")}`,
-  );
-}
+const build = async (): Promise<SiteCatalog> => {
+  const catalog: Catalog = await loadCatalog();
+  const bySlug = new Map(catalog.videos.map((video) => [video.slug, video]));
 
-/** Shelves ordered from the broadest entry point to the most specific. */
-const shelfOrder = [
-  "arsip-dan-jejak-musik",
-  "lagu-daerah-dan-penampilan",
-  "pop-dan-cover-papua",
-  "rohani-dan-paduan-suara",
-];
+  const resolve = (slugs: string[]) =>
+    slugs
+      .map((slug) => bySlug.get(slug))
+      .filter((video): video is IndexedVideo => video !== undefined);
 
-export const collections = (collectionData as MusicCollection[])
-  .slice()
-  .sort((a, b) => shelfOrder.indexOf(a.id) - shelfOrder.indexOf(b.id));
+  return {
+    collections: catalog.collections,
+    allVideos: catalog.videos,
+    videoCount: catalog.videos.length,
+    relatedVideosFor: (slug) => resolve(catalog.relatedBySlug.get(slug) ?? []),
+    featuredVideos: resolve(catalog.featuredSlugs),
+  };
+};
 
-export const allVideos: IndexedVideo[] = collections.flatMap((collection) =>
-  collection.videos.map((video) => ({
-    ...video,
-    collectionId: collection.id,
-  })),
-);
+/** The catalogue as it stands right now. One read per request. */
+export const getCatalog = (): Promise<SiteCatalog> => build();
 
-export const videoCount = allVideos.length;
-
-/**
- * Placeholders that record missing information rather than name a real
- * category. They belong in a curation note, not in a badge or a filter link.
- */
-const openEnded = new Set([
-  "Belum dipastikan",
-  "Catatan bahasa terbuka",
-  "Lintas wilayah adat",
-  "Beragam bahasa Papua",
-  "Bahasa daerah Papua",
-]);
-
-export const isSpecific = (value: string) => !openEnded.has(value);
+/** Per-field text, so client-side search can weigh a title above the rest. */
+export const searchFields = (video: IndexedVideo) => ({
+  "data-title": video.title.toLocaleLowerCase("id"),
+  "data-artist": video.artist.toLocaleLowerCase("id"),
+});
 
 export const searchTextFor = (video: IndexedVideo) =>
   [
     video.title,
     video.artist,
-    video.channel,
     video.region,
     video.customaryRegion,
     video.language,
-    video.languageGroup,
-    video.genres.join(" "),
     video.formats.join(" "),
     video.note,
   ]
@@ -67,8 +60,8 @@ export const searchTextFor = (video: IndexedVideo) =>
     .toLocaleLowerCase("id");
 
 /**
- * Avatar palette. All dark enough for white text, and picked
- * deterministically from the facet name so colours are stable across builds.
+ * Avatar palette. All dark enough for white text, and picked deterministically
+ * from the seed so colours are stable across builds.
  */
 const tilePalette = [
   "#8a3b2c",

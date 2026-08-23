@@ -1,5 +1,5 @@
 ---
-import { searchTextFor, tileColor } from "@/lib/collections";
+import { searchFields, searchTextFor, tileColor } from "@/lib/collections";
 import type { IndexedVideo } from "@/types/index";
 
 interface Props {
@@ -27,11 +27,13 @@ const initials = video.artist
     variant === "list" && "flex w-full items-start gap-2.5",
   ]}
   data-video-card
-  data-language={video.languageGroup}
+  data-slug={video.slug}
+  data-language={video.language}
   data-region={video.customaryRegion}
-  data-genres={video.genres.join("|")}
+  data-collection={video.collectionId}
   data-formats={video.formats.join("|")}
   data-search={searchTextFor(video)}
+  {...searchFields(video)}
 >
   <a
     class:list={[
@@ -113,14 +115,14 @@ const initials = video.artist
           variant === "list" ? "mt-1 text-[11px]" : "mt-1 text-xs",
         ]}
       >
-        <span class="min-w-0 truncate">{video.languageGroup}</span>
+        <span class="min-w-0 truncate">{video.language}</span>
         <span
           class="shrink-0 text-neutral-400 dark:text-neutral-600"
           aria-hidden="true"
         >
           •
         </span>
-        <span class="min-w-0 truncate">{video.genres[0]}</span>
+        <span class="min-w-0 truncate">{video.formats[0]}</span>
       </p>
     </div>
   </div>
