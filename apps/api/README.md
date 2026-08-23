@@ -17,7 +17,6 @@ pnpm --filter api dev           # http://localhost:8000
 ```
 
 - Admin: <http://localhost:8000/site-manager/> — `/` redirects there
-- API docs: <http://localhost:8000/api/docs/>
 
 ## Endpoints
 

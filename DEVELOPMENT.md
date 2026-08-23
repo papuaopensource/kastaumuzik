@@ -41,7 +41,6 @@ pnpm dev            # turbo runs the Astro dev server and Django together
 
 - Site: <http://localhost:4321>
 - Admin: <http://localhost:8000/site-manager/> (`/` redirects there)
-- API docs: <http://localhost:8000/api/docs/>
 
 The build does not touch the API — only three pages are prerendered, and none of them read the catalogue. The API has to be running to *view* the catalogue pages, not to build them.
 

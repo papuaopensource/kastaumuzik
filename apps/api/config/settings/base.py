@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "django_filters",
-    "drf_spectacular",
     "corsheaders",
     "accounts",
     "catalog",
@@ -105,7 +104,6 @@ REST_FRAMEWORK = {
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.OrderingFilter",
     ],
-    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_THROTTLE_CLASSES": ["rest_framework.throttling.ScopedRateThrottle"],
     # Applies to the submission endpoint only; read endpoints are unthrottled.
     # Rejected requests count against the limit.
@@ -116,17 +114,6 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 100,
     "UNAUTHENTICATED_USER": None,
-}
-
-SPECTACULAR_SETTINGS = {
-    "TITLE": "kastaumuzik API",
-    "DESCRIPTION": (
-        "Read-only access to the curated archive of Papuan folk music, plus a "
-        "write-only endpoint for submitting a recording for curator review."
-    ),
-    "VERSION": "1.0.0",
-    "SERVE_INCLUDE_SCHEMA": False,
-    "COMPONENT_SPLIT_REQUEST": True,
 }
 
 # --- CORS ------------------------------------------------------------------
