@@ -121,7 +121,7 @@ jobs:
               --output /dev/null \
               --header "Host: api.kastaumuzik.com" \
               --header "X-Forwarded-Proto: https" \
-              http://127.0.0.1:5000/api/v1/collections/; do
+              http://127.0.0.1:8001/api/v1/collections/; do
               if [ "$attempt" -ge 15 ]; then
                 echo "Django API tidak sehat setelah restart."
                 exit 1
