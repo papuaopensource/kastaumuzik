@@ -2,106 +2,174 @@
 
 Technical notes for kastaumuzik. For an overview of the project, see [README.md](./README.md).
 
+## Layout
+
+```
+kastaumuzik/
+├── turbo.json, pnpm-workspace.yaml
+├── apps/
+│   ├── web/        Astro site → Cloudflare Workers
+│   └── api/        Django admin + read API → VPS
+```
+
+`apps/web` is a pnpm workspace package; `apps/api` has a thin `package.json` whose scripts shell out to `uv`, so turbo can drive both with one command.
+
 ## Running locally
 
-Requires Node.js 20+ and [pnpm](https://pnpm.io).
+Requires Node.js 20+, [pnpm](https://pnpm.io), and [uv](https://docs.astral.sh/uv/).
 
 ```bash
-pnpm install
-pnpm dev        # dev server at http://localhost:4321
-pnpm build      # runs astro check, then a static build into dist/
-pnpm preview    # preview the build output
+pnpm install                       # web dependencies
+uv sync --directory apps/api       # api dependencies
+
+cp apps/api/.env.example apps/api/.env
+cp apps/web/.env.example apps/web/.env
+# generate a SECRET_KEY for apps/api/.env:
+uv run --directory apps/api python -c \
+  "from django.core.management.utils import get_random_secret_key as k; print(k())"
+
+pnpm --filter api migrate
+pnpm --filter api seed             # asks for confirmation before writing
+pnpm --filter api exec uv run python manage.py createsuperuser   # asks for an email
 ```
 
-Astro keeps the dev server alive across runs. After changing dependencies or config, run `pnpm astro dev stop` before `pnpm dev`, otherwise a stale process serves the old runtime.
+Then run both:
 
-## Structure
-
-```
-src/
-├── data/collections.json     # the single source of collection content
-├── lib/collections.ts        # shelf order, video index, search text
-├── types/index.d.ts
-├── styles/global.css         # Tailwind entry and theme config
-├── components/
-│   ├── Navbar.astro         # top header, brand, and proposal action
-│   └── Sidebar.astro        # navigation drawer and theme menu
-├── layouts/Layout.astro
-└── pages/
-    ├── index.astro, jelajah.astro, usulkan.astro, tentang.astro, pernyataan.astro
-    └── video/[slug].astro    # one page per slug in collections.json
+```bash
+pnpm dev            # turbo runs the Astro dev server and Django together
 ```
 
-Imports use the `@/` alias for anything under `src`, e.g. `import Layout from "@/layouts/Layout.astro"`. It is declared once in `tsconfig.json` under `paths`; Astro picks it up from there, so there is nothing to configure in `astro.config.mjs`.
+- Site: <http://localhost:4321>
+- Admin: <http://localhost:8000/site-manager/> (`/` redirects there)
+- API docs: <http://localhost:8000/api/docs/>
 
-Pages read `src/lib/collections.ts`, never the JSON directly. Adding a recording updates counts, its exclusive Jelajah category, search, and routes on its own.
+The build does not touch the API — only three pages are prerendered, and none of them read the catalogue. The API has to be running to *view* the catalogue pages, not to build them.
 
-Shelf order comes from `shelfOrder` in `src/lib/collections.ts`, not the order in the JSON.
+Astro keeps its dev server alive across runs. After changing dependencies or config, run `pnpm --filter web exec astro dev stop` before `pnpm dev`.
+
+## apps/api
+
+Django 6.1, SQLite, `uv` for dependencies. Settings are split:
+
+| Module | Used by |
+| --- | --- |
+| `config/settings/base.py` | shared; reads everything secret through python-decouple |
+| `config/settings/development.py` | the default for `manage.py` |
+| `config/settings/production.py` | set `DJANGO_SETTINGS_MODULE` to select it |
+
+Production keeps SQLite and applies the PRAGMAs from [dj-lite](https://github.com/adamghill/dj-lite) — WAL, `synchronous=NORMAL`, `transaction_mode=IMMEDIATE`, and a busy timeout. Django 6 supports `init_command` and `transaction_mode` natively, so no extra package is involved. Throttle counters go to a **file-based cache**, not the in-memory default, because the default is per-process and would silently multiply every rate limit by the worker count.
+
+### Apps
+
+- **`accounts`** — a custom `User` identified by **email**; `username` is removed. Roles are groups, not fields.
+- **`catalog`** — `Collection`, `Format`, `Video`, and the join model that keeps formats **in order**. That order matters: the first format is the label on the video card.
+  There is no genre model. A recording's musical character is already why it sits on one collection rather than another, and keeping both made curators classify the same thing twice with two vocabularies free to disagree.
+- **`submissions`** — `Submission`, what the public sends in through `/usulkan/`.
+
+### Roles
+
+`Curator` is created by a data migration in `accounts/migrations/0002_curator_group.py`, so a fresh database comes up with the same permissions as the server. A curator may view/add/change catalogue records and review submissions. They may **not** delete a video or touch user accounts.
+
+### API
+
+Everything under `/api/v1/`, public in this phase.
+
+| Endpoint | Method |
+| --- | --- |
+| `/api/v1/collections/` | GET |
+| `/api/v1/videos/`, `/api/v1/videos/<slug>/` | GET |
+| `/api/v1/submissions/` | POST |
+
+Read-only and write-only are enforced by **which mixins the viewsets inherit**, not by checking `request.method`. There is no list route for submissions to forget to guard: `GET /api/v1/submissions/` is a 405.
+
+With no API key in front of it, three things guard the write endpoint: per-IP throttling in two windows (hour and day, both from env), a honeypot field answered with a normal 201 so a bot learns nothing, and server-side validation of the YouTube link.
+
+### Seeding
+
+`pnpm --filter api seed` loads `apps/api/catalog/fixtures/collections.json`. It prints the database path and settings module and asks before writing, because the realistic mistake is seeding while pointed at production. `--noinput` skips the prompt for CI. It upserts on `youtube_id`, so running it twice changes nothing.
+
+It also validates the data against the vocabulary below and refuses anything outside it.
 
 ## Adding a recording
 
-Add an object to the `videos` array of one shelf in [`src/data/collections.json`](src/data/collections.json):
+Through the admin at `/site-manager/`, or by adding to the fixture and reseeding. Fields mirror the old JSON:
 
-```jsonc
-{
-  "slug": "awak-param-melani-sawaki",   // unique; becomes /video/<slug>/
-  "title": "Awak Param",
-  "artist": "Melani Sawaki",
-  "youtubeId": "5Lr68uxQS0o",
-  "channel": "Geen Roger Ps",
-  "region": "Biak",                     // regency or city
-  "customaryRegion": "Saireri",
-  "language": "Biak",
-  "languageGroup": "Biak",              // used as the language category
-  "genres": ["Lagu daerah", "Pop Papua"], // what kind of music it is
-  "formats": ["Rekaman musik"],          // how the source is presented
-  "year": "2021",
-  "duration": "4:03",
-  "curationStatus": "Kredit perlu dilengkapi", // concise editorial status
-  "note": "One sentence, used as the meta description.",
-  "description": "A paragraph about the recording.",
-  "context": "Where this came from, and what is still uncertain."
-}
-```
+- **Customary region** — one of `Mamta`, `Saireri`, `Domberai`, `Bomberai`, `Ha Anim`, `La Pago`, `Mee Pago`. Use `Belum dipastikan` when the source does not say, and `Lintas wilayah adat` for compilations.
+- **Koleksi** — `Arsip musik Papua` · `Lagu daerah` · `Pop & rock Papua` · `Lagu rohani`. This is the archive's only statement about what kind of music a recording is.
+- **Bentuk video** — `Kompilasi album` · `Rekaman arsip` · `Rekaman lagu` · `Audio saja` · `Video musik` · `Video lirik` · `Lirik terjemahan` · `Versi cover` · `Karaoke` · `Paduan suara` · `Pertunjukan langsung`. The **first** one is the label shown on the card.
+- **Uncertainty** is written as it is: `Belum dipastikan` for the region, and the reason in `context`.
 
-Pull the title, channel, year, and duration from YouTube rather than estimating:
+Pull the title, year, and duration from YouTube rather than estimating:
 
 ```bash
 curl -s "https://www.youtube.com/oembed?url=https://youtu.be/<id>&format=json"
 ```
 
-Values inside the data stay in Indonesian — they render straight onto the site.
+One YouTube URL is one entry — `youtube_id` is unique in the database. Do not split a compilation into chapters. A video belongs to exactly one collection; the foreign key enforces it.
 
-**Customary region** — one of `Mamta`, `Saireri`, `Domberai`, `Bomberai`, `Ha Anim`, `La Pago`, `Mee Pago`. Use `Belum dipastikan` when the source does not say, and `Lintas wilayah adat` for compilations. Categories derive from the data, so an empty region simply does not appear.
+Values stay in Indonesian: they render straight onto the site.
 
-**Jenis musik** — hanya menjelaskan isi musiknya. Gunakan istilah yang sudah ada agar kategori tidak terpecah: `Lagu daerah` · `Lagu tarian` · `Lagu rohani` · `Pop Papua` · `Rock Papua`.
+> `curationStatus` is documented here historically but exists on no entry and in no model. It was dropped rather than invented; say so if you want it back.
 
-**Bentuk video atau penampilan** — menjelaskan cara sumber disajikan, terpisah dari jenis musik: `Kompilasi album` · `Rekaman arsip` · `Rekaman audio` · `Rekaman musik` · `Video musik` · `Video lirik` · `Terjemahan lirik` · `Cover` · `Karaoke` · `Paduan suara` · `Pertunjukan langsung`.
+## apps/web
 
-Satu URL YouTube harus menjadi satu entri. Jangan membuat halaman baru dari `startSeconds` atau bab-bab di dalam video kompilasi; simpan kompilasi tersebut sebagai satu video utuh.
+### Where the data comes from
 
-**Status kurasi** — gunakan status editorial yang menjelaskan kondisi datanya: `Sumber arsip` · `Kanal artis` · `Kredit perlu dilengkapi` · `Konteks perlu dilengkapi` · `Bahasa perlu dipastikan`. Jangan memakai bahasa, genre, atau bentuk video sebagai status.
+`src/lib/catalog.ts` fetches the archive and maps the API's snake_case onto the camelCase the templates use. `src/lib/collections.ts` wraps it in `getCatalog()`.
 
-**When something is uncertain**, write it as it is: `Belum dipastikan` for the region, `Catatan bahasa terbuka` for `languageGroup`, and the reason in `context`.
+The catalogue pages are **rendered on demand**, so a video published in the admin is on the site immediately, with no rebuild. `index`, `jelajah`, `riwayat`, and `video/[slug]` all carry `export const prerender = false`; `tentang`, `pernyataan`, `usulkan`, `404`, and `500` stay static.
 
-## Jelajah categories and search
+`getCatalog()` is **not memoised**. Module state in a Worker lives as long as the isolate, so caching the catalogue there would serve a stale archive for minutes or hours after a publish.
 
-Each video belongs to exactly one shelf in `collections.json`, and `/jelajah/` renders those shelves as exclusive categories. Do not copy the same YouTube entry into another shelf; use its metadata for search and related-video ranking instead.
+The trade-off is deliberate: the API is now a hard dependency of every catalogue page. When it is unreachable those pages return 500 and render `src/pages/500.astro`, which is prerendered so it does not need the API itself. The static pages keep working.
 
-Search is mirrored into the URL as `/jelajah/?q=mambesak`. It searches title, artist, channel, language, region, genre, format, and the concise curation note.
+`API_ORIGIN` has no `PUBLIC_` prefix, so it never reaches the client bundle.
 
-## Styling and theme
+### Cloudflare Workers
 
-Tailwind v4 runs as a Vite plugin (`@tailwindcss/vite`). There is no `tailwind.config.mjs`; everything is in [`src/styles/global.css`](src/styles/global.css), imported by `Layout.astro`. Inter is the default interface font through `--font-sans`, while headings use Onest through `--font-heading`.
+`wrangler.jsonc` is deliberately minimal; the Astro adapter supplies the entrypoint. Static files come from `dist/client`.
 
-`dark:` keys off `data-theme` on `<html>`:
+`API_ORIGIN` is read from the Worker's environment via `cloudflare:workers` (`Astro.locals.runtime.env` was removed in Astro 6), so the API can move without redeploying the site. `.env` is the local fallback.
 
-- A blocking inline script in `BaseHead.astro` sets it before first paint from `localStorage.theme`, falling back to the system preference. It must stay inline and in `<head>`.
-- The sidebar theme menu displays Auto, Light, or Dark and saves `system`, `light`, or `dark` in `localStorage`; active styling is keyed off `data-theme` so it does not flash.
-- Hand-written CSS needing a dark variant must use `[data-theme="dark"] .your-class` — those rules sit outside Tailwind's variant system.
+```bash
+pnpm --filter web build
+pnpm --filter web exec wrangler dev     # local Worker, including the POST route
+pnpm --filter web deploy
+```
 
-**Renamed in v4**, and silently dead under the old names: `shadow-sm` → `shadow-xs`, bare `shadow` → `shadow-sm`, bare `rounded` → `rounded-sm`, bare `ring` → `ring-3`, `bg-gradient-to-*` → `bg-linear-to-*`.
+### Alpine
 
-## Client-side JavaScript
+Alpine handles behaviour on top of markup Astro already rendered — `x-show`, `x-model`, `@click`, ordering. It never renders the catalogue: `x-for` over videos would empty the page for anyone without JavaScript and for crawlers.
 
-Search, expandable sections, and sidebar controls are small scripts against the DOM. No third-party CDN requests are used for interface behavior; thumbnails come from `i.ytimg.com`.
+| Component | Page |
+| --- | --- |
+| `homeFeed` | shuffle, chips, endless scroll |
+| `explore` | ranked search, URL sync, "continue watching" |
+| `watchHistory` | the history page |
+| `submissionForm` | submit, draft, error states |
+| `watchPage` | share menu, records the view |
+
+`Alpine.store("history")` owns `kastaumuzik:watch-history` — one description of that key instead of the two copies that used to live in `[slug].astro` and `riwayat.astro`.
+
+**The theme script in `BaseHead.astro` stays inline vanilla.** It runs before first paint, long before Alpine parses; moving it would make the page flash the wrong theme. Hand-written dark rules use `[data-theme="dark"] .your-class`, outside Tailwind's variant system.
+
+### Ranking
+
+- **Related videos** are scored in Django (`catalog/recommendations.py`) — language 4, customary region 3, format ×1 — and shipped as a field on the list response, so the build stays one request. Regions that mean "unknown" are excluded from matching, read off the `CustomaryRegion` enum rather than restated as literals.
+- **Curator picks** come from `is_featured`, not analytics, and appear on `/jelajah/`. Their order is the shelf order curators already control through `position`.
+- **Search** scores each field separately (title > artist > facets), so the obvious answer ranks first instead of everything matching equally.
+- **Home is pure chance.** Every recording gets the same shot at being seen, and no visitor is funnelled back to what they already watched.
+
+### Styling
+
+Tailwind v4 as a Vite plugin; everything lives in `src/styles/global.css`, no config file. **Renamed in v4** and silently dead under the old names: `shadow-sm` → `shadow-xs`, `shadow` → `shadow-sm`, `rounded` → `rounded-sm`, `ring` → `ring-3`, `bg-gradient-to-*` → `bg-linear-to-*`.
+
+## Checks
+
+```bash
+pnpm check                                  # astro check + django check
+pnpm --filter api exec uv run ruff check .
+pnpm build                                  # both apps; API must be live
+```
+
+There is no automated test suite yet — the behaviour above was verified by hand.

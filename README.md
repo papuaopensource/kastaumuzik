@@ -6,33 +6,14 @@ The site stores no audio or video of its own. Every entry links back to the reco
 
 🔗 [kastaumuzik.com](https://kastaumuzik.com)
 
-## Pages
+## Repository
 
-| Route | Contents |
+| App | What it is |
 | --- | --- |
-| `/` | Home — curator's pick, quick access, and five scrolling shelves |
-| `/jelajah/` | Search songs, artists, channels, or languages; browse four curated categories without repeated video listings |
-| `/video/<slug>/` | Detail page for one video: player, concise context, and related videos |
-| `/usulkan/` | Demo form for proposing a YouTube video for curator review |
-| `/tentang/` | How we curate |
-| `/pernyataan/` | Sources, copyright, and how to send corrections |
+| [`apps/web`](apps/web/) | The public site — Astro |
+| [`apps/api`](apps/api/) | Curation admin and read API — Django |
 
-## How we write the metadata
-
-A wrong credit harms the rights holder more than a credit that admits it is incomplete. So:
-
-- Customary regions follow the seven customary regions of Tanah Papua — Mamta, Saireri, Domberai, Bomberai, Ha Anim, La Pago, and Mee Pago.
-- Recordings whose origin or language the source does not state are marked as open rather than guessed, with the reason written into the curation note.
-- Titles, years, durations, and channel names follow the metadata shown on the source page.
-
-## Contributing
-
-- **Suggest a song** through the [proposal page](https://kastaumuzik.com/usulkan/) — include the YouTube link, song title, performers, and a short description of the song. The current form is a browser-only demo until server submission is connected.
-- **Send product feedback** through the [feedback form](https://app.formbricks.com/s/v2so83o3gq4aatac480xfytb).
-- **Correct a credit, language, or region** through an issue or pull request, with a supporting source.
-- **Rights holders** who want a link removed can contact us; see the [statement page](https://kastaumuzik.com/pernyataan/).
-
-To run the site locally, understand its structure, or add a recording via pull request, see [DEVELOPMENT.md](./DEVELOPMENT.md).
+Setup, architecture, and the rules for adding a recording are in [DEVELOPMENT.md](./DEVELOPMENT.md).
 
 ## License
 
