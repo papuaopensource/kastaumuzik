@@ -27,12 +27,28 @@ const metaDescription =
         .replace(/\s+\S*$/, "")
         .trimEnd()}…`;
 
-// Share image. Pages can override it; otherwise every page gets the site card.
-// Resolved against the configured site so the URL is absolute, as OG requires.
-const socialImage = new URL(
-  image ?? "/og-preview.png",
-  Astro.site ?? Astro.url,
-);
+// Canonical origin. Astro.url carries the build/dev host, so anything that has
+// to be absolute (canonical, og:url, og:image) is resolved against Astro.site.
+const siteOrigin = Astro.site ?? new URL("/", Astro.url);
+const canonicalURL = new URL(Astro.url.pathname, siteOrigin);
+
+// Share image: the site card, unless a page overrides it with a YouTube
+// thumbnail. Crawlers take the declared type and size verbatim, so both
+// describe the real file — og-preview.png is 1200x630, thumbnails are 1280x720.
+const socialImage = new URL(image ?? "/og-preview.png", siteOrigin);
+const card = image
+  ? {
+      type: "image/jpeg",
+      width: "1280",
+      height: "720",
+      alt: `Cuplikan video ${title.trim()} di kastaumuzik`,
+    }
+  : {
+      type: "image/png",
+      width: "1200",
+      height: "630",
+      alt: "kastaumuzik — arsip lagu daerah Papua",
+    };
 ---
 
 <meta charset="UTF-8" />
@@ -58,30 +74,29 @@ const socialImage = new URL(
 <title>{fullTitle}</title>
 <meta name="title" content={fullTitle} />
 <meta name="description" content={metaDescription} />
+<link rel="canonical" href={canonicalURL.href} />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="kastaumuzik" />
 <meta property="og:locale" content="id_ID" />
-<meta property="og:url" content={Astro.url} />
+<meta property="og:url" content={canonicalURL.href} />
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={metaDescription} />
-<meta property="og:image" content={socialImage} />
-<meta property="og:image:type" content="image/jpeg" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="kastaumuzik — arsip lagu daerah Papua" />
+<meta property="og:image" content={socialImage.href} />
+<meta property="og:image:secure_url" content={socialImage.href} />
+<meta property="og:image:type" content={card.type} />
+<meta property="og:image:width" content={card.width} />
+<meta property="og:image:height" content={card.height} />
+<meta property="og:image:alt" content={card.alt} />
 
 <!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={fullTitle} />
-<meta property="twitter:description" content={metaDescription} />
-<meta property="twitter:image" content={socialImage} />
-<meta
-  property="twitter:image:alt"
-  content="kastaumuzik — arsip lagu daerah Papua"
-/>
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalURL.href} />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={metaDescription} />
+<meta name="twitter:image" content={socialImage.href} />
+<meta name="twitter:image:alt" content={card.alt} />
 
 <!-- Interface typography -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />

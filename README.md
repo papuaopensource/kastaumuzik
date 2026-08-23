@@ -4,7 +4,7 @@ kastaumuzik is an open archive of Papuan folk music (*lagu daerah Papua*), curat
 
 The site stores no audio or video of its own. Every entry links back to the recording and the channel it came from, and every curation note states what we do not yet know rather than guessing at it.
 
-🔗 [kastaumuzik.pages.dev](https://kastaumuzik.pages.dev)
+🔗 [kastaumuzik.com](https://kastaumuzik.com)
 
 ## Pages
 
@@ -27,10 +27,10 @@ A wrong credit harms the rights holder more than a credit that admits it is inco
 
 ## Contributing
 
-- **Suggest a song** through the [proposal page](https://kastaumuzik.pages.dev/usulkan/) — include the YouTube link, song title, performers, and a short description of the song. The current form is a browser-only demo until server submission is connected.
+- **Suggest a song** through the [proposal page](https://kastaumuzik.com/usulkan/) — include the YouTube link, song title, performers, and a short description of the song. The current form is a browser-only demo until server submission is connected.
 - **Send product feedback** through the [feedback form](https://app.formbricks.com/s/v2so83o3gq4aatac480xfytb).
 - **Correct a credit, language, or region** through an issue or pull request, with a supporting source.
-- **Rights holders** who want a link removed can contact us; see the [statement page](https://kastaumuzik.pages.dev/pernyataan/).
+- **Rights holders** who want a link removed can contact us; see the [statement page](https://kastaumuzik.com/pernyataan/).
 
 To run the site locally, understand its structure, or add a recording via pull request, see [DEVELOPMENT.md](./DEVELOPMENT.md).
 
