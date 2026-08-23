@@ -1,0 +1,135 @@
+name: Deploy Django API
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "apps/api/**"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-django-production
+  cancel-in-progress: false
+
+jobs:
+  pull-latest-commit:
+    name: Pull Latest Commit on Server
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 15
+    env:
+      DEPLOY_COMMIT: ${{ github.sha }}
+
+    steps:
+      - name: Clone or update backend repository
+        uses: appleboy/ssh-action@v1.2.5
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          envs: DEPLOY_COMMIT
+          command_timeout: 10m
+          script: |
+            set -eu
+
+            eval "$(ssh-agent -s)"
+            ssh-add "$HOME/.ssh/kastaumuzik"
+
+            APP_DIR="/var/www/kastaumuzik"
+            REPOSITORY="git@github.com:papuaopensource/kastaumuzik.git"
+
+            if [ ! -d "$APP_DIR/.git" ]; then
+              git clone "$REPOSITORY" "$APP_DIR"
+            fi
+
+            cd "$APP_DIR"
+            git fetch --prune origin main
+            git checkout --force -B main "$DEPLOY_COMMIT"
+
+            echo "Commit $DEPLOY_COMMIT berhasil disinkronkan."
+
+  prepare-backend:
+    name: Prepare Django API
+    needs: pull-latest-commit
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 10
+
+    steps:
+      - name: Install dependencies, validate, migrate, and collect static files
+        uses: appleboy/ssh-action@v1.2.5
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          command_timeout: 5m
+          script: |
+            set -eu
+
+            API_DIR="/var/www/kastaumuzik/apps/api"
+
+            cd "$API_DIR"
+
+            export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
+            export DJANGO_SETTINGS_MODULE="config.settings.production"
+            export DEBUG="False"
+
+            uv sync --locked --no-dev
+            ./.venv/bin/python manage.py check --deploy
+            ./.venv/bin/python manage.py migrate --noinput
+            ./.venv/bin/python manage.py collectstatic --noinput
+
+            echo "Django API, database, dan static files berhasil disiapkan."
+
+  restart-services:
+    name: Restart and Verify Django API
+    needs: prepare-backend
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 10
+    env:
+      DEPLOY_COMMIT: ${{ github.sha }}
+
+    steps:
+      - name: Restart Django API and run health check
+        uses: appleboy/ssh-action@v1.2.5
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          envs: DEPLOY_COMMIT
+          command_timeout: 5m
+          script: |
+            set -eu
+
+            sudo supervisorctl restart kastaumuzik
+
+            attempt=1
+            until curl \
+              --fail \
+              --silent \
+              --show-error \
+              --max-time 5 \
+              --output /dev/null \
+              --header "Host: api.kastaumuzik.com" \
+              --header "X-Forwarded-Proto: https" \
+              http://127.0.0.1:5000/api/v1/collections/; do
+              if [ "$attempt" -ge 15 ]; then
+                echo "Django API tidak sehat setelah restart."
+                sudo supervisorctl status kastaumuzik
+                exit 1
+              fi
+
+              attempt=$((attempt + 1))
+              sleep 2
+            done
+
+            echo "Django API berhasil di-deploy pada commit $DEPLOY_COMMIT."
