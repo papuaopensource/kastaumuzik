@@ -1,182 +1,97 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import VideoCard from "@/components/VideoCard.astro";
-import { allVideos } from "@/lib/collections";
+import { getCatalog } from "@/lib/collections";
+
+// Rendered per request so a newly published video appears at once.
+export const prerender = false;
+
+const { allVideos, collections } = await getCatalog();
+
+// Derived from the data rather than listed by hand. Collections answer "what
+// kind of music", formats "what kind of video"; the ones shown are the most used.
+const HOME_FORMAT_CHIPS = 4;
+
+const formatCounts = new Map<string, number>();
+for (const video of allVideos) {
+  for (const format of video.formats) {
+    formatCounts.set(format, (formatCounts.get(format) ?? 0) + 1);
+  }
+}
+
+const topFormats = [...formatCounts.entries()]
+  .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "id"))
+  .slice(0, HOME_FORMAT_CHIPS)
+  .map(([name]) => name);
 
 const homeFilters = [
   { value: "all", label: "Semua" },
-  { value: "lagu-daerah", label: "Lagu daerah" },
-  { value: "pop-papua", label: "Pop & rock Papua" },
-  { value: "rohani", label: "Lagu rohani" },
-  { value: "video-lirik", label: "Video lirik" },
-  { value: "paduan-suara", label: "Paduan suara" },
-  { value: "cover", label: "Cover" },
-  { value: "arsip", label: "Arsip" },
+  ...collections.map((collection) => ({
+    value: `collection:${collection.id}`,
+    label: collection.title,
+  })),
+  ...topFormats.map((format) => ({ value: `format:${format}`, label: format })),
 ];
 ---
 
 <Layout title="kastaumuzik">
-  <nav
-    class="sticky top-14 z-30 border-b border-neutral-200/80 bg-white/95 backdrop-blur-xl dark:border-neutral-800 dark:bg-neutral-950/95"
-    aria-label="Filter video teras"
-  >
-    <div class="page-wrap flex gap-2 overflow-x-auto py-3 scrollbar-none [&::-webkit-scrollbar]:hidden">
-      {homeFilters.map((filter, index) => (
-        <button
-          type="button"
-          class="yt-chip shrink-0"
-          data-home-filter={filter.value}
-          data-active={index === 0 ? "true" : "false"}
-          aria-pressed={index === 0 ? "true" : "false"}
-        >
-          {filter.label}
-        </button>
-      ))}
-    </div>
-  </nav>
-
-  <div class="page-wrap py-6 sm:py-8">
-    <section aria-labelledby="feed-title">
-      <h1 id="feed-title" class="sr-only">Pilihan video lagu Papua</h1>
-      <div
-        class="grid grid-cols-1 gap-x-4 gap-y-9 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
-        data-home-feed
-      >
-        {allVideos.map((video) => (
-          <div
-            class="hidden min-w-0"
-            data-home-video
-            data-video-slug={video.slug}
-            data-genres={video.genres.join("|")}
-            data-formats={video.formats.join("|")}
+  <div x-data="homeFeed">
+    <nav
+      class="sticky top-14 z-30 border-b border-neutral-200/80 bg-white/95 backdrop-blur-xl dark:border-neutral-800 dark:bg-neutral-950/95"
+      aria-label="Filter video teras"
+    >
+      <div class="page-wrap flex gap-2 overflow-x-auto py-3 scrollbar-none [&::-webkit-scrollbar]:hidden">
+        {homeFilters.map((filter) => (
+          <button
+            type="button"
+            class="yt-chip shrink-0"
+            x-on:click={`setFilter('${filter.value}')`}
+            x-bind:data-active={`activeFilter === '${filter.value}'`}
+            x-bind:aria-pressed={`activeFilter === '${filter.value}'`}
+            data-active={filter.value === "all" ? "true" : "false"}
+            aria-pressed={filter.value === "all" ? "true" : "false"}
           >
-            <VideoCard video={video} variant="grid" />
-          </div>
+            {filter.label}
+          </button>
         ))}
       </div>
-      <div
-        class="flex h-20 items-center justify-center"
-        data-feed-sentinel
-        aria-label="Memuat video lainnya"
-      >
-        <span class="size-5 animate-spin rounded-full border-2 border-neutral-300 border-t-orange-600 dark:border-neutral-700 dark:border-t-orange-500"></span>
-      </div>
-    </section>
+    </nav>
 
-    <noscript>
-      <style>
-        [data-home-video] { display: block !important; }
-        [data-feed-sentinel] { display: none !important; }
-      </style>
-    </noscript>
+    <div class="page-wrap py-6 sm:py-8">
+      <section aria-labelledby="feed-title">
+        <h1 id="feed-title" class="sr-only">Pilihan video lagu Papua</h1>
+        <div
+          class="grid grid-cols-1 gap-x-4 gap-y-9 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
+          x-ref="feed"
+        >
+          {allVideos.map((video) => (
+            <div
+              class="hidden min-w-0"
+              data-home-video
+              data-video-slug={video.slug}
+              data-collection={video.collectionId}
+              data-formats={video.formats.join("|")}
+            >
+              <VideoCard video={video} variant="grid" />
+            </div>
+          ))}
+        </div>
+        <div
+          class="flex h-20 items-center justify-center"
+          x-ref="sentinel"
+          x-show="!exhausted"
+          aria-label="Memuat video lainnya"
+        >
+          <span class="size-5 animate-spin rounded-full border-2 border-neutral-300 border-t-orange-600 dark:border-neutral-700 dark:border-t-orange-500"></span>
+        </div>
+      </section>
+
+      <noscript>
+        <style>
+          [data-home-video] { display: block !important; }
+          [x-ref="sentinel"] { display: none !important; }
+        </style>
+      </noscript>
+    </div>
   </div>
 </Layout>
-
-<script>
-  const homeFeed = document.querySelector<HTMLElement>("[data-home-feed]");
-  const feedSentinel = document.querySelector<HTMLElement>(
-    "[data-feed-sentinel]",
-  );
-  const videoItems = Array.from(
-    document.querySelectorAll<HTMLElement>("[data-home-video]"),
-  );
-  const filterButtons = Array.from(
-    document.querySelectorAll<HTMLButtonElement>("[data-home-filter]"),
-  );
-
-  const shuffle = <Item,>(items: Item[]) => {
-    for (let index = items.length - 1; index > 0; index -= 1) {
-      const target = Math.floor(Math.random() * (index + 1));
-      [items[index], items[target]] = [items[target], items[index]];
-    }
-    return items;
-  };
-
-  const batchSize = window.matchMedia("(min-width: 1536px)").matches
-    ? 16
-    : window.matchMedia("(min-width: 1280px)").matches
-      ? 12
-      : 8;
-  let feedItems: HTMLElement[] = [];
-  let visibleFeedCount = 0;
-  let activeFilter = "all";
-
-  const matchesActiveFilter = (item: HTMLElement) => {
-    const genres = (item.dataset.genres ?? "").split("|");
-    const formats = (item.dataset.formats ?? "").split("|");
-
-    switch (activeFilter) {
-      case "lagu-daerah":
-        return genres.includes("Lagu daerah");
-      case "pop-papua":
-        return genres.some((genre) =>
-          ["Pop Papua", "Rock Papua"].includes(genre),
-        );
-      case "rohani":
-        return genres.includes("Lagu rohani");
-      case "video-lirik":
-        return formats.includes("Video lirik");
-      case "paduan-suara":
-        return formats.includes("Paduan suara");
-      case "cover":
-        return formats.includes("Cover");
-      case "arsip":
-        return formats.some((format) =>
-          ["Rekaman arsip", "Kompilasi album"].includes(format),
-        );
-      default:
-        return true;
-    }
-  };
-
-  const showNextBatch = () => {
-    const nextItems = feedItems.slice(
-      visibleFeedCount,
-      visibleFeedCount + batchSize,
-    );
-    nextItems.forEach((item) => item.classList.remove("hidden"));
-    visibleFeedCount += nextItems.length;
-    feedSentinel?.classList.toggle(
-      "hidden",
-      visibleFeedCount >= feedItems.length,
-    );
-  };
-
-  const renderHomeFeed = () => {
-    if (!homeFeed || !feedSentinel) return;
-
-    videoItems.forEach((item) => item.classList.add("hidden"));
-    feedItems = shuffle(videoItems.filter(matchesActiveFilter));
-    feedItems.forEach((item) => homeFeed.append(item));
-
-    visibleFeedCount = 0;
-    showNextBatch();
-  };
-
-  renderHomeFeed();
-
-  if (feedSentinel && "IntersectionObserver" in window) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) showNextBatch();
-      },
-      { rootMargin: "200px 0px" },
-    );
-    observer.observe(feedSentinel);
-  } else {
-    feedItems.forEach((item) => item.classList.remove("hidden"));
-    feedSentinel?.classList.add("hidden");
-  }
-
-  filterButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      activeFilter = button.dataset.homeFilter ?? "all";
-      filterButtons.forEach((item) => {
-        const isActive = item === button;
-        item.dataset.active = String(isActive);
-        item.setAttribute("aria-pressed", String(isActive));
-      });
-      renderHomeFeed();
-    });
-  });
-</script>

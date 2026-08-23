@@ -1,58 +1,23 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import VideoCard from "@/components/VideoCard.astro";
-import { allVideos, isSpecific, tileColor } from "@/lib/collections";
+import { getCatalog, tileColor } from "@/lib/collections";
 import type { IndexedVideo } from "@/types/index";
 
-type DetailProps = {
-  video: IndexedVideo;
-  related: IndexedVideo[];
-};
+// Rendered per request so a newly published video appears at once.
+export const prerender = false;
 
-export function getStaticPaths() {
-  const relevanceScore = (source: IndexedVideo, candidate: IndexedVideo) => {
-    let score = 0;
+const { allVideos, relatedVideosFor } = await getCatalog();
 
-    if (
-      isSpecific(source.languageGroup) &&
-      source.languageGroup === candidate.languageGroup
-    ) {
-      score += 4;
-    }
-    if (
-      isSpecific(source.customaryRegion) &&
-      source.customaryRegion === candidate.customaryRegion
-    ) {
-      score += 3;
-    }
-    score +=
-      source.genres.filter((genre) => candidate.genres.includes(genre)).length *
-      2;
-    score += source.formats.filter((format) =>
-      candidate.formats.includes(format),
-    ).length;
+const video = allVideos.find((entry) => entry.slug === Astro.params.slug);
 
-    return score;
-  };
-
-  return allVideos.map((video) => {
-    const related = allVideos
-      .filter((candidate) => candidate.slug !== video.slug)
-      .sort((a, b) => {
-        const scoreDifference =
-          relevanceScore(video, b) - relevanceScore(video, a);
-        return scoreDifference || a.title.localeCompare(b.title, "id");
-      })
-      .slice(0, 10);
-
-    return {
-      params: { slug: video.slug },
-      props: { video, related },
-    };
-  });
+if (!video) {
+  return new Response(null, { status: 404, statusText: "Video tidak ditemukan" });
 }
 
-const { video, related } = Astro.props as DetailProps;
+// Relevance is scored by the API (apps/api/catalog/recommendations.py) and
+// ships as a field on the catalogue response, so this costs no extra request.
+const related: IndexedVideo[] = relatedVideosFor(video.slug);
 const youtubeUrl = `https://www.youtube.com/watch?v=${video.youtubeId}`;
 const embedUrl = `https://www.youtube-nocookie.com/embed/${video.youtubeId}?rel=0`;
 const detailFacts = [video.year, video.language, video.region].filter(
@@ -72,11 +37,7 @@ const initials = video.artist
   description={`Tonton ${video.title} oleh ${video.artist}, lengkap dengan sumber dan konteks singkat di kastaumuzik.`}
   image={`https://i.ytimg.com/vi/${video.youtubeId}/maxresdefault.jpg`}
 >
-  <div
-    class="page-wrap py-4 sm:py-6"
-    data-watch-page
-    data-video-slug={video.slug}
-  >
+  <div class="page-wrap py-4 sm:py-6" x-data={`watchPage('${video.slug}')`}>
     <div
       class="grid items-start gap-8 xl:grid-cols-[minmax(0,1fr)_24rem] xl:gap-7"
     >
@@ -142,12 +103,14 @@ const initials = video.artist
               </svg>
               Buka di YouTube
             </a>
-            <div class="relative" data-share-menu data-open="false">
+            <div class="relative" x-on:click.outside="close()" x-on:keydown.escape.window="close({ returnFocus: true })">
               <button
                 type="button"
                 class="inline-flex h-9 items-center gap-2 rounded-full bg-neutral-100 px-4 text-xs font-semibold text-neutral-800 transition hover:bg-neutral-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700"
-                data-share-trigger
+                x-ref="trigger"
+                x-on:click="toggle()"
                 aria-haspopup="menu"
+                x-bind:aria-expanded="open"
                 aria-expanded="false"
                 aria-controls="video-share-menu"
               >
@@ -171,10 +134,12 @@ const initials = video.artist
               <div
                 id="video-share-menu"
                 class="fixed left-1/2 z-30 w-[calc(100vw-2rem)] max-w-72 -translate-x-1/2 rounded-2xl border border-neutral-200 bg-white p-3 shadow-xl dark:border-neutral-700 dark:bg-neutral-900 sm:absolute sm:left-auto sm:right-0 sm:top-11 sm:w-72 sm:translate-x-0"
-                data-share-popover
+                x-ref="popover"
+                x-show="open"
+                x-cloak
+                x-on:resize.window="position()"
                 role="menu"
                 aria-label="Bagikan video"
-                hidden
               >
                 <span
                   class="pointer-events-none absolute -top-1.5 size-3 -translate-x-1/2 rotate-45 border-l border-t border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-900"
@@ -188,12 +153,12 @@ const initials = video.artist
                 </p>
                 <div class="grid grid-cols-4 gap-1">
                   <a
-                    href="#"
+                    x-bind:href="shareHref('whatsapp')"
+                    x-on:click="close()"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="flex min-w-0 flex-col items-center gap-2 rounded-xl p-2 text-center text-[11px] font-medium text-neutral-700 transition hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 dark:text-neutral-200 dark:hover:bg-neutral-800"
-                    data-share-platform="whatsapp"
-                    role="menuitem"
+                                        role="menuitem"
                   >
                     <span
                       class="flex size-10 items-center justify-center rounded-full bg-[#25D366] text-white"
@@ -217,12 +182,12 @@ const initials = video.artist
                     WhatsApp
                   </a>
                   <a
-                    href="#"
+                    x-bind:href="shareHref('facebook')"
+                    x-on:click="close()"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="flex min-w-0 flex-col items-center gap-2 rounded-xl p-2 text-center text-[11px] font-medium text-neutral-700 transition hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 dark:text-neutral-200 dark:hover:bg-neutral-800"
-                    data-share-platform="facebook"
-                    role="menuitem"
+                                        role="menuitem"
                   >
                     <span
                       class="flex size-10 items-center justify-center rounded-full bg-[#1877F2] text-xl font-bold text-white"
@@ -231,12 +196,12 @@ const initials = video.artist
                     Facebook
                   </a>
                   <a
-                    href="#"
+                    x-bind:href="shareHref('x')"
+                    x-on:click="close()"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="flex min-w-0 flex-col items-center gap-2 rounded-xl p-2 text-center text-[11px] font-medium text-neutral-700 transition hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 dark:text-neutral-200 dark:hover:bg-neutral-800"
-                    data-share-platform="x"
-                    role="menuitem"
+                                        role="menuitem"
                   >
                     <span
                       class="flex size-10 items-center justify-center rounded-full bg-neutral-950 text-white dark:bg-white dark:text-neutral-950"
@@ -257,7 +222,7 @@ const initials = video.artist
                   <button
                     type="button"
                     class="flex min-w-0 flex-col items-center gap-2 rounded-xl p-2 text-center text-[11px] font-medium text-neutral-700 transition hover:bg-neutral-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 dark:text-neutral-200 dark:hover:bg-neutral-800"
-                    data-copy-share-link
+                    x-on:click="copyLink()"
                     role="menuitem"
                   >
                     <span
@@ -280,7 +245,7 @@ const initials = video.artist
                         ></path>
                       </svg>
                     </span>
-                    <span data-copy-share-label>Salin tautan</span>
+                    <span x-text="copyLabel">Salin tautan</span>
                   </button>
                 </div>
               </div>
@@ -344,130 +309,3 @@ const initials = video.artist
     </div>
   </div>
 </Layout>
-
-<script>
-  const watchHistoryKey = "kastaumuzik:watch-history";
-  const watchPage = document.querySelector<HTMLElement>("[data-watch-page]");
-  const currentVideoSlug = watchPage?.dataset.videoSlug;
-
-  if (currentVideoSlug) {
-    try {
-      const saved = JSON.parse(localStorage.getItem(watchHistoryKey) ?? "[]");
-      const history = Array.isArray(saved)
-        ? saved.filter((slug): slug is string => typeof slug === "string")
-        : [];
-      const updatedHistory = [
-        currentVideoSlug,
-        ...history.filter((slug) => slug !== currentVideoSlug),
-      ].slice(0, 50);
-      localStorage.setItem(watchHistoryKey, JSON.stringify(updatedHistory));
-    } catch {
-      // The page remains usable when browser storage is unavailable.
-    }
-  }
-
-  const shareMenu = document.querySelector<HTMLElement>("[data-share-menu]");
-  const shareTrigger = document.querySelector<HTMLButtonElement>(
-    "[data-share-trigger]",
-  );
-  const sharePopover = document.querySelector<HTMLElement>(
-    "[data-share-popover]",
-  );
-  const shareLinks = Array.from(
-    document.querySelectorAll<HTMLAnchorElement>("[data-share-platform]"),
-  );
-  const copyShareButton = document.querySelector<HTMLButtonElement>(
-    "[data-copy-share-link]",
-  );
-  const copyShareLabel = document.querySelector<HTMLElement>(
-    "[data-copy-share-label]",
-  );
-
-  const positionSharePopover = () => {
-    if (!shareTrigger || !sharePopover || sharePopover.hidden) return;
-
-    const triggerRect = shareTrigger.getBoundingClientRect();
-    const isMobile = !window.matchMedia("(min-width: 640px)").matches;
-
-    if (isMobile) {
-      sharePopover.style.top = `${triggerRect.bottom + 12}px`;
-    } else {
-      sharePopover.style.removeProperty("top");
-    }
-
-    const popoverRect = sharePopover.getBoundingClientRect();
-    const caretLeft = Math.min(
-      Math.max(triggerRect.left + triggerRect.width / 2 - popoverRect.left, 18),
-      popoverRect.width - 18,
-    );
-    sharePopover.style.setProperty("--share-caret-left", `${caretLeft}px`);
-  };
-
-  const setShareMenuOpen = (open: boolean, returnFocus = false) => {
-    if (!shareMenu || !shareTrigger || !sharePopover) return;
-    shareMenu.dataset.open = String(open);
-    shareTrigger.setAttribute("aria-expanded", String(open));
-    sharePopover.hidden = !open;
-    if (open) {
-      positionSharePopover();
-      window.requestAnimationFrame(() =>
-        sharePopover.querySelector<HTMLElement>("[role='menuitem']")?.focus(),
-      );
-    } else if (returnFocus) {
-      shareTrigger.focus();
-    }
-  };
-
-  const pageUrl = window.location.href;
-  const videoTitle =
-    document.querySelector<HTMLHeadingElement>("h1")?.textContent?.trim() ??
-    document.title;
-  const shareText = `${videoTitle} - kastaumuzik`;
-
-  shareLinks.forEach((link) => {
-    const platform = link.dataset.sharePlatform;
-    if (platform === "whatsapp") {
-      link.href = `https://wa.me/?text=${encodeURIComponent(`${shareText}\n${pageUrl}`)}`;
-    } else if (platform === "facebook") {
-      link.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
-    } else if (platform === "x") {
-      link.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(pageUrl)}`;
-    }
-    link.addEventListener("click", () => setShareMenuOpen(false));
-  });
-
-  shareTrigger?.addEventListener("click", () => {
-    setShareMenuOpen(shareMenu?.dataset.open !== "true");
-  });
-
-  window.addEventListener("resize", () => {
-    if (shareMenu?.dataset.open === "true") positionSharePopover();
-  });
-
-  copyShareButton?.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(pageUrl);
-      if (copyShareLabel) copyShareLabel.textContent = "Tersalin";
-      window.setTimeout(() => {
-        if (copyShareLabel) copyShareLabel.textContent = "Salin tautan";
-      }, 1800);
-    } catch {
-      window.prompt("Salin tautan ini", pageUrl);
-    }
-  });
-
-  document.addEventListener("click", (event) => {
-    if (
-      shareMenu?.dataset.open === "true" &&
-      !shareMenu.contains(event.target as Node)
-    ) {
-      setShareMenuOpen(false);
-    }
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && shareMenu?.dataset.open === "true") {
-      setShareMenuOpen(false, true);
-    }
-  });
-</script>
