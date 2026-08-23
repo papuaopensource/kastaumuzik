@@ -1,9 +1,13 @@
 # build output
 dist/
+.wrangler/
 
 # generated types
 .astro/
 .claude/
+
+# task runner cache
+.turbo/
 
 # dependencies
 node_modules/
@@ -17,6 +21,19 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+.ruff_cache/
+
+# django
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
+apps/api/staticfiles/
+apps/api/media/
 
 # macOS-specific files
 .DS_Store

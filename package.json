@@ -1,22 +1,24 @@
 {
-  "name": "kastau-muzik",
+  "name": "kastaumuzik",
+  "private": true,
   "type": "module",
   "version": "0.0.1",
+  "packageManager": "pnpm@10.20.0",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro check && astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "check": "turbo run check",
+    "preview": "turbo run preview",
+    "migrate": "turbo run migrate",
+    "seed": "turbo run seed"
   },
-  "dependencies": {
-    "@astrojs/alpinejs": "^1.0.0",
-    "@astrojs/check": "^0.9.10",
-    "@tailwindcss/vite": "^4.3.3",
-    "@types/alpinejs": "^3.13.11",
-    "alpinejs": "^3.16.1",
-    "astro": "^7.2.1",
-    "tailwindcss": "^4.3.3",
-    "typescript": "^5.5.4"
+  "devDependencies": {
+    "turbo": "^2.10.11"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "workerd"]
   }
 }
