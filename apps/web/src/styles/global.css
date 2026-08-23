@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* Alpine sets x-cloak on elements that must not flash before it initialises.
+   Without this rule the "continue watching" row would appear empty and then
+   vanish on every page load. */
+[x-cloak] {
+  display: none !important;
+}
+
 /*
   Theme lives in data-theme on <html>. A blocking script in BaseHead sets it
   before first paint; the sidebar control updates it.

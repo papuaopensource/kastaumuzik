@@ -1,13 +1,18 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { allVideos, searchTextFor } from "@/lib/collections";
+import { getCatalog, searchTextFor } from "@/lib/collections";
+
+// Rendered per request so a newly published video appears at once.
+export const prerender = false;
+
+const { allVideos } = await getCatalog();
 ---
 
 <Layout
   title="Riwayat Tontonan"
   description="Lihat kembali video lagu Papua yang pernah kamu buka di kastaumuzik."
 >
-  <div class="page-wrap py-7 sm:py-10">
+  <div class="page-wrap py-7 sm:py-10" x-data="watchHistory">
     <header class="max-w-3xl">
       <p class="text-xs font-semibold text-orange-700 dark:text-orange-400">
         Tersimpan di perangkat ini
@@ -19,7 +24,10 @@ import { allVideos, searchTextFor } from "@/lib/collections";
         Temukan kembali video yang pernah kamu buka. Riwayat ini hanya tersedia
         di browser dan perangkat yang sedang digunakan.
       </p>
-      <p class="mt-3 text-xs font-semibold text-neutral-500" data-history-count>
+      <p
+        class="mt-3 text-xs font-semibold text-neutral-500"
+        x-text="`${total} video`"
+      >
         Memuat riwayat…
       </p>
     </header>
@@ -28,7 +36,7 @@ import { allVideos, searchTextFor } from "@/lib/collections";
       <section aria-labelledby="daftar-riwayat-title" aria-live="polite">
         <h2 id="daftar-riwayat-title" class="sr-only">Daftar riwayat tontonan</h2>
 
-        <div class="space-y-5" data-history-list>
+        <div class="space-y-5" x-ref="list">
           {allVideos.map((video) => (
             <div
               class="hidden"
@@ -66,11 +74,11 @@ import { allVideos, searchTextFor } from "@/lib/collections";
                   {video.artist}
                 </p>
                 <p class="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
-                  {video.languageGroup}
+                  {video.language}
                   <span class="mx-1" aria-hidden="true">•</span>
-                  {video.genres[0]}
+                  {video.formats[0]}
                   <span class="mx-1" aria-hidden="true">•</span>
-                  {video.channel}
+                  {video.region}
                 </p>
                 <p class="mt-3 hidden line-clamp-2 text-xs leading-relaxed text-neutral-500 md:block dark:text-neutral-400">
                   {video.note}
@@ -80,8 +88,7 @@ import { allVideos, searchTextFor } from "@/lib/collections";
               <button
                 type="button"
                 class="absolute right-0 top-0 inline-flex size-9 items-center justify-center rounded-full text-neutral-500 transition hover:bg-neutral-100 hover:text-neutral-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-600 dark:hover:bg-neutral-800 dark:hover:text-white"
-                data-remove-history
-                data-video-slug={video.slug}
+                x-on:click={`remove('${video.slug}')`}
                 aria-label={`Hapus ${video.title} dari riwayat`}
                 title="Hapus dari riwayat"
               >
@@ -95,8 +102,9 @@ import { allVideos, searchTextFor } from "@/lib/collections";
         </div>
 
         <div
-          class="hidden rounded-2xl border border-dashed border-neutral-300 px-6 py-14 text-center dark:border-neutral-700"
-          data-history-empty
+          class="rounded-2xl border border-dashed border-neutral-300 px-6 py-14 text-center dark:border-neutral-700"
+          x-show="isEmpty"
+          x-cloak
         >
           <span class="mx-auto flex size-12 items-center justify-center rounded-full bg-neutral-100 text-neutral-500 dark:bg-neutral-900 dark:text-neutral-400">
             <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -104,10 +112,10 @@ import { allVideos, searchTextFor } from "@/lib/collections";
               <path d="M3 3v5h5M12 7v5l3 2"></path>
             </svg>
           </span>
-          <h2 class="mt-4 text-lg font-semibold text-neutral-950 dark:text-white" data-empty-title>
+          <h2 class="mt-4 text-lg font-semibold text-neutral-950 dark:text-white" x-text="emptyTitle">
             Belum ada riwayat
           </h2>
-          <p class="mx-auto mt-2 max-w-md text-sm leading-relaxed text-neutral-500 dark:text-neutral-400" data-empty-description>
+          <p class="mx-auto mt-2 max-w-md text-sm leading-relaxed text-neutral-500 dark:text-neutral-400" x-text="emptyDescription">
             Video yang kamu buka akan muncul di halaman ini.
           </p>
           <a href="/" class="mt-5 inline-flex h-9 items-center rounded-full bg-neutral-950 px-4 text-xs font-semibold text-white transition hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200">
@@ -136,7 +144,7 @@ import { allVideos, searchTextFor } from "@/lib/collections";
               autocomplete="off"
               placeholder="Telusuri riwayat"
               class="h-full min-w-0 flex-1 bg-transparent text-sm text-neutral-950 outline-none placeholder:text-neutral-500 dark:text-white"
-              data-history-search-input
+              x-model="query"
             />
           </div>
         </div>
@@ -144,7 +152,8 @@ import { allVideos, searchTextFor } from "@/lib/collections";
         <button
           type="button"
           class="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm font-semibold text-neutral-800 transition hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-40 dark:text-neutral-200 dark:hover:bg-neutral-900"
-          data-clear-history
+          x-on:click="clearAll()"
+          x-bind:disabled="total === 0"
           disabled
         >
           <svg class="size-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -160,132 +169,6 @@ import { allVideos, searchTextFor } from "@/lib/collections";
       </aside>
     </div>
 
-    <p class="sr-only" aria-live="polite" data-history-status></p>
+    <p class="sr-only" aria-live="polite" x-ref="status"></p>
   </div>
 </Layout>
-
-<script>
-  const watchHistoryKey = "kastaumuzik:watch-history";
-  const historyList = document.querySelector<HTMLElement>("[data-history-list]");
-  const historyItems = Array.from(
-    document.querySelectorAll<HTMLElement>("[data-history-item]"),
-  );
-  const itemsBySlug = new Map(
-    historyItems.map((item) => [item.dataset.videoSlug, item]),
-  );
-  const searchInput = document.querySelector<HTMLInputElement>(
-    "[data-history-search-input]",
-  );
-  const clearButton = document.querySelector<HTMLButtonElement>(
-    "[data-clear-history]",
-  );
-  const emptyState = document.querySelector<HTMLElement>("[data-history-empty]");
-  const emptyTitle = document.querySelector<HTMLElement>("[data-empty-title]");
-  const emptyDescription = document.querySelector<HTMLElement>(
-    "[data-empty-description]",
-  );
-  const historyCount = document.querySelector<HTMLElement>("[data-history-count]");
-  const historyStatus = document.querySelector<HTMLElement>("[data-history-status]");
-
-  const readHistory = () => {
-    try {
-      const saved = JSON.parse(localStorage.getItem(watchHistoryKey) ?? "[]");
-      return Array.isArray(saved)
-        ? saved.filter((slug): slug is string => typeof slug === "string")
-        : [];
-    } catch {
-      return [];
-    }
-  };
-
-  const writeHistory = (history: string[]) => {
-    try {
-      if (history.length === 0) localStorage.removeItem(watchHistoryKey);
-      else localStorage.setItem(watchHistoryKey, JSON.stringify(history));
-    } catch {
-      // The page remains usable when browser storage is unavailable.
-    }
-  };
-
-  const normalise = (value: string) =>
-    value
-      .toLocaleLowerCase("id")
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .trim();
-
-  const renderHistory = () => {
-    if (
-      !historyList ||
-      !searchInput ||
-      !clearButton ||
-      !emptyState ||
-      !emptyTitle ||
-      !emptyDescription ||
-      !historyCount
-    ) return;
-
-    const history = readHistory().filter((slug) => itemsBySlug.has(slug));
-    const query = normalise(searchInput.value);
-    historyItems.forEach((item) => item.classList.add("hidden"));
-
-    const matches = history.filter((slug) => {
-      const item = itemsBySlug.get(slug);
-      return item && normalise(item.dataset.historySearch ?? "").includes(query);
-    });
-
-    matches.forEach((slug) => {
-      const item = itemsBySlug.get(slug);
-      if (!item) return;
-      item.classList.remove("hidden");
-      historyList.append(item);
-    });
-
-    const hasHistory = history.length > 0;
-    const hasMatches = matches.length > 0;
-    historyCount.textContent = `${history.length} video`;
-    clearButton.disabled = !hasHistory;
-    emptyState.classList.toggle("hidden", hasMatches);
-
-    if (!hasHistory) {
-      emptyTitle.textContent = "Belum ada riwayat";
-      emptyDescription.textContent =
-        "Video yang kamu buka akan muncul di halaman ini.";
-    } else if (!hasMatches) {
-      emptyTitle.textContent = "Tidak ada hasil";
-      emptyDescription.textContent = `Tidak ada riwayat yang cocok dengan “${searchInput.value.trim()}”.`;
-    }
-  };
-
-  historyList?.addEventListener("click", (event) => {
-    const button = (event.target as Element).closest<HTMLButtonElement>(
-      "[data-remove-history]",
-    );
-    const slug = button?.dataset.videoSlug;
-    if (!slug) return;
-
-    writeHistory(readHistory().filter((item) => item !== slug));
-    renderHistory();
-    if (historyStatus) historyStatus.textContent = "Video dihapus dari riwayat.";
-  });
-
-  searchInput?.addEventListener("input", renderHistory);
-  clearButton?.addEventListener("click", () => {
-    if (readHistory().length === 0) return;
-    if (!window.confirm("Hapus semua riwayat tontonan di perangkat ini?")) return;
-
-    writeHistory([]);
-    if (searchInput) searchInput.value = "";
-    renderHistory();
-    if (historyStatus) historyStatus.textContent = "Semua riwayat telah dihapus.";
-  });
-
-  window.addEventListener("storage", (event) => {
-    if (event.key === watchHistoryKey) renderHistory();
-  });
-  window.addEventListener("pageshow", (event) => {
-    if (event.persisted) renderHistory();
-  });
-
-  renderHistory();
-</script>

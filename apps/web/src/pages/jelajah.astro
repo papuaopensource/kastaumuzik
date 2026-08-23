@@ -2,13 +2,18 @@
 import CollectionShelf from "@/components/CollectionShelf.astro";
 import VideoCard from "@/components/VideoCard.astro";
 import Layout from "@/layouts/Layout.astro";
-import { allVideos, collections, videoCount } from "@/lib/collections";
+import { getCatalog } from "@/lib/collections";
+
+// Rendered per request so a newly published video appears at once.
+export const prerender = false;
+
+const { allVideos, collections, videoCount, featuredVideos } = await getCatalog();
 
 const sectionIcons = {
-  "arsip-dan-jejak-musik": "star",
-  "lagu-daerah-dan-penampilan": "music",
-  "pop-dan-cover-papua": "sparkles",
-  "rohani-dan-paduan-suara": "heart",
+  "arsip-musik-papua": "star",
+  "lagu-daerah": "music",
+  "pop-dan-rock-papua": "sparkles",
+  "lagu-rohani": "heart",
 } as const;
 
 const categorySections = collections.map((collection) => ({
@@ -34,9 +39,13 @@ if (
 
 <Layout
   title="Jelajah & Cari"
-  description="Cari video lagu Papua berdasarkan judul, artis, kanal, bahasa, atau kategori."
+  description="Cari video lagu Papua berdasarkan judul, artis, bahasa, daerah, atau kategori."
 >
-  <div class="min-h-screen bg-white dark:bg-neutral-950">
+  <div
+    class="min-h-screen bg-white dark:bg-neutral-950"
+    x-data="explore"
+    x-on:keydown.window="onKeydown($event)"
+  >
     <header class="page-wrap pt-7 sm:pt-10">
       <div class="max-w-4xl">
         <p class="text-xs font-semibold text-orange-700 dark:text-orange-400">{videoCount} video tersedia</p>
@@ -45,8 +54,8 @@ if (
           Cari judul atau artis, atau pilih kategori yang ingin kamu lihat.
         </p>
 
-        <form id="explore-search-form" role="search" class="mt-6 max-w-3xl">
-          <label for="explore-search" class="sr-only">Cari judul, artis, kanal, atau bahasa</label>
+        <form role="search" class="mt-6 max-w-3xl" x-on:submit.prevent="apply()">
+          <label for="explore-search" class="sr-only">Cari judul, artis, bahasa, atau daerah</label>
           <div class="flex h-12 items-center rounded-full border border-neutral-300 bg-white px-4 transition focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/10 dark:border-neutral-700 dark:bg-neutral-950">
             <svg class="mr-3 size-5 shrink-0 text-neutral-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
               <circle cx="11" cy="11" r="7"></circle>
@@ -57,8 +66,11 @@ if (
               type="search"
               name="q"
               autocomplete="off"
-              placeholder="Cari judul, artis, kanal, atau bahasa"
+              placeholder="Cari judul, artis, bahasa, atau daerah"
               class="h-full min-w-0 flex-1 bg-transparent text-sm text-neutral-900 outline-none placeholder:text-neutral-500 dark:text-neutral-100"
+              x-ref="input"
+              x-model="query"
+              x-on:input="apply()"
             />
           </div>
         </form>
@@ -67,36 +79,60 @@ if (
     </header>
 
     <div class="page-wrap py-8 lg:py-10">
-      <section id="explore-results" class="hidden scroll-mt-24" aria-labelledby="explore-results-title" aria-live="polite">
+      <section class="scroll-mt-24" aria-labelledby="explore-results-title" aria-live="polite" x-show="isSearching" x-cloak>
         <div class="mb-6 flex flex-wrap items-end justify-between gap-3">
           <div>
             <p class="text-[11px] font-semibold text-orange-700 dark:text-orange-400">Hasil</p>
             <h2 id="explore-results-title" class="mt-1 text-2xl font-bold text-neutral-950 dark:text-white">
-              <span id="explore-results-count">{videoCount}</span> video ditemukan
+              <span x-text="matchCount">{videoCount}</span> video ditemukan
             </h2>
-            <p id="explore-results-context" class="mt-1 text-xs text-neutral-500">Menampilkan video yang sesuai.</p>
+            <p class="mt-1 text-xs text-neutral-500" x-text="`Hasil untuk \u201C${query.trim()}\u201D.`">Menampilkan video yang sesuai.</p>
           </div>
-          <button id="explore-reset" type="button" class="inline-flex h-9 items-center gap-1.5 rounded-full border border-neutral-300 px-4 text-xs font-semibold text-neutral-700 transition hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-800">
+          <button type="button" x-on:click="reset()" class="inline-flex h-9 items-center gap-1.5 rounded-full border border-neutral-300 px-4 text-xs font-semibold text-neutral-700 transition hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-800">
             <svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
             Bersihkan
           </button>
         </div>
 
-        <div id="explore-result-grid" class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+        <div x-ref="grid" x-show="!isEmpty" class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
           {allVideos.map((video) => <VideoCard video={video} variant="grid" />)}
         </div>
 
-        <div id="explore-empty" class="hidden rounded-xl border border-dashed border-neutral-300 px-6 py-14 text-center dark:border-neutral-700">
+        <div x-show="isEmpty" x-cloak class="rounded-xl border border-dashed border-neutral-300 px-6 py-14 text-center dark:border-neutral-700">
           <span class="mx-auto flex size-11 items-center justify-center rounded-full bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400" aria-hidden="true">
             <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
           </span>
           <h2 class="mt-4 font-bold text-neutral-950 dark:text-white">Belum ada video yang cocok</h2>
           <p class="mt-1 text-sm text-neutral-500">Coba judul, artis, atau kategori lain.</p>
-          <button id="explore-empty-reset" type="button" class="mt-4 rounded-full bg-neutral-950 px-4 py-2 text-xs font-semibold text-white transition hover:bg-neutral-800 dark:bg-white dark:text-neutral-950">Kembali</button>
+          <button type="button" x-on:click="reset()" class="mt-4 rounded-full bg-neutral-950 px-4 py-2 text-xs font-semibold text-white transition hover:bg-neutral-800 dark:bg-white dark:text-neutral-950">Kembali</button>
         </div>
       </section>
 
-      <div id="explore-browse" class="space-y-14">
+      <div class="space-y-14" x-show="!isSearching">
+        {/* Filled in the browser from this device's history. */}
+        <section aria-labelledby="continue-title" x-show="continueCount > 0" x-cloak>
+          <h2
+            id="continue-title"
+            class="mb-5 text-xl font-bold tracking-tight text-neutral-950 dark:text-white"
+          >
+            Lanjutkan menonton
+          </h2>
+          <div
+            class="flex gap-4 overflow-x-auto pb-2 snap-x scrollbar-none [&::-webkit-scrollbar]:hidden"
+            x-ref="continueRow"
+          >
+          </div>
+        </section>
+
+        {featuredVideos.length > 0 && (
+          <CollectionShelf
+            id="pilihan-kurator"
+            title="Pilihan kurator"
+            icon="star"
+            videos={featuredVideos}
+          />
+        )}
+
         {categorySections.map((section) => (
           <CollectionShelf
             id={section.id}
@@ -109,99 +145,3 @@ if (
     </div>
   </div>
 </Layout>
-
-<script>
-  const pageSearchInput = document.getElementById("explore-search") as HTMLInputElement;
-  const pageSearchForm = document.getElementById("explore-search-form") as HTMLFormElement;
-  const results = document.getElementById("explore-results") as HTMLElement;
-  const browse = document.getElementById("explore-browse") as HTMLElement;
-  const resultCount = document.getElementById("explore-results-count") as HTMLElement;
-  const resultContext = document.getElementById("explore-results-context") as HTMLElement;
-  const emptyState = document.getElementById("explore-empty") as HTMLElement;
-  const resetButton = document.getElementById("explore-reset") as HTMLButtonElement;
-  const emptyReset = document.getElementById("explore-empty-reset") as HTMLButtonElement;
-  const resultGrid = document.getElementById("explore-result-grid") as HTMLElement;
-  const cards = Array.from(resultGrid.querySelectorAll<HTMLElement>("[data-video-card]"));
-
-  const normalise = (value: string) =>
-    value.toLocaleLowerCase("id").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
-
-  const setHidden = (element: HTMLElement, hidden: boolean) =>
-    element.classList.toggle("hidden", hidden);
-
-  const readStateFromUrl = () => {
-    const params = new URLSearchParams(window.location.search);
-    pageSearchInput.value = params.get("q") ?? "";
-  };
-
-  const writeStateToUrl = () => {
-    const params = new URLSearchParams();
-    if (pageSearchInput.value.trim()) params.set("q", pageSearchInput.value.trim());
-    const query = params.toString();
-    window.history.replaceState(null, "", query ? `?${query}` : window.location.pathname);
-  };
-
-  const apply = ({ pushUrl = true } = {}) => {
-    const query = normalise(pageSearchInput.value);
-    const isFiltering = Boolean(query);
-    setHidden(browse, isFiltering);
-    setHidden(results, !isFiltering);
-
-    if (isFiltering) {
-      let visible = 0;
-      cards.forEach((card) => {
-        const isVisible = (card.dataset.search ?? "").includes(query);
-        card.hidden = !isVisible;
-        if (isVisible) visible += 1;
-      });
-
-      resultCount.textContent = String(visible);
-      resultContext.textContent = `Hasil untuk “${pageSearchInput.value.trim()}”.`;
-      setHidden(emptyState, visible !== 0);
-      setHidden(resultGrid, visible === 0);
-    }
-
-    if (pushUrl) writeStateToUrl();
-  };
-
-  const reset = () => {
-    pageSearchInput.value = "";
-    apply();
-    pageSearchInput.focus();
-  };
-
-  pageSearchForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    apply();
-  });
-  pageSearchInput.addEventListener("input", () => apply());
-  resetButton.addEventListener("click", reset);
-  emptyReset.addEventListener("click", reset);
-
-  document.addEventListener("keydown", (event) => {
-    const tag = document.activeElement?.tagName;
-    if (
-      event.key === "/" &&
-      document.activeElement !== pageSearchInput &&
-      !["INPUT", "TEXTAREA", "SELECT"].includes(tag ?? "")
-    ) {
-      event.preventDefault();
-      pageSearchInput.focus();
-    }
-    if (
-      event.key === "Escape" &&
-      document.activeElement === pageSearchInput
-    ) {
-      reset();
-      (document.activeElement as HTMLElement)?.blur();
-    }
-  });
-
-  window.addEventListener("popstate", () => {
-    readStateFromUrl();
-    apply({ pushUrl: false });
-  });
-
-  readStateFromUrl();
-  apply({ pushUrl: false });
-</script>
