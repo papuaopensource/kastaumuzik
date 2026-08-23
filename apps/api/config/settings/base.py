@@ -189,7 +189,7 @@ UNFOLD = {
                 "separator": False,
                 "items": [
                     {
-                        "title": "Beranda admin",
+                        "title": "Beranda",
                         "icon": "home",
                         "link": reverse_lazy("admin:index"),
                     },
