@@ -1,0 +1,17 @@
+{
+  "name": "api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Thin wrapper so turbo can orchestrate the Django app alongside the Astro one. The real dependency manifest is pyproject.toml, handled by uv.",
+  "scripts": {
+    "dev": "uv run python manage.py runserver 8000",
+    "check": "uv run python manage.py check",
+    "build": "uv run python manage.py collectstatic --noinput",
+    "migrate": "uv run python manage.py migrate",
+    "seed": "uv run python manage.py seed_data",
+    "makemigrations": "uv run python manage.py makemigrations",
+    "createsuperuser": "uv run python manage.py createsuperuser",
+    "lint": "uv run ruff check .",
+    "format": "uv run ruff format ."
+  }
+}

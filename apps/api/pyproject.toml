@@ -1,0 +1,29 @@
+[project]
+name = "kastaumuzik-api"
+version = "0.1.0"
+description = "Curation backend and public read API for kastaumuzik"
+requires-python = ">=3.12"
+dependencies = [
+    "django>=6.1,<6.2",
+    "djangorestframework>=3.18,<4",
+    "django-unfold>=0.104,<0.105",
+    "django-filter>=26.1,<27",
+    "drf-spectacular>=0.30,<0.31",
+    "python-decouple>=3.8,<4",
+    "django-cors-headers>=4.9,<5",
+    "gunicorn>=23.0,<24",
+    "whitenoise>=6.11,<7",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+extend-exclude = ["*/migrations/*"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "DJ"]

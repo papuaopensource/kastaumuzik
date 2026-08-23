@@ -1,21 +1,16 @@
 [
   {
-    "id": "arsip-dan-jejak-musik",
-    "title": "Arsip & jejak musik Papua",
+    "id": "arsip-musik-papua",
+    "title": "Arsip musik Papua",
     "videos": [
       {
         "slug": "mambesak-album-volume-1-5",
         "title": "Mambesak: Album Volume I–V",
         "artist": "Mambesak",
         "youtubeId": "Hzesbr7ofR4",
-        "channel": "Papua Traces Channel",
         "region": "Tanah Papua",
         "customaryRegion": "Lintas wilayah adat",
         "language": "Beragam bahasa Papua",
-        "languageGroup": "Beragam bahasa Papua",
-        "genres": [
-          "Lagu daerah"
-        ],
         "formats": [
           "Kompilasi album",
           "Rekaman arsip"
@@ -29,17 +24,11 @@
         "title": "Hari Kiamat",
         "artist": "The Black Brothers Papua",
         "youtubeId": "wYtvXconU98",
-        "channel": "The Black Brothers Papua — Topic",
         "region": "Jayapura",
         "customaryRegion": "Mamta",
         "language": "Indonesia",
-        "languageGroup": "Bahasa Indonesia",
-        "genres": [
-          "Rock Papua",
-          "Pop Papua"
-        ],
         "formats": [
-          "Rekaman audio"
+          "Audio saja"
         ],
         "year": "1979",
         "note": "Karya rock Papua dari album Derita Tiada Akhir, tersedia melalui kanal Topic artis di YouTube.",
@@ -51,15 +40,9 @@
         "title": "Segenggam Harapan",
         "artist": "Black Papas",
         "youtubeId": "B4YI0JxooHU",
-        "channel": "ono milano",
         "region": "Tanah Papua",
         "customaryRegion": "Belum dipastikan",
         "language": "Indonesia",
-        "languageGroup": "Bahasa Indonesia",
-        "genres": [
-          "Pop Papua",
-          "Rock Papua"
-        ],
         "formats": [
           "Video lirik",
           "Rekaman arsip"
@@ -75,16 +58,11 @@
         "title": "Taman Bunga",
         "artist": "Rio Grime",
         "youtubeId": "_0LmYkWhN5s",
-        "channel": "Rio Grime — Topic",
         "region": "Tanah Papua",
         "customaryRegion": "Belum dipastikan",
         "language": "Indonesia",
-        "languageGroup": "Bahasa Indonesia",
-        "genres": [
-          "Pop Papua"
-        ],
         "formats": [
-          "Rekaman audio",
+          "Audio saja",
           "Rekaman arsip"
         ],
         "year": "1990",
@@ -96,24 +74,19 @@
     ]
   },
   {
-    "id": "lagu-daerah-dan-penampilan",
-    "title": "Lagu daerah & penampilan",
+    "id": "lagu-daerah",
+    "title": "Lagu daerah",
     "videos": [
       {
         "slug": "firum-nembani-waropen",
         "title": "Firum Nembani",
         "artist": "Lagu daerah Waropen",
         "youtubeId": "l2KpbNIhflo",
-        "channel": "paman wrm",
         "region": "Waropen",
         "customaryRegion": "Saireri",
         "language": "Waropen",
-        "languageGroup": "Waropen",
-        "genres": [
-          "Lagu daerah"
-        ],
         "formats": [
-          "Rekaman musik"
+          "Rekaman lagu"
         ],
         "year": "2018",
         "duration": "4:21",
@@ -126,14 +99,9 @@
         "title": "Aro Aie",
         "artist": "Albert Fontataba",
         "youtubeId": "TgAUd3cySm0",
-        "channel": "Delider Rirei",
         "region": "Serui",
         "customaryRegion": "Saireri",
         "language": "Ambai",
-        "languageGroup": "Ambai",
-        "genres": [
-          "Lagu daerah"
-        ],
         "formats": [
           "Video lirik"
         ],
@@ -148,16 +116,11 @@
         "title": "Memay Nameng Poye Nekembe",
         "artist": "Sau Mabu",
         "youtubeId": "vTQdGTEYLMg",
-        "channel": "Lee Ylnavets",
         "region": "Tanah Merah",
         "customaryRegion": "Ha Anim",
         "language": "Bahasa daerah Papua",
-        "languageGroup": "Catatan bahasa terbuka",
-        "genres": [
-          "Lagu daerah"
-        ],
         "formats": [
-          "Rekaman musik"
+          "Rekaman lagu"
         ],
         "year": "2017",
         "duration": "4:28",
@@ -168,25 +131,19 @@
     ]
   },
   {
-    "id": "pop-dan-cover-papua",
-    "title": "Pop Papua & cover",
+    "id": "pop-dan-rock-papua",
+    "title": "Pop & rock Papua",
     "videos": [
       {
         "slug": "awak-param-melani-sawaki",
         "title": "Awak Param",
         "artist": "Melani Sawaki",
         "youtubeId": "5Lr68uxQS0o",
-        "channel": "Geen Roger Ps",
         "region": "Biak",
         "customaryRegion": "Saireri",
         "language": "Biak",
-        "languageGroup": "Biak",
-        "genres": [
-          "Lagu daerah",
-          "Pop Papua"
-        ],
         "formats": [
-          "Rekaman musik"
+          "Rekaman lagu"
         ],
         "year": "2021",
         "duration": "4:03",
@@ -199,16 +156,11 @@
         "title": "Fafisu Kayam Kubena",
         "artist": "Yance Bisim Aninam",
         "youtubeId": "Qoy1MXn3Mik",
-        "channel": "Yance Bisim",
         "region": "Biak",
         "customaryRegion": "Saireri",
         "language": "Biak",
-        "languageGroup": "Biak",
-        "genres": [
-          "Lagu daerah"
-        ],
         "formats": [
-          "Cover"
+          "Versi cover"
         ],
         "year": "2021",
         "duration": "5:39",
@@ -221,16 +173,11 @@
         "title": "Ade Mei",
         "artist": "Edgar Aronggear",
         "youtubeId": "q8EPkPrQaNY",
-        "channel": "RKB FAMZ Official",
         "region": "Tanah Papua",
         "customaryRegion": "Belum dipastikan",
         "language": "Belum dicantumkan sumber",
-        "languageGroup": "Catatan bahasa terbuka",
-        "genres": [
-          "Pop Papua"
-        ],
         "formats": [
-          "Rekaman musik"
+          "Rekaman lagu"
         ],
         "year": "2020",
         "duration": "6:22",
@@ -243,16 +190,11 @@
         "title": "Suandei Siksa Bathin",
         "artist": "Tycko Nenepat",
         "youtubeId": "rC3P5_rOxHI",
-        "channel": "Tycko Nenepat",
         "region": "Tanah Papua",
         "customaryRegion": "Belum dipastikan",
         "language": "Belum dicantumkan sumber",
-        "languageGroup": "Catatan bahasa terbuka",
-        "genres": [
-          "Pop Papua"
-        ],
         "formats": [
-          "Rekaman musik"
+          "Rekaman lagu"
         ],
         "year": "2014",
         "duration": "5:43",
@@ -265,16 +207,11 @@
         "title": "Rasa Duri (Siksa Batin)",
         "artist": "Robby Sawaki",
         "youtubeId": "dGt5v3jSzVs",
-        "channel": "Robby Sawaki — Topic",
         "region": "Tanah Papua",
         "customaryRegion": "Belum dipastikan",
         "language": "Indonesia",
-        "languageGroup": "Bahasa Indonesia",
-        "genres": [
-          "Pop Papua"
-        ],
         "formats": [
-          "Rekaman audio"
+          "Audio saja"
         ],
         "year": "2023",
         "duration": "5:39",
@@ -287,16 +224,11 @@
         "title": "Ngapulu Ko Jahat",
         "artist": "Suandei",
         "youtubeId": "5TMstMzjgKk",
-        "channel": "SCHOLO BLATAN",
         "region": "Tanah Papua",
         "customaryRegion": "Belum dipastikan",
         "language": "Melayu Papua",
-        "languageGroup": "Melayu Papua",
-        "genres": [
-          "Pop Papua"
-        ],
         "formats": [
-          "Rekaman musik"
+          "Rekaman lagu"
         ],
         "year": "2019",
         "duration": "6:23",
@@ -309,14 +241,9 @@
         "title": "Rantai Raksasa",
         "artist": "Dave Baransano feat. Mechu Imbiri",
         "youtubeId": "bNhhoqmVp_Y",
-        "channel": "Dave Baransano",
         "region": "Jayapura",
         "customaryRegion": "Mamta",
         "language": "Indonesia",
-        "languageGroup": "Bahasa Indonesia",
-        "genres": [
-          "Pop Papua"
-        ],
         "formats": [
           "Video musik"
         ],
@@ -331,17 +258,11 @@
         "title": "Awak Param",
         "artist": "Melani Sawaki",
         "youtubeId": "aNR4aSlkTpo",
-        "channel": "DASER OFFICIAL",
         "region": "Biak",
         "customaryRegion": "Saireri",
         "language": "Biak",
-        "languageGroup": "Biak",
-        "genres": [
-          "Lagu daerah",
-          "Pop Papua"
-        ],
         "formats": [
-          "Rekaman musik"
+          "Rekaman lagu"
         ],
         "year": "2024",
         "duration": "3:52",
@@ -354,15 +275,9 @@
         "title": "Sio Maneta",
         "artist": "Edgar Aronggear",
         "youtubeId": "elgi9yWASyM",
-        "channel": "rere 96",
         "region": "Serui",
         "customaryRegion": "Saireri",
         "language": "Ambai",
-        "languageGroup": "Ambai",
-        "genres": [
-          "Lagu daerah",
-          "Pop Papua"
-        ],
         "formats": [
           "Video lirik"
         ],
@@ -375,22 +290,17 @@
     ]
   },
   {
-    "id": "rohani-dan-paduan-suara",
-    "title": "Lagu rohani & paduan suara",
+    "id": "lagu-rohani",
+    "title": "Lagu rohani",
     "videos": [
       {
         "slug": "nahele-tuhan-sentani",
         "title": "Nahele Tuhan",
         "artist": "Lagu rohani bahasa Sentani",
         "youtubeId": "A56uQ0XOosI",
-        "channel": "LAGU BAHASA SENTANI",
         "region": "Sentani",
         "customaryRegion": "Mamta",
         "language": "Sentani",
-        "languageGroup": "Sentani",
-        "genres": [
-          "Lagu rohani"
-        ],
         "formats": [
           "Video lirik"
         ],
@@ -405,16 +315,11 @@
         "title": "Allah Na Khena Buhea Khaban Sele",
         "artist": "Dyllon Vindlau",
         "youtubeId": "IfVrGivLuho",
-        "channel": "LAGU BAHASA SENTANI",
         "region": "Sentani",
         "customaryRegion": "Mamta",
         "language": "Sentani",
-        "languageGroup": "Sentani",
-        "genres": [
-          "Lagu rohani"
-        ],
         "formats": [
-          "Rekaman musik"
+          "Rekaman lagu"
         ],
         "year": "2019",
         "duration": "4:41",
@@ -427,16 +332,11 @@
         "title": "Khukhui Memea",
         "artist": "Daud Taime",
         "youtubeId": "OWLeEs2U_Ro",
-        "channel": "LAGU BAHASA SENTANI",
         "region": "Sentani",
         "customaryRegion": "Mamta",
         "language": "Sentani",
-        "languageGroup": "Sentani",
-        "genres": [
-          "Lagu rohani"
-        ],
         "formats": [
-          "Rekaman musik"
+          "Rekaman lagu"
         ],
         "year": "2020",
         "duration": "4:16",
@@ -449,17 +349,12 @@
         "title": "Manseren Nanggi",
         "artist": "Shandy Betay",
         "youtubeId": "RULAzeypMAU",
-        "channel": "Papuansog",
         "region": "Biak",
         "customaryRegion": "Saireri",
         "language": "Biak",
-        "languageGroup": "Biak",
-        "genres": [
-          "Lagu rohani"
-        ],
         "formats": [
           "Video lirik",
-          "Terjemahan lirik"
+          "Lirik terjemahan"
         ],
         "year": "2023",
         "duration": "4:26",
@@ -472,16 +367,11 @@
         "title": "Waswarsikam",
         "artist": "Fenny Mirino feat. Ros Mayor",
         "youtubeId": "nY22l0u31hU",
-        "channel": "Lagu Rohani Papua Official",
         "region": "Biak",
         "customaryRegion": "Saireri",
         "language": "Biak",
-        "languageGroup": "Biak",
-        "genres": [
-          "Lagu rohani"
-        ],
         "formats": [
-          "Rekaman musik"
+          "Rekaman lagu"
         ],
         "year": "2019",
         "duration": "5:39",
@@ -494,17 +384,11 @@
         "title": "Ro Dunia",
         "artist": "Frids Kapisa & Humeibou Group",
         "youtubeId": "TLvA3Qk46N4",
-        "channel": "YOMBEX OFFICIAL",
         "region": "Biak",
         "customaryRegion": "Saireri",
         "language": "Biak",
-        "languageGroup": "Biak",
-        "genres": [
-          "Lagu rohani",
-          "Lagu daerah"
-        ],
         "formats": [
-          "Rekaman musik"
+          "Rekaman lagu"
         ],
         "year": "2021",
         "duration": "7:12",
@@ -517,17 +401,12 @@
         "title": "Reidowana",
         "artist": "Edgar Aronggear",
         "youtubeId": "izCtjt74EU4",
-        "channel": "Papuansog",
         "region": "Serui",
         "customaryRegion": "Saireri",
         "language": "Ambai",
-        "languageGroup": "Ambai",
-        "genres": [
-          "Lagu rohani"
-        ],
         "formats": [
           "Video lirik",
-          "Terjemahan lirik"
+          "Lirik terjemahan"
         ],
         "year": "2023",
         "duration": "4:28",
@@ -540,14 +419,9 @@
         "title": "Seng Paisi",
         "artist": "George",
         "youtubeId": "sICHyMfqS2Y",
-        "channel": "SAFAR_STUDIO",
         "region": "Serui",
         "customaryRegion": "Saireri",
         "language": "Ambai",
-        "languageGroup": "Ambai",
-        "genres": [
-          "Lagu rohani"
-        ],
         "formats": [
           "Video lirik"
         ],
@@ -562,15 +436,9 @@
         "title": "Seng Yesus Wiru Wane",
         "artist": "Nakon Gandeguai",
         "youtubeId": "7FPIKJBL7g4",
-        "channel": "artefak papua",
         "region": "Kepulauan Yapen",
         "customaryRegion": "Saireri",
         "language": "Aruisai",
-        "languageGroup": "Aruisai",
-        "genres": [
-          "Lagu rohani",
-          "Lagu daerah"
-        ],
         "formats": [
           "Pertunjukan langsung"
         ],
@@ -585,17 +453,12 @@
         "title": "Perahu Kita Tersedia",
         "artist": "VG Immanuel Voice",
         "youtubeId": "h4tS3MQHVPA",
-        "channel": "Merry Rumbrawer",
         "region": "Manokwari",
         "customaryRegion": "Domberai",
         "language": "Indonesia",
-        "languageGroup": "Bahasa Indonesia",
-        "genres": [
-          "Lagu rohani"
-        ],
         "formats": [
           "Paduan suara",
-          "Rekaman musik"
+          "Rekaman lagu"
         ],
         "year": "2013",
         "duration": "3:27",
@@ -608,14 +471,9 @@
         "title": "Sera Bawa",
         "artist": "LaDa — Lagu & Cerita dari Papua",
         "youtubeId": "sGfJgA80V3g",
-        "channel": "LaDa | Lagu & Cerita dari Papua",
         "region": "Tanah Papua",
         "customaryRegion": "Belum dipastikan",
         "language": "Bahasa daerah Papua",
-        "languageGroup": "Catatan bahasa terbuka",
-        "genres": [
-          "Lagu rohani"
-        ],
         "formats": [
           "Video lirik",
           "Karaoke"
@@ -631,14 +489,9 @@
         "title": "Ketahuilah",
         "artist": "PKB Sinai Dobukurung",
         "youtubeId": "xVp9BSE8-mA",
-        "channel": "Daniel B Kreutha",
         "region": "Tanah Papua",
         "customaryRegion": "Belum dipastikan",
         "language": "Indonesia",
-        "languageGroup": "Bahasa Indonesia",
-        "genres": [
-          "Lagu rohani"
-        ],
         "formats": [
           "Paduan suara",
           "Pertunjukan langsung"
@@ -654,14 +507,9 @@
         "title": "Doa Bapa Kami",
         "artist": "PKB Sinai Dobukurung",
         "youtubeId": "3Sd2lmyuz4Q",
-        "channel": "Daniel B Kreutha",
         "region": "Tanah Papua",
         "customaryRegion": "Belum dipastikan",
         "language": "Indonesia",
-        "languageGroup": "Bahasa Indonesia",
-        "genres": [
-          "Lagu rohani"
-        ],
         "formats": [
           "Paduan suara",
           "Pertunjukan langsung"
@@ -677,14 +525,9 @@
         "title": "Hidup Ku Bersenang",
         "artist": "Kara Josua",
         "youtubeId": "jzUwW01ovIY",
-        "channel": "Kara Josua",
         "region": "Tanah Papua",
         "customaryRegion": "Belum dipastikan",
         "language": "Indonesia",
-        "languageGroup": "Bahasa Indonesia",
-        "genres": [
-          "Lagu rohani"
-        ],
         "formats": [
           "Paduan suara",
           "Pertunjukan langsung"
